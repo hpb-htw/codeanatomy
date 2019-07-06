@@ -18,8 +18,8 @@
 
 \begin{tikzpicture}[remember picture,x=1cm,y=1cm]
 {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
-\node(code) [anatomy] at (0,0) { %
-\codePart{functionHead}{function \codePart{functionName}{gcd} \codePart{parameterList}{(p, q)}} \{ \\[2.5pt] %
+\codeBlock{ %
+\codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}}\{ \\[2.5pt] %
 \ptab{}\tikzmarknode[most top]{mostLeft}{}if (q === 0) \{\\
 \ptab\ptab{}return p; \\
 \ptab{}\} else \{\\
@@ -46,7 +46,7 @@
 
 \begin{tikzpicture}[remember picture,x=1cm,y=1cm]
 {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
-\node(code) [anatomy] at (0,0) { %
+\codeBlock{ %
 \codePart{functionHead}{function\codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}} \{ \\[2.5pt] %
 \codePart{functionBody}{%
 \ptab{}if (q === 0) \{ \\
@@ -55,7 +55,7 @@
 \ptab\ptab{}return gcd(p,p \% q);\\
 \ptab\}}\\
 \}
-};
+}
 
 
 % Anotation labels

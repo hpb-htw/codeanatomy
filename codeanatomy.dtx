@@ -102,6 +102,7 @@
       align=left,%
       minimum height=1.125em,%
       inner sep=1.125pt,%
+      outer sep=0pt,%
       font=\ttfamily
     }
 }
@@ -156,6 +157,12 @@
     minimum height=1.125em
   }
 }
+%    \end{macrocode}
+%
+% All code block is of a anatomy picture is typeset using this command.
+%    \begin{macrocode}
+\NewDocumentCommand{\codeBlock}{m}%
+{\node(code) [anatomy] at (0,0) {#1};}
 %    \end{macrocode}
 %
 % Assign a piece of typeset code --typical in one line-- to a Tikz Node, so that it can

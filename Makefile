@@ -7,6 +7,7 @@ clean:
 	l3build clean
 	rm -rf build
 	rm -f *.zip
+	rm -rf *.idx
 
 .PHONY: doc
 doc:
@@ -20,11 +21,5 @@ ctan:
 dryinstall:
 	l3build install --dry-run
 
-.PHONY: example
-example: doc
-	cp support/example.tex build/local
-	cd build/local; \
-	$(ENV_VAR) $(LATEX) $(LATEX_OPT) example.tex; \
-	$(ENV_VAR) $(LATEX) $(LATEX_OPT) example.tex; \
-	$(ENV_VAR) $(LATEX) $(LATEX_OPT) example.tex
+
 	
