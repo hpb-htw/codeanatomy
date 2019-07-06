@@ -1,0 +1,198 @@
+% \iffalse meta-comment
+%
+% File: codeanatomy.dtx Copyright (C) 2019 Hong-Phuc Bui
+%
+% It may be distributed and/or modified under the conditions of the
+% LaTeX Project Public License (LPPL), either version 1.3c of this
+% license or (at your option) any later version.  The latest version
+% of this license is in the file
+%
+%    https://www.latex-project.org/lppl.txt
+%
+%
+% -----------------------------------------------------------------------
+%
+% The development version of the bundle can be found at
+%
+%    https://github.com/(TODO)
+%
+% for those people who are interested.
+%
+% -----------------------------------------------------------------------
+% \fi
+%
+% \iffalse
+\def\myfileversion{0.1.1}
+\def\myfiledate{2019/07/07}
+% \fi
+%
+% \iffalse
+%<*driver>
+\documentclass{l3doc}
+% The next line is needed so that \GetFileInfo will be able to pick up
+% version data
+\usepackage{codeanatomy}
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \GetFileInfo{\jobname.sty}
+%
+% \title{^^A
+%   \pkg{codeanatomy} -- Draw Code Anatomy^^A
+%   \thanks{This file describes \myfileversion,
+%     last revised \myfiledate.}^^A
+% }
+%
+% \author{^^A
+%  Hong-Phuc Bui^^A
+%  \thanks{^^A
+%    E-mail:
+%    \href{mailto:ME}
+%      {ME@example.com}^^A
+%   }^^A
+% }
+%
+% \date{Released \filedate}
+%
+% \maketitle
+%
+% ^^A \begin{documentation}
+%
+% ^^A \end{documentation}
+% 
+% \begin{implementation}
+%   
+% Package Signature
+%    \begin{macrocode}
+\ProvidesPackage{codeanatomy}[2019/07/07 draw Code Anatomy]
+%    \end{macrocode}
+%
+% Load necessary packages
+%    \begin{macrocode}
+\RequirePackage{expl3}
+\RequirePackage[rgb]{xcolor}
+\RequirePackage{tikz}
+
+\RequirePackage{xparse}
+
+\definecolor{annotation}{rgb}{0,0.50002,1}
+\colorlet{bgcmdcolor}{gray}
+
+\usetikzlibrary{
+   tikzmark
+  ,positioning
+  ,matrix
+  ,fit
+  ,arrows.meta
+  ,bending
+  ,shapes
+  ,chains
+  ,backgrounds
+  ,scopes
+  ,decorations
+  ,decorations.pathmorphing
+}
+
+\tikzset{code part/.style={%
+      rectangle,%
+      draw=annotation,%
+      align=left,%
+      minimum height=1.125em,%
+      inner sep=1.125pt,%
+      font=\ttfamily
+    }
+}
+\tikzset{code annotation/.style={%
+      inner sep=2pt,%
+      text=annotation,%
+      align=center,%
+      font=\sffamily\footnotesize
+    }
+}
+\tikzset{annotation/.style={%
+      preaction={
+          draw=white,%
+          line width=3.5pt,%
+          arrows={-Triangle Cap[]},%
+      },%
+      draw=annotation,%
+      arrows={-Latex[%
+          round,%
+          color=annotation]
+      }
+    }
+}
+\tikzset{anatomy/.style={%
+      anchor=south west,%
+      inner sep=0,%
+      align=left,%
+      font=\ttfamily
+    }
+}
+\tikzset{code grid/.style={%
+      step=1.0,%
+      draw=none,%
+      very thin,%
+      on background layer
+    }
+}
+\tikzset{code grid debug/.style={%
+      step=1.0,%
+      draw=gray!20,%
+      very thin,%
+      on background layer
+    }
+}
+
+\tikzset{most top/.style={%
+    minimum height=1.25em
+  }
+}
+
+\tikzset{most bottom/.style={%
+    minimum height=1.125em
+  }
+}
+%    \end{macrocode}
+%
+% Assign a piece of typeset code --typical in one line-- to a Tikz Node, so that it can
+% be annotated.
+%    \begin{macrocode}
+\NewDocumentCommand{\codePart}{mm} %
+{
+  {\tikzmarknode[code part]{#1}{#2}}
+}
+%    \end{macrocode}
+% Piece of code which are not emphrased typeset
+%    \begin{macrocode}
+\newcommand{\bgcode}[1]{\textcolor{bgcmdcolor}{#1}}
+%    \end{macrocode}
+% TODO 1
+%    \begin{macrocode}
+\newcommand{\ptab}{\phantom{hhhh}}
+%    \end{macrocode}
+%
+% TODO 2
+%    \begin{macrocode}
+\newcommand{\phspace}{\phantom{h}}
+%    \end{macrocode}
+%
+% TODO 3
+%    \begin{macrocode}
+\newcommand{\progname}[1]{\textsf{#1}}
+%    \end{macrocode}
+%
+% TODO 4
+%    \begin{macrocode}
+\NewDocumentCommand{\codeAnnotation}{m r() m } %
+{
+  \node(#1)[code annotation] at (#2) {#3} ;
+}
+%    \end{macrocode}
+% \end{implementation}
+%
+% \PrintIndex
+

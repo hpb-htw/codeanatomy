@@ -1,0 +1,10 @@
+*.aux
+*.log
+*.pdf
+*.synctex.gz
+*.glo
+*.hd
+*.idx
+*.out
+*.sty
+build/*

@@ -1,0 +1,78 @@
+\documentclass[oneside]{article}
+
+
+\usepackage{codeanatomy}
+
+
+\usepackage{hyperref}
+
+\author{Hong-Phuc Bui}
+\title{Testseite von Code Anatomie}
+\date{Sommer 2019}
+
+
+
+
+\begin{document}
+
+
+\begin{tikzpicture}[remember picture,x=1cm,y=1cm]
+{[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
+\node(code) [anatomy] at (0,0) { %
+\codePart{functionHead}{function \codePart{functionName}{gcd} \codePart{parameterList}{(p, q)}} \{ \\[2.5pt] %
+\ptab{}\tikzmarknode[most top]{mostLeft}{}if (q === 0) \{\\
+\ptab\ptab{}return p; \\
+\ptab{}\} else \{\\
+\ptab\ptab{}return gcd(p, p \% q);\tikzmarknode{mostRight}{}\\
+\ptab{}\}\tikzmarknode[most bottom]{mostBottom}{}\\
+\}
+};
+
+\node(functionBody)[draw,code part,fit=(mostLeft) (mostRight) (mostBottom)] {};
+
+% Anotation labels
+\codeAnnotation{functionHeadText}(-1,3)  {Function\\Head}
+\codeAnnotation{functionBodyText}(-1,1.5){Function\\Body}
+\codeAnnotation{functionNameText}(1,4)   {Function Name}
+\codeAnnotation{parameterListText} (4,4) {Paramter List}
+% annotation labels to Code
+\draw[->, annotation] (functionBodyText) -- (functionBody);
+\draw[->, annotation] (functionHeadText) -- (functionHead);
+\draw[->, annotation] (functionNameText) -- (functionName);
+\draw[->, annotation] (parameterListText) -- (parameterList);
+\end{tikzpicture}
+
+
+
+\begin{tikzpicture}[remember picture,x=1cm,y=1cm]
+{[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
+\node(code) [anatomy] at (0,0) { %
+\codePart{functionHead}{function\codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}} \{ \\[2.5pt] %
+\codePart{functionBody}{%
+\ptab{}if (q === 0) \{ \\
+\ptab\ptab{}return p;\\
+\ptab\} else \{ \\
+\ptab\ptab{}return gcd(p,p \% q);\\
+\ptab\}}\\
+\}
+};
+
+
+% Anotation labels
+\codeAnnotation{functionHeadText}(-1,3)  {Function\\Head}
+\codeAnnotation{functionBodyText}(-1,1.5){Function\\Body}
+\codeAnnotation{functionNameText}(1,4)   {Function Name}
+\codeAnnotation{parameterListText} (4,4) {Paramter List}
+% annotation labels to Code
+\draw[->, annotation] (functionBodyText) -- (functionBody);
+\draw[->, annotation] (functionHeadText) -- (functionHead);
+\draw[->, annotation] (functionNameText) -- (functionName);
+\draw[->, annotation] (parameterListText) -- (parameterList);
+\end{tikzpicture}
+
+
+
+
+
+\end{document}
+
