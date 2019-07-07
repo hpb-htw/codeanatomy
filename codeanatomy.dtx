@@ -130,7 +130,7 @@
 % \end{tikzpicture}
 %
 % As next step we need to put the piece of code in the |tikzpicture| environment using 
-% the command |\codeBlock|.
+% the command |\codeBlock|. \medskip
 %
 
 % \begin{tikzpicture}[remember picture]
@@ -138,16 +138,21 @@
 % \textbackslash{}begin\{tikzpicture\}[remember picture]\\
 % \{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}\\
 % \textbackslash{}codeBlock\{\% \\
-% function gcd(p, q) \{ \\
+% \extremPoint[most top]{mostLeft}function gcd(p, q) \{ \\
 % \ptab{}if (q === 0) \{ \\
 % \ptab\ptab{}return p; \\
 % \ptab{}\} else \{ \\
-% \ptab\ptab{}return gcd(p, p\%q); \\
+% \ptab\ptab{}return gcd(p, p\%q);\extremPoint[]{mostRight}\\
 % \ptab\} \\
-% \} \\
+% \extremPoint[most bottom]{mostBottom}\}\\
 % \} \\
 % \textbackslash{}end\{tikzpicture\}
 % }
+%
+% \node(codeBlockBody)[draw,code part,fit=(mostLeft) (mostRight) (mostBottom)] {};
+%
+% \codeAnnotation{codeBlockBodyText} (7,2.5) {Anatomy of Code}
+% \draw[->, annotation] (codeBlockBodyText) -- (codeBlockBody);
 % \end{tikzpicture}
 % 
 % The result of the above code is shown in the figure~\ref{fig:function-compressed},
@@ -173,28 +178,59 @@
 % We need to put |\ptab| and |\\| into code to keep whitespaces and newline.
 %
 % \begin{tikzpicture}[remember picture]
+% {[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (10.5,4.5);}\\  
 % \codeBlock{
 % \textbackslash{}begin\{tikzpicture\}[remember picture]\\
 % \{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}\\
 % \textbackslash{}codeBlock\{\%\\
-% function gcd(p, q) \slsh\{ \slsh\slsh\\
-% \slsh{}ptab\{\}if (q === 0) \slsh\{ \slsh\slsh\\
-% \slsh{}ptab\slsh{}ptab\{\}return p; \slsh\slsh\\
-% \slsh{}ptab\slsh\} else \slsh\{ \slsh\slsh \\
-% \slsh{}ptab\slsh{}ptab\{\}return gcd(p, p\%q); \slsh\slsh \\
-% \slsh{}ptab\slsh{}slsh\} \slsh\slsh \\
-% \slsh\} \slsh\slsh\\
+% function gcd(p, q) \slsh\{                          \codePart{sh1}{\slsh\slsh}\\
+% \codePart{ptab1}{\slsh{}ptab\{\}}if (q === 0) \slsh\{                 \codePart{sh2}{\slsh\slsh}\\
+% \codePart{ptab2}{\slsh{}ptab\slsh{}ptab\{\}}return p;                 \codePart{sh3}{\slsh\slsh}\\
+% \codePart{ptab3}{\slsh{}ptab\slsh}\} else \slsh\{                     \codePart{sh4}{\slsh\slsh}\\
+% \codePart{ptab4}{\slsh{}ptab\slsh{}ptab\{\}}return gcd(p, p\slsh\%q); \codePart{sh5}{\slsh\slsh}\\
+% \codePart{ptab5}{\slsh{}ptab}\slsh\}                                  \codePart{sh6}{\slsh\slsh}\\
+% \slsh\}                                             \codePart{sh7}{\slsh\slsh}\\
 % \} \\
 % \textbackslash{}end\{tikzpicture\}
 % }
+%
+% ^^A Annotation labels
+% \codeAnnotation{shText}    (9,2.5) {Double backslash}
+% \codeAnnotation{ptabText}  (-2,2.5) {\texttt{\slsh{}ptab} proceduces\\whitespaces}
+% ^^A Annotation labels to code
+% \draw[->, annotation] (shText) -- (sh1);
+% \draw[->, annotation] (shText) -- (sh2);
+% \draw[->, annotation] (shText) -- (sh3);
+% \draw[->, annotation] (shText) -- (sh4);
+% \draw[->, annotation] (shText) -- (sh5);
+% \draw[->, annotation] (shText) to[out=270,in=0] (sh6);
+% \draw[->, annotation] (shText) to[out=290,in=0] (sh7);
+%
+% \draw[->, annotation] (ptabText) -- (ptab1.west);
+% \draw[->, annotation] (ptabText) -- (ptab2.west);
+% \draw[->, annotation] (ptabText) -- (ptab3.west);
+% \draw[->, annotation] (ptabText) -- (ptab4.west);
+% \draw[->, annotation] (ptabText) -- (ptab5.west);
 % \end{tikzpicture}
 %
-% The result is much more better (figure~\ref{fig:function-formated})
+% The result (figure~\ref{fig:function-formated}) is much more better than the version before 
+% (figure~\ref{fig:function-compressed}).
 %
-% \begin{fiugre}
-TODO  
+% \begin{figure}
+% \begin{tikzpicture}[remember picture]
+% {[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);}
+% \codeBlock{
+% function gcd(p, q) \{ \\
+% \ptab{}if (q === 0) \{ \\
+% \ptab\ptab{}return p; \\
+% \ptab\} else \{ \\
+% \ptab\ptab{}return gcd(p, p\%q); \\
+% \ptab\} \\
+% \} \\
+% }
+% \end{tikzpicture}    
 % \caption{Formated Function\label{fig:function-formated}}  
-% \end{fiugre}
+% \end{figure}
 %
 % \end{documentation}
 % 
@@ -335,6 +371,9 @@ TODO
 \NewDocumentCommand{\codePart}{mm} %
 {
   {\tikzmarknode[code part]{#1}{#2}}
+}
+\NewDocumentCommand{\extremPoint}{o m}{
+  {\tikzmarknode[#1]{#2}{}}
 }
 %    \end{macrocode}
 % \end{macro}
