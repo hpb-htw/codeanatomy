@@ -121,6 +121,7 @@
 % Next step is to create a |tikzpicture| environment. All commands in this package must be placed in 
 % a |tikzpicture| environment with option |remember picture|.
 % 
+% \begin{thinmargin}
 % \begin{tikzpicture}[remember picture]
 % \codeBlock{
 % \textbackslash{}begin\{tikzpicture\}[\codePart{option}{remember picture}]\\
@@ -137,6 +138,8 @@
 % \draw[->, annotation] (optionText) -- (option);
 % \draw[->, annotation] (debugGridText) -- (debugGrid);
 % \end{tikzpicture}
+% \end{thinmargin}
+%
 %
 % \subsection{Typeset Code Listing in a Tikz-Node}
 % As next step we need to put the piece of code in the |tikzpicture| environment using 
@@ -283,7 +286,7 @@
 %  
 % \codeAnnotation{nestedCodePartText}(11,6){\texttt{codePart} can be nested}
 % \codeAnnotation{exText}            (15,3){\texttt{extremPoint}s\\are used to mark\\outer most points of\\a multiline code part}
-% \codeAnnotation{fitExtemCmdText}   (6,-1){\texttt{fitExtrem} draws a rectangle\\which covers all passed exterm points}
+% \codeAnnotation{fitExtemCmdText}   (6,-1){\texttt{fitExtrem} draws a rectangle\\which covers all passed extrem points}
 %
 % \draw[->, annotation] (nestedCodePartText) to[out=270,in=90] (nestedCodePart);
 % \draw[->, annotation] (exText) to[out=145,in=320] (ep1.south east);
@@ -395,6 +398,20 @@
 % \end{figure}
 %
 % \section{Description of commands}
+% 
+% \DescribeMacro{\codeBlock}
+% TODO
+%
+% \DescribeMacro{\codePart}
+% TODO
+% 
+% \DescribeMacro{\extremPoint}
+% TODO
+%
+% \DescribeMacro{\fitExtrem}
+% TODO
+%
+% \DescribeMacro{\codeAnnotation}
 % TODO
 %
 % \end{documentation}
