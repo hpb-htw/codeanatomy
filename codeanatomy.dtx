@@ -79,8 +79,7 @@
 % In this tutorial we will draw an anatomy of a function like the 
 % figure~\ref{fig:tut1-function}.
 %
-% \begin{figure}
-% \label{fig:tut1-function}  
+% \begin{figure} 
 % \begin{tikzpicture}[remember picture]
 % \codeBlock{^^A
 % \codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}}\{ \\[2.5pt] %
@@ -107,14 +106,13 @@
 % \draw[->, annotation] (parameterListText) -- (parameterList);
 % \end{tikzpicture}
 %
-% \caption{Anatomy of a function}
+% \caption{Anatomy of a function\label{fig:tut1-function}}
 % \end{figure}
 % 
 % To use this package, just insert |\usepackage{codeanatomy}| in your \LaTeX{} file.
 % Next step is to create a |tikzpicture| environment.
 % 
 % \begin{tikzpicture}[remember picture]
-% {[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);}
 % \codeBlock{
 % \textbackslash{}begin\{tikzpicture\}[\codePart{option}{remember picture}]\\
 % \codePart{debugGrid}{\{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}}\\
@@ -130,6 +128,48 @@
 % \draw[->, annotation] (optionText) -- (option);
 % \draw[->, annotation] (debugGridText) -- (debugGrid);
 % \end{tikzpicture}
+%
+% As next step we need to put the piece of code in the |tikzpicture| environment using 
+% the command |\codeBlock|.
+%
+
+% \begin{tikzpicture}[remember picture]
+% \codeBlock{
+% \textbackslash{}begin\{tikzpicture\}[remember picture]\\
+% \{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}\\
+% \textbackslash{}codeBlock\{\% \\
+% function gcd(p, q) \{ \\
+% \ptab{}if (q === 0) \{ \\
+% \ptab\ptab{}return p; \\
+% \ptab{}\} else \{ \\
+% \ptab\ptab{}return gcd(p, p\%q); \\
+% \ptab\} \\
+% \} \\
+% \} \\
+% \textbackslash{}end\{tikzpicture\}
+% }
+% \end{tikzpicture}
+% 
+% The result of the above code is shown in the figure~\ref{fig:function-compressed},
+% which is not what we really want.
+%
+% \begin{figure}
+% \begin{tikzpicture}[remember picture]
+% {[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);}
+% \codeBlock{
+% function gcd(p, q) {
+%     if (q === 0) {
+%         return p;
+%     } else {
+%         return gcd(p, p\%q);
+%     }
+% }
+% }
+% \end{tikzpicture}
+% \caption{Unformated Code\label{fig:function-compressed}}  
+% \end{figure}
+%
+% We need to put |\ptab| and |\\| into code to keep whitespaces and newline.
 %
 % \end{documentation}
 % 
