@@ -151,7 +151,8 @@
 % \end{tikzpicture}
 % 
 % The result of the above code is shown in the figure~\ref{fig:function-compressed},
-% which is not what we really want.
+% which is not what we really want. All extra whitespaces and newline are removed, |{| and |}|
+% are interpreted as \LaTeX{}token.
 %
 % \begin{figure}
 % \begin{tikzpicture}[remember picture]
@@ -175,19 +176,25 @@
 % \codeBlock{
 % \textbackslash{}begin\{tikzpicture\}[remember picture]\\
 % \{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}\\
-% \textbackslash{}codeBlock\{\slsh\slsh \%\\
-% function gcd(p, q) \{ \\
-% \ptab{}if (q === 0) \{ \\
-% \ptab\ptab{}return p; \\
-% \ptab{}\} else \{ \\
-% \ptab\ptab{}return gcd(p, p\%q); \\
-% \ptab\} \\
-% \} \\
+% \textbackslash{}codeBlock\{\%\\
+% function gcd(p, q) \slsh\{ \slsh\slsh\\
+% \slsh{}ptab\{\}if (q === 0) \slsh\{ \slsh\slsh\\
+% \slsh{}ptab\slsh{}ptab\{\}return p; \slsh\slsh\\
+% \slsh{}ptab\slsh\} else \slsh\{ \slsh\slsh \\
+% \slsh{}ptab\slsh{}ptab\{\}return gcd(p, p\%q); \slsh\slsh \\
+% \slsh{}ptab\slsh{}slsh\} \slsh\slsh \\
+% \slsh\} \slsh\slsh\\
 % \} \\
 % \textbackslash{}end\{tikzpicture\}
 % }
 % \end{tikzpicture}
 %
+% The result is much more better (figure~\ref{fig:function-formated})
+%
+% \begin{fiugre}
+TODO  
+% \caption{Formated Function\label{fig:function-formated}}  
+% \end{fiugre}
 %
 % \end{documentation}
 % 
