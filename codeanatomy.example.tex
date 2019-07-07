@@ -20,15 +20,16 @@
 {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
 \codeBlock{ %
 \codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}}\{ \\[2.5pt] %
-\ptab{}\extremPoint[most top]{mostLeft}if (q === 0) \{\\
+\ptab{}\extremPoint{mostLeft}[most top]if (q === 0) \{\\
 \ptab\ptab{}return p; \\
 \ptab{}\} else \{\\
-\ptab\ptab{}return gcd(p, p \% q);\extremPoint[]{mostRight}\\
-\ptab{}\}\extremPoint[most bottom]{mostBottom}\\
+\ptab\ptab{}return gcd(p, p \% q);\extremPoint{mostRight}\\
+\ptab{}\}\extremPoint{mostBottom}[most bottom]\\
 \}
 };
 
-\node(functionBody)[draw,code part,fit=(mostLeft) (mostRight) (mostBottom)] {};
+% \node(functionBody)[draw,code part,fit=(mostLeft) (mostRight) (mostBottom)] {};
+\fitExtrem{functionBody}{(mostLeft) (mostRight) (mostBottom)}
 
 % Anotation labels
 \codeAnnotation{functionHeadText}(-1,3)  {Function\\Head}
