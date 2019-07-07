@@ -81,14 +81,55 @@
 %
 % \begin{figure}
 % \label{fig:tut1-function}  
-% \begin{tikzpicture}[remember picture,x=1cm,y=1cm]
-% \codeBlock{TODO}
+% \begin{tikzpicture}[remember picture]
+% \codeBlock{^^A
+% \codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}}\{ \\[2.5pt] %
+% \ptab{}\tikzmarknode[most top]{mostLeft}{}if (q === 0) \{\\
+% \ptab\ptab{}return p; \\
+% \ptab{}\} else \{\\
+% \ptab\ptab{}return gcd(p, p \% q);\tikzmarknode{mostRight}{}\\
+% \ptab{}\}\tikzmarknode[most bottom]{mostBottom}{}\\
+% \}
+% };
+%
+% \node(functionBody)[draw,code part,fit=(mostLeft) (mostRight) (mostBottom)] {};
+%
+% Anotation labels
+% \codeAnnotation{functionHeadText}(-1,3)  {Function\\Head}
+% \codeAnnotation{functionBodyText}(-1,1.5){Function\\Body}
+% \codeAnnotation{functionNameText}(1,4)   {Function Name}
+% \codeAnnotation{parameterListText} (4,4) {Paramter List}
+%
+% Annotation labels to Code
+% \draw[->, annotation] (functionBodyText) -- (functionBody);
+% \draw[->, annotation] (functionHeadText) -- (functionHead);
+% \draw[->, annotation] (functionNameText) -- (functionName);
+% \draw[->, annotation] (parameterListText) -- (parameterList);
 % \end{tikzpicture}
+%
 % \caption{Anatomy of a function}
 % \end{figure}
 % 
 % To use this package, just insert |\usepackage{codeanatomy}| in your \LaTeX{} file.
+% Next step is to create a |tikzpicture| environment.
 % 
+% \begin{tikzpicture}[remember picture]
+% {[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);}
+% \codeBlock{
+% \textbackslash{}begin\{tikzpicture\}[\codePart{option}{remember picture}]\\
+% \codePart{debugGrid}{\{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}}\\
+% \% ... \\
+% \textbackslash{}end\{tikzpicture\}
+% }
+%
+% ^^A Annotation labels
+% \codeAnnotation{optionText}    (5,2.5) {necsessary for\\later mark}
+% \codeAnnotation{debugGridText} (7,0)   {plot a thin grey grid on background\\usefull to determinate coordinate of annotation}
+%
+% ^^A Annotation labels to code
+% \draw[->, annotation] (optionText) -- (option);
+% \draw[->, annotation] (debugGridText) -- (debugGrid);
+% \end{tikzpicture}
 %
 % \end{documentation}
 % 
