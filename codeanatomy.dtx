@@ -32,7 +32,7 @@
 \usepackage{fontspec}
 \usepackage{biblatex}
 \addbibresource{literatur.bib}
-
+\newcommand{\slsh}{\textbackslash{}}
 \usepackage{codeanatomy}
 
 \begin{document}
@@ -170,6 +170,24 @@
 % \end{figure}
 %
 % We need to put |\ptab| and |\\| into code to keep whitespaces and newline.
+%
+% \begin{tikzpicture}[remember picture]
+% \codeBlock{
+% \textbackslash{}begin\{tikzpicture\}[remember picture]\\
+% \{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}\\
+% \textbackslash{}codeBlock\{\slsh\slsh \%\\
+% function gcd(p, q) \{ \\
+% \ptab{}if (q === 0) \{ \\
+% \ptab\ptab{}return p; \\
+% \ptab{}\} else \{ \\
+% \ptab\ptab{}return gcd(p, p\%q); \\
+% \ptab\} \\
+% \} \\
+% \} \\
+% \textbackslash{}end\{tikzpicture\}
+% }
+% \end{tikzpicture}
+%
 %
 % \end{documentation}
 % 
