@@ -20,11 +20,11 @@
 {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
 \codeBlock{ %
 \codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}}\{ \\[2.5pt] %
-\ptab{}\tikzmarknode[most top]{mostLeft}{}if (q === 0) \{\\
+\ptab{}\extremPoint[most top]{mostLeft}if (q === 0) \{\\
 \ptab\ptab{}return p; \\
 \ptab{}\} else \{\\
-\ptab\ptab{}return gcd(p, p \% q);\tikzmarknode{mostRight}{}\\
-\ptab{}\}\tikzmarknode[most bottom]{mostBottom}{}\\
+\ptab\ptab{}return gcd(p, p \% q);\extremPoint[]{mostRight}\\
+\ptab{}\}\extremPoint[most bottom]{mostBottom}\\
 \}
 };
 
@@ -47,7 +47,7 @@
 \begin{tikzpicture}[remember picture,x=1cm,y=1cm]
 {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
 \codeBlock{ %
-\codePart{functionHead}{function\codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}} \{ \\[2.5pt] %
+\codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}} \{ \\[2.5pt] %
 \codePart{functionBody}{%
 \ptab{}if (q === 0) \{ \\
 \ptab\ptab{}return p;\\

@@ -368,12 +368,11 @@
 %   \item Parameter 2: Code Picece to be typeset
 % \end{itemize}
 %    \begin{macrocode}
-\NewDocumentCommand{\codePart}{mm} %
-{
-  {\tikzmarknode[code part]{#1}{#2}}
+\NewDocumentCommand{\codePart}{mm}{%
+  \tikzmarknode[code part]{#1}{#2}
 }
-\NewDocumentCommand{\extremPoint}{o m}{
-  {\tikzmarknode[#1]{#2}{}}
+\NewDocumentCommand{\extremPoint}{o m}{%
+  \tikzmarknode[#1]{#2}{}
 }
 %    \end{macrocode}
 % \end{macro}
