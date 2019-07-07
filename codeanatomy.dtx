@@ -539,63 +539,75 @@
 % 
 % \subsection{Command used to set code and code anatomy}
 %
-%
-% All code block is of a anatomy picture is typeset using this command.
+% \begin{macro}{\codeBlock}
+% Complete code listing of a Code Anatomy figure is typeset by this command.
+% Syntax |\codeBlock| \marg{code}, whereas \marg{code} is the \emph{formatted} code listing.
 %    \begin{macrocode}
 \NewDocumentCommand{\codeBlock}{m}%
-{\node(code) [anatomy] at (0,0) {#1};}
+  {\node(code) [anatomy] at (0,0) {#1};}
 %    \end{macrocode}
-%
+% \end{macro}
 % 
-%
+% \begin{macro}{\codePart}
 % Assign a piece of typeset code --typical in one line-- to a Tikz Node, so that it can
-% be annotated.
-% \begin{itemize}
-%   \item Parameter 1: Tikz Node Name, is used to reference
-%   \item Parameter 2: Code Picece to be typeset
-% \end{itemize}
+% be annotated. Syntax: |\codePart| \marg{node name} \marg{piece of code} whereas \marg{node name}
+% is a unique TikZ node name in the |tikzpicture| and \marg{piece of code} is a single code part 
+% to be marked.
 %    \begin{macrocode}
 \NewDocumentCommand{\codePart}{mm} %
     {\tikzmarknode[code part]{#1}{#2}}
 %    \end{macrocode} 
+% \end{macro}
 %
+% \begin{macro}{\extremPoint}
+% Create a TikZ Node as reference point for later use in |\fitExtrem|. 
+% Syntax |\extremPoint| \marg{node name} \oarg{style} whereas \marg{node name} is the 
+% TikZ node name which is used in |\fitExtrem| to reference to this point and \oarg{style}
+% is one of |most top| or |most bottom| or a TikZ defined by user.
 %    \begin{macrocode}
 \NewDocumentCommand{\extremPoint}{m O{}}
     {\tikzmarknode[#2]{#1}{}}
+%    \end{macrocode}
+%  \end{macro}
+% \begin{macro}{\fitExtrem}
+% Create a rectangle box over given extrem points defined by |\extremPoint{}|.
+% Syntax: |\fitExtrem| \marg{node name} \marg{extrem points} whereas \marg{node name}
+% is a unique TikZ node name in the current anatomy and \marg{extrem points} is a list
+% of TikZ node name created by |\extremPoint|, each name is surrounded by |()|.
+%    \begin{macrocode}
 \NewDocumentCommand{\fitExtrem}{mm}
     {\node(#1)[draw,code part,fit={#2}]{};}
 %    \end{macrocode}
+% \end{macro}
 %
-%
-% Piece of code which are not emphrased typeset
+% \begin{macro}{\bgcode}
+% Typeset a piece of code in color |bgcmdcolor|. Syntax |\bgcode| \marg{piece of code}
 %    \begin{macrocode}
 \NewDocumentCommand{\bgcode}{m}{\textcolor{bgcmdcolor}{#1}}
 %    \end{macrocode}
-%
-% Produce a white space of 4 small characters |h|
+% \end{macro}
+% 
+% \begin{macro}{\ptab}
+% \begin{macro}{\phspace} 
+% Produce a horizontal space of 4 small characters |h| respective 1 small character |h|
 %    \begin{macrocode}
 \NewDocumentCommand{\ptab}{}{\phantom{hhhh}}
-%    \end{macrocode}
-%
-% Produce a white space of 1 small character |h|
-%    \begin{macrocode}
 \NewDocumentCommand{\phspace}{}{\phantom{h}}
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
 %
-%
-% Typeset Annotation for a code Part 
-% \begin{itemize}
-%   \item Parameter 1 Tikz Node Name of the Annotation
-%   \item Parameter 2 Coordinate of the Annotation
-%   \item Parameter 3 The Annotation Content
-% \end{itemize}
+% \begin{macro}{\codeAnnotation}
+% Typeset Annotation labels for a code Part. Syntax: |\codeAnnotation| \marg{node name} \parg{coordinate} \marg{label text}
+% whereas \marg{node name} is a unique TikZ node name in the |tikzpicture|, \parg{coordinate} is the coordinate of the 
+% annotation label, surrounded by a |()|, \marg{label text} text content to be typeset.
 %    \begin{macrocode}
 \NewDocumentCommand{\codeAnnotation}{m r() m } %
 {
   \node(#1)[code annotation] at (#2) {#3} ;
 }
 %    \end{macrocode}
-%
+% \end{macro}
 % \end{implementation}
 %
 %
