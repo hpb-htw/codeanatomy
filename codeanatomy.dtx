@@ -22,15 +22,13 @@
 % \fi
 %
 % \iffalse
-\def\myfileversion{0.1.1}
-\def\myfiledate{2019/07/07}
+%<package>\NeedsTeXFormat{LaTeX2e}[2018/12/01]
+%<package>\ProvidesPackage{codeanatomy}[2019/07/07 v0.1-Alpha draw Code Anatomy]
 % \fi
 %
 % \iffalse
 %<*driver>
 \documentclass{l3doc}
-% The next line is needed so that \GetFileInfo will be able to pick up
-% version data
 \usepackage{fontspec}
 \usepackage{biblatex}
 \addbibresource{literatur.bib}
@@ -44,11 +42,12 @@
 % \fi
 %
 % \GetFileInfo{\jobname.sty}
+% \DoNotIndex{}
 %
 % \title{^^A
 %   \pkg{codeanatomy} -- Draw Code Anatomy^^A
-%   \thanks{This file describes \myfileversion,
-%     last revised \myfiledate.}^^A
+%   \thanks{This file describes \fileversion,
+%     last revised \filedate.}^^A
 % }
 %
 % \author{^^A
@@ -61,27 +60,42 @@
 % }
 %
 % \date{Released \filedate}
+% \AtEndDocument{^^A
+%  \printbibliography^^A
+% }
 %
 % \maketitle
+% \tableofcontents
 %
 % \begin{documentation}
 % \section{Introduction}
-% The idea of this Package is to typse the illustrations of a piece of code with annotations on each parts of the
-% piece of code (Code Anatomy). The idea of presenting piece of (working) code as a anatomy is not from me. 
+% The idea of this Package is to typse the illustrations of a piece of code with 
+% annotations on each parts of the piece of code (Code Anatomy). The idea of presenting
+% piece of (runable) concrete code as a anatomy is not from me. 
 % This idea is based on the texbook~\autocite{sedgewick_wayne_2016}.
 % 
-% \section{Usage} 
-% TODO
+%
+% \section{Tutorial} 
+% In this tutorial we will draw an anatomy of a function like the 
+% figure~\ref{fig:tut1-function}.
+%
+% \begin{figure}
+% \label{fig:tut1-function}  
+% \begin{tikzpicture}[remember picture,x=1cm,y=1cm]
+% \codeBlock{TODO}
+% \end{tikzpicture}
+% \caption{Anatomy of a function}
+% \end{figure}
+% 
+% To use this package, just insert |\usepackage{codeanatomy}| in your \LaTeX{} file.
+% 
+%
 % \end{documentation}
 % 
 % \begin{implementation}
 %  
 % \section{Implementation}
-% \subsection{Package Signature}
-%    \begin{macrocode}
-\NeedsTeXFormat{LaTeX2e}[2018/12/01]
-\ProvidesPackage{codeanatomy}[{\myfileversion} draw Code Anatomy]
-%    \end{macrocode}
+%
 %
 %
 % \subsection{Package Dependenies}
@@ -222,21 +236,21 @@
 % \begin{macro}{\bgcode}
 % Piece of code which are not emphrased typeset
 %    \begin{macrocode}
-\newcommand{\bgcode}[1]{\textcolor{bgcmdcolor}{#1}}
+\NewDocumentCommand{\bgcode}{m}{\textcolor{bgcmdcolor}{#1}}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\ptab}
 % Produce a white space of 4 small characters |h|
 %    \begin{macrocode}
-\newcommand{\ptab}{\phantom{hhhh}}
+\NewDocumentCommand{\ptab}{}{\phantom{hhhh}}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\phspace}
 % Produce a white space of 1 small character |h|
 %    \begin{macrocode}
-\newcommand{\phspace}{\phantom{h}}
+\NewDocumentCommand{\phspace}{}{\phantom{h}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -258,5 +272,5 @@
 %
 % \end{implementation}
 %
-% \PrintIndex
+%
 
