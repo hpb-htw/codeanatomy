@@ -2,13 +2,8 @@
 module = "codeanatomy"
 bundle = ""
 
---[[
-typesetfiles = {
-    "codeanatomy.dtx",
-    "*.tex"
-}
---]]
-
+-- Typeset configuration
+typesetexe = "lualatex"
 typesetdemofiles = {    
     "codeanatomy.example.tex"
 }

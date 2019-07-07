@@ -11,7 +11,7 @@ clean:
 
 .PHONY: doc
 doc:
-	l3build doc
+	$(ENV_VAR) l3build doc
 
 .PHONY: ctan
 ctan:

@@ -31,7 +31,12 @@
 \documentclass{l3doc}
 % The next line is needed so that \GetFileInfo will be able to pick up
 % version data
+\usepackage{fontspec}
+\usepackage{biblatex}
+\addbibresource{literatur.bib}
+
 \usepackage{codeanatomy}
+
 \begin{document}
   \DocInput{\jobname.dtx}
 \end{document}
@@ -47,11 +52,11 @@
 % }
 %
 % \author{^^A
-%  Hong-Phuc Bui^^A
+%  Hồng-Phúc Bùi^^A
 %  \thanks{^^A
 %    E-mail:
-%    \href{mailto:ME}
-%      {ME@example.com}^^A
+%    \href{mailto:Hồng-Phúc Bùi}
+%      {hong-phuc.bui at htwsaar dot de}^^A
 %   }^^A
 % }
 %
@@ -59,32 +64,51 @@
 %
 % \maketitle
 %
-% ^^A \begin{documentation}
-%
-% ^^A \end{documentation}
+% \begin{documentation}
+% \section{Introduction}
+% The idea of this Package is to typse the illustrations of a piece of code with annotations on each parts of the
+% piece of code (Code Anatomy). The idea of presenting piece of (working) code as a anatomy is not from me. 
+% This idea is based on the texbook~\autocite{sedgewick_wayne_2016}.
+% 
+% \section{Usage} 
+% TODO
+% \end{documentation}
 % 
 % \begin{implementation}
-%   
-% Package Signature
+%  
+% \section{Implementation}
+% \subsection{Package Signature}
 %    \begin{macrocode}
-\ProvidesPackage{codeanatomy}[2019/07/07 draw Code Anatomy]
+\NeedsTeXFormat{LaTeX2e}[2018/12/01]
+\ProvidesPackage{codeanatomy}[{\myfileversion} draw Code Anatomy]
 %    \end{macrocode}
 %
-% Load necessary packages
+%
+% \subsection{Package Dependenies}
 %    \begin{macrocode}
 \RequirePackage{expl3}
+\RequirePackage{xparse}
 \RequirePackage[rgb]{xcolor}
 \RequirePackage{tikz}
-
-\RequirePackage{xparse}
-
-\definecolor{annotation}{rgb}{0,0.50002,1}
-\colorlet{bgcmdcolor}{gray}
-
+%    \end{macrocode}
+%
+% \subsection{Setup styles}
+% \begin{macro}{annotation}
+% \begin{macro}{bgcmdcolor}
+% Define colors which are used in Code Anatomy.
+% 
+%    \begin{macrocode}
+\definecolor{annotation}{rgb}{0,0.50002,1} % Blue
+\colorlet{bgcmdcolor}{gray}                % Grey
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\usetikzlibrary}
+% Load necsessary Tikz Libraries.
+%    \begin{macrocode}
 \usetikzlibrary{
-   tikzmark
-  ,positioning
-  ,matrix
+   tikzmark  
   ,fit
   ,arrows.meta
   ,bending
@@ -95,7 +119,18 @@
   ,decorations
   ,decorations.pathmorphing
 }
-
+%    \end{macrocode}
+% \end{macro}
+%
+% Tikz style for code in a Code Anatomy
+%    \begin{macrocode}
+\tikzset{anatomy/.style={%
+      anchor=south west,%
+      inner sep=0,%
+      align=left,%
+      font=\ttfamily
+    }
+}
 \tikzset{code part/.style={%
       rectangle,%
       draw=annotation,%
@@ -106,13 +141,9 @@
       font=\ttfamily
     }
 }
-\tikzset{code annotation/.style={%
-      inner sep=2pt,%
-      text=annotation,%
-      align=center,%
-      font=\sffamily\footnotesize
-    }
-}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \tikzset{annotation/.style={%
       preaction={
           draw=white,%
@@ -126,13 +157,16 @@
       }
     }
 }
-\tikzset{anatomy/.style={%
-      anchor=south west,%
-      inner sep=0,%
-      align=left,%
-      font=\ttfamily
+\tikzset{code annotation/.style={%
+      inner sep=2pt,%
+      text=annotation,%
+      align=center,%
+      font=\sffamily\footnotesize
     }
 }
+%    \end{macrocode}
+% 
+%    \begin{macrocode}
 \tikzset{code grid/.style={%
       step=1.0,%
       draw=none,%
@@ -147,58 +181,81 @@
       on background layer
     }
 }
-
+%    \end{macrocode}
+%    \begin{macrocode}
 \tikzset{most top/.style={%
     minimum height=1.25em
   }
 }
-
 \tikzset{most bottom/.style={%
     minimum height=1.125em
   }
 }
 %    \end{macrocode}
 %
+% 
+% \subsection{Command used to set code and code anatomy}
+%
+% \begin{macro}{\codeBlock}
 % All code block is of a anatomy picture is typeset using this command.
 %    \begin{macrocode}
 \NewDocumentCommand{\codeBlock}{m}%
 {\node(code) [anatomy] at (0,0) {#1};}
 %    \end{macrocode}
-%
+% \end{macro} 
+% 
+% \begin{macro}{\codePart}
 % Assign a piece of typeset code --typical in one line-- to a Tikz Node, so that it can
 % be annotated.
+% \begin{itemize}
+%   \item Parameter 1: Tikz Node Name, is used to reference
+%   \item Parameter 2: Code Picece to be typeset
+% \end{itemize}
 %    \begin{macrocode}
 \NewDocumentCommand{\codePart}{mm} %
 {
   {\tikzmarknode[code part]{#1}{#2}}
 }
 %    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\bgcode}
 % Piece of code which are not emphrased typeset
 %    \begin{macrocode}
 \newcommand{\bgcode}[1]{\textcolor{bgcmdcolor}{#1}}
 %    \end{macrocode}
-% TODO 1
+% \end{macro}
+%
+% \begin{macro}{\ptab}
+% Produce a white space of 4 small characters |h|
 %    \begin{macrocode}
 \newcommand{\ptab}{\phantom{hhhh}}
 %    \end{macrocode}
+% \end{macro}
 %
-% TODO 2
+% \begin{macro}{\phspace}
+% Produce a white space of 1 small character |h|
 %    \begin{macrocode}
 \newcommand{\phspace}{\phantom{h}}
 %    \end{macrocode}
+% \end{macro}
 %
-% TODO 3
-%    \begin{macrocode}
-\newcommand{\progname}[1]{\textsf{#1}}
-%    \end{macrocode}
 %
-% TODO 4
+% \begin{macro}{\codeAnnotation}
+% Typeset Annotation for a code Part 
+% \begin{itemize}
+%   \item Parameter 1 Tikz Node Name of the Annotation
+%   \item Parameter 2 Coordinate of the Annotation
+%   \item Parameter 3 The Annotation Content
+% \end{itemize}
 %    \begin{macrocode}
 \NewDocumentCommand{\codeAnnotation}{m r() m } %
 {
   \node(#1)[code annotation] at (#2) {#3} ;
 }
 %    \end{macrocode}
+% \end{macro}
+%
 % \end{implementation}
 %
 % \PrintIndex
