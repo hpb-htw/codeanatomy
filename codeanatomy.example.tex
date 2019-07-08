@@ -19,11 +19,11 @@
 \begin{tikzpicture}[remember picture,x=1cm,y=1cm]
 {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
 \codeBlock{ %
-\codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}}\{ \\[2.5pt] %
+\cPart{functionHead}{function \cPart{functionName}{gcd}\cPart{parameterList}{(p, q)}}\{ \\[2.5pt] %
 \ptab{}\extremPoint{mostLeft}[most top]if (q === 0) \{\\
 \ptab\ptab{}return p; \\
 \ptab{}\} else \{\\
-\ptab\ptab{}return gcd(p, p \% q);\extremPoint{mostRight}\\
+\ptab\ptab{}return gcd(q, p \% q);\extremPoint{mostRight}\\
 \ptab{}\}\extremPoint{mostBottom}[most bottom]\\
 \}
 };
@@ -48,12 +48,12 @@
 \begin{tikzpicture}[remember picture,x=1cm,y=1cm]
 {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
 \codeBlock{ %
-\codePart{functionHead}{function \codePart{functionName}{gcd}\codePart{parameterList}{(p, q)}} \{ \\[2.5pt] %
-\codePart{functionBody}{%
+\cPart{functionHead}{function \cPart{functionName}{gcd}\cPart{parameterList}{(p, q)}} \{ \\[2.5pt] %
+\cPart{functionBody}{%
 \ptab{}if (q === 0) \{ \\
 \ptab\ptab{}return p;\\
 \ptab\} else \{ \\
-\ptab\ptab{}return gcd(p,p \% q);\\
+\ptab\ptab{}return gcd(q,p \% q);\\
 \ptab\}}\\
 \}
 }

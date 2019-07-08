@@ -33,9 +33,16 @@
 \usepackage{biblatex}
 \addbibresource{literatur.bib}
 \newcommand{\slsh}{\textbackslash{}}
-
+\newcommand{\TikZ}{Ti\textit{k}Z}
 \def\thinmargin{\list{}{\rightmargin-50pt\leftmargin-90pt}\item[]}
-\let\endthinmargin=\endlist 
+\let\endthinmargin=\endlist
+
+\usepackage{listings}
+\lstset {
+    basicstyle=\small\ttfamily
+    ,escapeinside={+}{+}
+}
+
 \usepackage{codeanatomy}
 
 \begin{document}
@@ -58,7 +65,7 @@
 %  \thanks{^^A
 %    E-mail:
 %    \href{mailto:Hồng-Phúc Bùi}
-%      {hong-phuc.bui at htwsaar dot de}^^A
+%      {hong-phuc.bui (at) htwsaar dot de}^^A
 %   }^^A
 % }
 %
@@ -86,11 +93,11 @@
 % \begin{centering}  
 % \begin{tikzpicture}[remember picture]
 % \codeBlock{^^A
-% \codePart{functionHead}{function \codePart{functionName}{gcd} \codePart{parameterList}{(p, q)}}\{ \\[2.5pt] %
+% \cPart{functionHead}{function \cPart{functionName}{gcd} \cPart{parameterList}{(p, q)}}\{ \\[2.5pt] %
 % \ptab{}\tikzmarknode[most top]{mostLeft}{}if (q === 0) \{\\
 % \ptab\ptab{}return p; \\
 % \ptab{}\} else \{\\
-% \ptab\ptab{}return gcd(p, p \% q);\tikzmarknode{mostRight}{}\\
+% \ptab\ptab{}return gcd(q, p \% q);\tikzmarknode{mostRight}{}\\
 % \ptab{}\}\tikzmarknode[most bottom]{mostBottom}{}\\
 % \}
 % };
@@ -124,8 +131,8 @@
 % \begin{thinmargin}
 % \begin{tikzpicture}[remember picture]
 % \codeBlock{
-% \textbackslash{}begin\{tikzpicture\}[\codePart{option}{remember picture}]\\
-% \codePart{debugGrid}{\{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}}\\
+% \textbackslash{}begin\{tikzpicture\}[\cPart{option}{remember picture}]\\
+% \cPart{debugGrid}{\{[on background layer]\textbackslash{}draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);\}}\\
 % \% ... \\
 % \textbackslash{}end\{tikzpicture\}
 % }
@@ -141,7 +148,7 @@
 % \end{thinmargin}
 %
 %
-% \subsection{Typeset Code Listing in a Tikz-Node}
+% \subsection{Typeset Code Listing in a TikZ-Node}
 % As next step we need to put the piece of code in the |tikzpicture| environment using 
 % the command |\codeBlock|. \medskip
 %
@@ -157,7 +164,7 @@
 % \ptab{}if (q === 0) \{ \\
 % \ptab\ptab{}return p; \\
 % \ptab{}\} else \{ \\
-% \ptab\ptab{}return gcd(p, p\%q);\extremPoint{mostRight}\\
+% \ptab\ptab{}return gcd(q, p\%q);\extremPoint{mostRight}\\
 % \ptab\} \\
 % \extremPoint{mostBottom}[most bottom]\}\\
 % \} \\
@@ -185,7 +192,7 @@
 %     if (q === 0) {
 %         return p;
 %     } else {
-%         return gcd(p, p\%q);
+%         return gcd(q, p\%q);
 %     }
 % }
 % }
@@ -205,13 +212,13 @@
 % \{[on background layer]\textbackslash{}draw[code grid debug]\\
 %                        \ptab\ptab (-0.5,-0.5) grid (6.5,4.5);\}\\
 % \textbackslash{}codeBlock\{\%\\
-% function gcd(p, q) \slsh\{                          \codePart{sh1}{\slsh\slsh}\\
-% \codePart{ptab1}{\slsh{}ptab\{\}}if (q === 0) \slsh\{                 \codePart{sh2}{\slsh\slsh}\\
-% \codePart{ptab2}{\slsh{}ptab\slsh{}ptab\{\}}return p;                 \codePart{sh3}{\slsh\slsh}\\
-% \codePart{ptab3}{\slsh{}ptab}\slsh\} else \slsh\{                     \codePart{sh4}{\slsh\slsh}\\
-% \codePart{ptab4}{\slsh{}ptab\slsh{}ptab\{\}}return gcd(p, p\slsh\%q); \codePart{sh5}{\slsh\slsh}\\
-% \codePart{ptab5}{\slsh{}ptab}\slsh\}                                  \codePart{sh6}{\slsh\slsh}\\
-% \slsh\}                                             \codePart{sh7}{\slsh\slsh}\\
+% function gcd(p, q) \slsh\{                          \cPart{sh1}{\slsh\slsh}\\
+% \cPart{ptab1}{\slsh{}ptab\{\}}if (q === 0) \slsh\{                 \cPart{sh2}{\slsh\slsh}\\
+% \cPart{ptab2}{\slsh{}ptab\slsh{}ptab\{\}}return p;                 \cPart{sh3}{\slsh\slsh}\\
+% \cPart{ptab3}{\slsh{}ptab}\slsh\} else \slsh\{                     \cPart{sh4}{\slsh\slsh}\\
+% \cPart{ptab4}{\slsh{}ptab\slsh{}ptab\{\}}return gcd(q, p\slsh\%q); \cPart{sh5}{\slsh\slsh}\\
+% \cPart{ptab5}{\slsh{}ptab}\slsh\}                                  \cPart{sh6}{\slsh\slsh}\\
+% \slsh\}                                             \cPart{sh7}{\slsh\slsh}\\
 % \} \\
 % \textbackslash{}end\{tikzpicture\}
 % }
@@ -248,7 +255,7 @@
 % \ptab{}if (q === 0) \{ \\
 % \ptab\ptab{}return p; \\
 % \ptab\} else \{ \\
-% \ptab\ptab{}return gcd(p, p\%q); \\
+% \ptab\ptab{}return gcd(q, p\%q); \\
 % \ptab\} \\
 % \} \\
 % }
@@ -258,7 +265,7 @@
 % \end{figure}
 %
 % \subsection{Mark Parts of Code}
-% Now we can mark interesting parts of code with a blue boxes created by |\codePart|. At some positions 
+% Now we can mark interesting parts of code with a blue boxes created by |\cPart|. At some positions 
 % we can use |\\[<length>]| to add a little amount of vertical space, sothat the boxes do not touch 
 % each others. 
 %
@@ -270,17 +277,17 @@
 % \{[on background layer]\textbackslash{}draw[code grid debug]\\
 %                        \ptab\ptab (-0.5,-0.5) grid (6.5,4.5);\}\\
 % \textbackslash{}codeBlock\{\%\\
-% \codePart{nestedCodePart}{\slsh{}codePart\{functionHead\}\{function\slsh{}codePart\{functionName\}\{gcd\} \slsh{}codePart\{paramList\}\{(p, q)\}\}} \slsh\{\\
+% \cPart{nestedCodePart}{\slsh{}codePart\{functionHead\}\{function\slsh{}codePart\{functionName\}\{gcd\} \slsh{}codePart\{paramList\}\{(p, q)\}\}} \slsh\{\\
 %   \slsh\slsh[2.5pt]\\
-% \slsh{}ptab\{\}\codePart{ep1}{\slsh{}extremPoint\{mostLeft\}[most top]}if (q === 0) \slsh\{                                                                                \slsh\slsh\\
+% \slsh{}ptab\{\}\cPart{ep1}{\slsh{}extremPoint\{mostLeft\}[most top]}if (q === 0) \slsh\{                                                                                \slsh\slsh\\
 % \slsh{}ptab\slsh{}ptab\{\}                                           return p;                                                                                       \slsh\slsh\\
 % \slsh{}ptab\slsh                                                 \} else \slsh\{                                                                                     \slsh\slsh\\
-% \slsh{}ptab\slsh{}ptab\{\}                                           return gcd(p, p\slsh\%q);       \codePart{ep2}{\slsh{}extremPoint\{mostRight\}}                 \slsh\slsh\\
-% \slsh{}ptab\codePart{ep3}{\slsh{}extremPoint\{mostBottom\}[most bottom]}\slsh\}                                                                                                      \slsh\slsh\\
+% \slsh{}ptab\slsh{}ptab\{\}                                           return gcd(q, p\slsh\%q);       \cPart{ep2}{\slsh{}extremPoint\{mostRight\}}                 \slsh\slsh\\
+% \slsh{}ptab\cPart{ep3}{\slsh{}extremPoint\{mostBottom\}[most bottom]}\slsh\}                                                                                                      \slsh\slsh\\
 % \slsh\}                                             \slsh\slsh\\
 % \} \\ 
 %    \\
-% \codePart{fitExtemCmd}{\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}}\\
+% \cPart{fitExtemCmd}{\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}}\\
 % \slsh{}end\{tikzpicture\}
 % }
 %  
@@ -303,12 +310,12 @@
 % {[on background layer]\draw[code grid debug]
 % (-0.5,-0.5) grid (6.5,4.5);}
 % \codeBlock{%
-% \codePart{functionHead}{                  function\codePart{functionName}{gcd} \codePart{paramList}{(p, q)}} \{ 
+% \cPart{functionHead}{                  function\cPart{functionName}{gcd} \cPart{paramList}{(p, q)}} \{ 
 %  \\[2.5pt]
 % \ptab{}\extremPoint{mostLeft}[most top]      if (q === 0) \{ \\
 % \ptab\ptab{}                                      return p; \\
 % \ptab                                        \} else \{ \\
-% \ptab\ptab{}                                      return gcd(p, p\%q); \extremPoint{mostRight} \\
+% \ptab\ptab{}                                      return gcd(q, p\%q); \extremPoint{mostRight} \\
 % \ptab\extremPoint{mostBottom}[most bottom]\} \\
 % \} \\
 % }
@@ -319,10 +326,10 @@
 %
 % \subsection{Create Annotation Labels}
 % We can use |\codeAnnotation| to create annotation labels for each parts of code. To draw an 
-% arrow from label to a code part we can use the Tikz command\\
+% arrow from label to a code part we can use the \TikZ{}command\\
 % |\draw[->,annotation]| \parg{annotation label} |--| \parg{code part} |;|.\\
 % Whereas \parg{annotation label}s are the first argument of |\codeAnnotation|s and 
-% \parg{code part}s are the first argument of |\codePart|s.
+% \parg{code part}s are the first argument of |\cPart|s.
 %
 % \begin{thinmargin}
 % \begin{tikzpicture}[remember picture]
@@ -336,7 +343,7 @@
 % \slsh{}ptab\{\}\slsh{}extremPoint\{mostLeft\}[most top]          if (q === 0) \slsh\{                                                                                \slsh\slsh\\
 % \slsh{}ptab\slsh{}ptab\{\}                                           return p;                                                                                       \slsh\slsh\\
 % \slsh{}ptab\slsh                                                 \} else \slsh\{                                                                                     \slsh\slsh\\
-% \slsh{}ptab\slsh{}ptab\{\}                                           return gcd(p, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}                                 \slsh\slsh\\
+% \slsh{}ptab\slsh{}ptab\{\}                                           return gcd(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}                                 \slsh\slsh\\
 % \slsh{}ptab\slsh{}extremPoint\{mostBottom\}[most bottom]\slsh\}                                                                                                      \slsh\slsh\\
 % \slsh\}                                             \\
 % \} \\ 
@@ -360,7 +367,7 @@
 % \end{tikzpicture} 
 % \end{thinmargin}
 % 
-% Instead of operator |--| we can use operator |to| \oarg{tikz options} to draw a path from 
+% Instead of operator |--| we can use operator |to| \oarg{\TikZ{} options} to draw a path from 
 % \parg{annotation label} to \parg{code part}. Finally we can remove the command 
 % |\draw[code grid debug]...| at the begin of the |tikzpicture|.
 % The final result is shown in the figure~\ref{fig:function-final}, which is almost the same
@@ -370,12 +377,12 @@
 % \centering 
 % \begin{tikzpicture}[remember picture]
 % \codeBlock{%
-% \codePart{functionHead} {function \codePart{functionName}{gcd} \codePart{paramList}{(p, q)}} \{
+% \cPart{functionHead} {function \cPart{functionName}{gcd} \cPart{paramList}{(p, q)}} \{
 % \\[2.5pt]
 % \ptab{}\extremPoint{mostLeft}[most top] if (q === 0)\{ \\
 % \ptab\ptab{} return p; \\
 % \ptab\} else \{ \\
-% \ptab\ptab{} return gcd(p, p\%q); \extremPoint{mostRight} \\
+% \ptab\ptab{} return gcd(q, p\%q); \extremPoint{mostRight} \\
 % \ptab\extremPoint{mostBottom}[most bottom]\} \\
 % \}
 % }
@@ -397,12 +404,21 @@
 % \caption{Function with Annotation Labels\label{fig:function-final}}
 % \end{figure}
 %
+% \section{Usage in conjuntion with \pkg{listing}}
+% 
+% As we see in the previous section, the command |\codeBlock| cannot typeset whitespaces correctly as we 
+% expect. A way to typeset code listing is using the package \pkg{listing}. See \texttt{codeanatomy.lstlisting.pdf}
+%
+%
 % \section{Description of commands}
 % 
 % \DescribeMacro{\codeBlock}
 % TODO
 %
-% \DescribeMacro{\codePart}
+% \DescribeMacro{\cPart}
+% TODO
+% 
+% \DescribeMacro{\iPart}
 % TODO
 % 
 % \DescribeMacro{\extremPoint}
@@ -443,7 +459,7 @@
 % \end{macro}
 % \end{macro}
 %
-% Load necsessary Tikz Libraries.
+% Load necsessary \TikZ{}Libraries.
 %    \begin{macrocode}
 \usetikzlibrary{
    tikzmark  
@@ -460,10 +476,10 @@
 %    \end{macrocode}
 %
 %
-% Tikz styles for code in a Code Anatomy
+% \TikZ{} styles for code in a Code Anatomy
 % \begin{macro}{anatomy}
 % \begin{macro}{code part}
-% Tikz styles used in Code listings and their single parts  
+% \TikZ{} styles used in Code listings and their single parts  
 %    \begin{macrocode}
 \tikzset{anatomy/.style={%
       anchor=south west,%
@@ -482,13 +498,23 @@
       font=\ttfamily
     }
 }
+\tikzset{fit extrem/.style={%
+      rectangle,%
+      draw=annotation,%
+      align=left,%
+      minimum height=1.175em,%
+      inner sep=0pt,%
+      outer sep=0pt,%
+      font=\ttfamily
+    }
+}
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
 %
 % \begin{macro}{annotation}
 % \begin{macro}{code annotation}
-% TikZ styles used to typeset labels of code parts and arrows from labels to 
+% \TikZ{} styles used to typeset labels of code parts and arrows from labels to 
 % code parts
 %    \begin{macrocode}
 \tikzset{annotation/.style={%
@@ -517,7 +543,7 @@
 %
 % \begin{macro}{code grid}
 % \begin{macro}{code grid debug}
-% TikZ styles to draw debug grid on the background of anatomy  
+% \TikZ{} styles to draw debug grid on the background of anatomy  
 %    \begin{macrocode}
 \tikzset{code grid/.style={%
       step=1.0,%
@@ -543,11 +569,11 @@
 % space between the border and the code part.
 %    \begin{macrocode}
 \tikzset{most top/.style={%
-    minimum height=1.25em
+    minimum height=1.55em
   }
 }
 \tikzset{most bottom/.style={%
-    minimum height=1.125em
+    minimum height=1.115em
   }
 }
 %    \end{macrocode}
@@ -555,45 +581,56 @@
 % \end{macro}
 % 
 % \subsection{Command used to set code and code anatomy}
-%
 % \begin{macro}{\codeBlock}
 % Complete code listing of a Code Anatomy figure is typeset by this command.
 % Syntax |\codeBlock| \marg{code}, whereas \marg{code} is the \emph{formatted} code listing.
+% This command can be used if there are no other packages to typeset code listing in use.
 %    \begin{macrocode}
 \NewDocumentCommand{\codeBlock}{m}%
   {\node(code) [anatomy] at (0,0) {#1};}
 %    \end{macrocode}
 % \end{macro}
 % 
-% \begin{macro}{\codePart}
-% Assign a piece of typeset code --typical in one line-- to a Tikz Node, so that it can
-% be annotated. Syntax: |\codePart| \marg{node name} \marg{piece of code} whereas \marg{node name}
-% is a unique TikZ node name in the |tikzpicture| and \marg{piece of code} is a single code part 
+% \begin{macro}{\cPart}
+% Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
+% be annotated. Syntax: |\cPart| \marg{node name} \marg{piece of code} whereas \marg{node name}
+% is a unique \TikZ{} node name in the |tikzpicture| and \marg{piece of code} is a single code part 
 % to be marked.
 %    \begin{macrocode}
-\NewDocumentCommand{\codePart}{mm} %
+\NewDocumentCommand{\cPart}{mm} %
     {\tikzmarknode[code part]{#1}{#2}}
 %    \end{macrocode} 
 % \end{macro}
 %
+% \begin{macro}{\iPart}
+% Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
+% be annotated. Syntax: |\cPart| \marg{node name} \marg{piece of code} whereas \marg{node name}
+% is a unique \TikZ{} node name in the |tikzpicture| and \marg{piece of code} is a single code part 
+% to be marked.
+%    \begin{macrocode}
+\NewDocumentCommand{\iPart}{mm} %
+    {\tikzmarknode[code part,draw=none,inner sep=0.75pt]{#1}{#2}}
+%    \end{macrocode} 
+% \end{macro}
+%
 % \begin{macro}{\extremPoint}
-% Create a TikZ Node as reference point for later use in |\fitExtrem|. 
+% Create a \TikZ{} Node as reference point for later use in |\fitExtrem|. 
 % Syntax |\extremPoint| \marg{node name} \oarg{style} whereas \marg{node name} is the 
-% TikZ node name which is used in |\fitExtrem| to reference to this point and \oarg{style}
-% is one of |most top| or |most bottom| or a TikZ defined by user.
+% \TikZ{} node name which is used in |\fitExtrem| to reference to this point and \oarg{style}
+% is one of |most top| or |most bottom| or a \TikZ{} defined by user.
 %    \begin{macrocode}
 \NewDocumentCommand{\extremPoint}{m O{}}
-    {\tikzmarknode[#2]{#1}{}}
+    {\tikzmarknode[#2,text width=0pt]{#1}{}}
 %    \end{macrocode}
 %  \end{macro}
 % \begin{macro}{\fitExtrem}
 % Create a rectangle box over given extrem points defined by |\extremPoint{}|.
 % Syntax: |\fitExtrem| \marg{node name} \marg{extrem points} whereas \marg{node name}
-% is a unique TikZ node name in the current anatomy and \marg{extrem points} is a list
-% of TikZ node name created by |\extremPoint|, each name is surrounded by |()|.
+% is a unique \TikZ{} node name in the current anatomy and \marg{extrem points} is a list
+% of \TikZ{} node name created by |\extremPoint|, each name is surrounded by |()|.
 %    \begin{macrocode}
 \NewDocumentCommand{\fitExtrem}{mm}
-    {\node(#1)[draw,code part,fit={#2}]{};}
+    {\node(#1)[fit extrem,fit={#2}]{};}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -616,7 +653,7 @@
 %
 % \begin{macro}{\codeAnnotation}
 % Typeset Annotation labels for a code Part. Syntax: |\codeAnnotation| \marg{node name} \parg{coordinate} \marg{label text}
-% whereas \marg{node name} is a unique TikZ node name in the |tikzpicture|, \parg{coordinate} is the coordinate of the 
+% whereas \marg{node name} is a unique \TikZ{} node name in the |tikzpicture|, \parg{coordinate} is the coordinate of the 
 % annotation label, surrounded by a |()|, \marg{label text} text content to be typeset.
 %    \begin{macrocode}
 \NewDocumentCommand{\codeAnnotation}{m r() m } %

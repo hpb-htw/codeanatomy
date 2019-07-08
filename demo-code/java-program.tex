@@ -1,0 +1,34 @@
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[remember picture]
+\node(code) [anatomy] at (0,0){%
+\begin{lstlisting}
+public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
+{
+    !\extremPoint{mainLeft}[most top]!public static void main(String[] argv)
+    {
+        !\extremPoint{left}[most top]\iPart{assign}{
+          \bgcode{// Prints "Hello World" in the terminal window}}
+          \extremPoint{fnR} \extremPoint{mR}!
+        !\iPart{fnCall}{System.out.print( "Hello World");}\extremPoint{mostBottom}[most bottom]!
+    }!\extremPoint{mainBottom}[most bottom]!
+}
+\end{lstlisting}
+};
+
+\fitExtrem{classBody}{(mainLeft) (mR) (mainBottom)}
+\fitExtrem{functionBody}{(left) (fnR) (mostBottom)}
+
+
+\codeAnnotation{fileNameText} (1.5,5) {text file named \texttt{HelloWorld.java}}
+\codeAnnotation{classNameText} (3.5,4.25) {name}
+\codeAnnotation{classBodyText} (6.5,3.6) {\texttt{main()} method}
+\codeAnnotation{functionBodyText} (2.5,-0.5) {body}
+\codeAnnotation{statement} (8,0) {statements}
+
+\draw[->,annotation] (fileNameText) -- (class);
+\draw[->,annotation] (classNameText) -- (className);
+\draw[->,annotation] (classBodyText.south west) -- (classBody);
+\draw[->,annotation] (functionBodyText) -- (functionBody);
+\draw[->,annotation] (statement) -- (assign.353);
+\draw[->,annotation] (statement) -- (fnCall.350);
+\end{tikzpicture}
