@@ -7,8 +7,7 @@ typesetexe = "lualatex"
 typesetopts = "-interaction=nonstopmode -recorder"
 typesetdemofiles = {
     --"codeanatomy.usage.tex",             -- Done
-    -- "codeanatomy.lstlisting.tex",
-    --"codeanatomy.example.tex"
+    --"codeanatomy.lstlisting.tex"         -- Done
 }
 
 -- Copy all files match pattern to build/doc
