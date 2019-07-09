@@ -6,8 +6,8 @@ bundle = ""
 typesetexe = "lualatex"
 typesetopts = "-interaction=nonstopmode -recorder"
 typesetdemofiles = {
-    --"codeanatomy.usage.tex",             -- Done
-    --"codeanatomy.lstlisting.tex"         -- Done
+    "codeanatomy.usage.tex",             -- Done
+    "codeanatomy.lstlisting.tex"         -- Done
 }
 
 -- Copy all files match pattern to build/doc
@@ -18,3 +18,14 @@ docfiles = {
 }
 ]]--
 
+uploadconfig = {
+    pkg          = "codeanatomy",
+    version      = "0.1-Alpha",
+    author       = "HPB",
+    uploader     = "HPB"
+    license      = "lppl1.3c",
+    summary      = "draw code anatomy",
+    ctanPath     = "/macros/latex/contrib/vertbars",
+    repository   = "TODO",
+    note         = [[Uploaded automatically by l3build...]]
+  }
