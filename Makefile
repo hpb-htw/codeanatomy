@@ -7,7 +7,7 @@ clean:
 	l3build clean
 	rm -rf build
 	rm -f *.zip
-	rm -rf *.idx
+	rm -rfv *.idx *.aux *.glo *.hd *.out *.bcf
 
 .PHONY: doc
 doc:

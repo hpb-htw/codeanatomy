@@ -5,39 +5,66 @@
 \addbibresource{literatur.bib}
 
 \usepackage{codeanatomy}
+
 \usepackage{listings}
 \lstset {
-    basicstyle=\small\ttfamily
-    ,escapeinside={!}{!}
-    ,resetmargins=true
-    ,columns=fullflexible
+     basicstyle=\small\ttfamily%
+    ,language=%
+    ,escapeinside={!}{!}%
+    ,resetmargins=true%
+    ,columns=flexible%
+    ,literate={-}{-}1%
+    ,keepspaces=true
 }
 
 \def\thinmargin{\list{}{\rightmargin-30pt\leftmargin-70pt}\item[]}
 \let\endthinmargin=\endlist
+
+\usepackage{filecontents}
 
 % others shortcuts
 \newcommand{\slsh}{\textbackslash{}}
 \newcommand{\TikZ}{Ti\textit{k}Z}
 \newcommand{\inputlisting}[1]{%
 \lstinputlisting[%
-    xleftmargin=-70pt
-    ,resetmargins=true
-    ,escapeinside={}{}
-    ]{#1} %    
+    basicstyle=\footnotesize\ttfamily%
+    ,xleftmargin=-70pt%
+    ,resetmargins=true%
+    ,firstline=5%
+    ,language=%
+    ,columns=flexible%    
+    ,escapeinside={}{}%
+  ]{#1}%
 }
+
 \usepackage{hyperref}
 
-\author{Hồng-Phúc Bùi}
-\title{Usage of \pkg{codeanatomy} in conjunction with \pkg{listings}}
-\date{Sommer 2019}
+\GetFileInfo{codeanatomy.sty}
+\DoNotIndex{}
 
+\title{
+  \pkg{codeanatomy} -- Draw Code Anatomy%
+  \thanks{This file describes \fileversion,
+    last revised \filedate.}\\\vspace*{2ex}
+  \normalsize{Usage with \pkg{listings}}
+}
 
+\author{
+ Hồng-Phúc Bùi
+ \thanks{
+   E-mail:
+   \href{mailto:Hồng-Phúc Bùi}
+     {hong-phuc.bui (at) htwsaar dot de}
+  }
+}
+
+\date{Released \filedate}
 
 
 \begin{document}
 
 \maketitle
+\tableofcontents
 
 \section{General Usage in Conjuntion with Package \pkg{listings}}
 \subsection{Setup Package \pkg{listings}}
@@ -84,14 +111,14 @@ The command |\codeBlock| does not work if the environment |lstlisting| is passed
 \begin{tikzpicture}[remember picture]
 +\cPart{tikzNode}{\slsh{}node(code) [anatomy] at (0,0)}+ {
 +\cPart{listingBegin}{\texttt{\slsh{}begin\{lstlisting\}}}\vspace{1.5pt}+
-+\extremPoint{mostLeft}[most top]+function gcd(p,q) {
++\mtPoint{mostLeft}+function gcd(p,q) {
     if (q === 0) {
         return q;                
     }else{
         let r = p % q;
         return gcd(q, r);+\extremPoint{mostRight}+
     }
-}+\extremPoint{mostBottom}[most bottom]+
+}+\mbPoint{mostBottom}+
 +\cPart{listingEnd}{\texttt{\slsh{}end\{lstlisting\}}}+
 }+\cPart{semiColon}{;}+
 \end{tikzpicture}
@@ -152,12 +179,12 @@ These commmands must be put in delimiter, here |!| and |!|.
 \node(code) [anatomy] at (0,0) {
 +\texttt{\slsh{}begin\{lstlisting\}}+    
 !\cPart{fnHead}{function \cPart{fnName}{gcd}\cPart{paramList}{(p,q)}}! {
-    +\cPart{ep1}{!\slsh{}extremPoint\{mostLeft\}[most top]!}+if (q === 0) {
+    +\cPart{ep1}{!\slsh{}mtPoint\{mostLeft\}!}+if (q === 0) {
         return q;                
     }else{
         +\cPart{cp}{!\slsh{}cPart\{localVar\}\{let r\}!}+ = p % q;
         return gcd(q, r);+\cPart{ep2}{!\slsh{}extremPoint\{mostRight\}!}+
-    }+\cPart{ep3}{!\slsh{}extremPoint{mostBottom}[most bottom]!}+
+    }+\cPart{ep3}{!\slsh{}mbPoint\{mostBottom\}!}+
 }
 +\texttt{\slsh{}end\{lstlisting\}}+
 };
@@ -185,12 +212,12 @@ Figure~\ref{fig:listing-code-parts} shows the result of the above code.
 \node(code) [anatomy] at (0,0) {
 \begin{lstlisting}
 !\cPart{fnHead}{function \cPart{fnName}{gcd}\cPart{paramList}{(p,q)}}! {
-    !\extremPoint{mostLeft}[most top]!if (q === 0) {
+    !\mtPoint{mostLeft}!if (q === 0) {
         return q;
     }else{
         !\cPart{localVar}{let r}! = p % q;
         return gcd(q, r);!\extremPoint{mostRight}!
-    }!\extremPoint{mostBottom}[most bottom]!
+    }!\mbPoint{mostBottom}!
 }
 \end{lstlisting}
 };
@@ -217,6 +244,44 @@ Most of examples in this section are redrawn from the textbook~\autocite{sedgewi
 
 \subsection{Anatomy of a Java Program~\autocite[5]{sedgewick_wayne_2016}}
 % -----------------------------------
+
+\begin{filecontents}{java-program.tex}
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[remember picture]
+\node(code) [anatomy] at (0,0){%
+\begin{lstlisting}
+public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
+{
+    !\mtPoint{mainLeft}!public static void main(String[] argv)
+    {
+        !\hmtPoint{left}\iPart{assign}{
+            \bgcode{// Prints "Hello World" in the terminal window}}
+            \extremPoint{fnR} \extremPoint{mR}!
+        !\iPart{fnCall}{System.out.print( "Hello World");}\dmbPoint{mostBottom}!
+    }!\mbPoint{mainBottom}!
+}
+\end{lstlisting}
+};
+
+\fitExtrem{classBody}{(mainLeft) (mR) (mainBottom)}
+\fitExtrem{functionBody}{(left) (fnR) (mostBottom)}
+
+
+\codeAnnotation{fileNameText} (1.5,5) {text file named \texttt{HelloWorld.java}}
+\codeAnnotation{classNameText} (3.5,4.25) {name}
+\codeAnnotation{classBodyText} (6.5,3.6) {\texttt{main()} method}
+\codeAnnotation{functionBodyText} (2.5,-0.5) {body}
+\codeAnnotation{statement} (8,0) {statements}
+
+\draw[->,annotation] (fileNameText) -- (class);
+\draw[->,annotation] (classNameText) -- (className);
+\draw[->,annotation] (classBodyText.south west) -- (classBody);
+\draw[->,annotation] (functionBodyText) -- (functionBody);
+\draw[->,annotation] (statement) -- (assign.353);
+\draw[->,annotation] (statement) -- (fnCall.350);
+\end{tikzpicture}
+\end{filecontents}
+
 \begin{thinmargin}
 \inputlisting{java-program.tex}
 \end{thinmargin}
@@ -225,6 +290,21 @@ Most of examples in this section are redrawn from the textbook~\autocite{sedgewi
 
 \subsection{Anatomy of an expression~\autocite[17]{sedgewick_wayne_2016}}
 % -----------------------------------
+
+\begin{filecontents}{java-expression.tex}
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[remember picture]    
+\codeBlock{\cPart{op1}{4} \cPart{op}{*} \cPart{op2}{( x - 3 )} }
+
+\codeAnnotation{operand}  (1,1.5) {operands\\(and expression)}
+\codeAnnotation{operator} (0.7,-1) {operator}
+
+\draw[->,annotation] (operand) -- (op1.north);
+\draw[->,annotation] (operand) -- (op2.north);
+\draw[->,annotation] (operator) -- (op.south);
+\end{tikzpicture}   
+\end{filecontents}{java-expression.tex}
+
 \begin{thinmargin}
     \inputlisting{java-expression.tex}
 \end{thinmargin}
@@ -234,22 +314,183 @@ Most of examples in this section are redrawn from the textbook~\autocite{sedgewi
 \subsection{Using a primitive Data Type~\autocite[17]{sedgewick_wayne_2016}}
 % -------------------------------------
 
+\begin{filecontents}{using-a-primitive-data-type.tex}    
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[
+     remember picture %
+    ,code annotation/.append style = { % customize style of annotation text
+        font=\sffamily\footnotesize
+    }
+]
+{[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (2.5,2.5);}
+\node(code) [anatomy] at (0,0){%
+\begin{lstlisting}
+!\cPart{d}{int a, b;}!
+!\iPart{v}{a}! = !\cPart{l}{1234}!;
+!\iPart{a}{b = 99}!;
+!\cPart{i}{int c = a + b}!;
+\end{lstlisting}
+};
+% Annotations
+\codeAnnotation{declareText}   (   1,2.75 )   {declaration statement}
+\codeAnnotation{literalText}   (  2.5,1.45)   {literal}
+\codeAnnotation{varText}       (-1.5,1.75 )   {variable name}
+\codeAnnotation{assignText}    (-1.5,0.75 )   {assignment\\statement}
+\codeAnnotation{initText}      (-1.5,-0.75)   {inline initialization\\statement}
+% Arrows
+\draw[->,annotation] (declareText) -- (d);
+\draw[->,annotation] (literalText) -- (l);
+\draw[->,annotation] (varText.south east) -- (v);
+\draw[->,annotation] (assignText) -- (a);
+\draw[->,annotation] (initText) -- (i.south west);
+\end{tikzpicture}
+\end{filecontents}
+
+\begin{thinmargin}
+    \inputlisting{using-a-primitive-data-type.tex}
+\end{thinmargin}
+
+\input{using-a-primitive-data-type.tex}
+
 \subsection{Anatomy of a method signature~\autocite[30]{sedgewick_wayne_2016}}
 % ---------------------------------------
+
+\begin{filecontents}{anatomy-of-a-method-signature.tex}
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[remember picture]
+\node(code) [anatomy] at (0,0) {
+\begin{lstlisting}
+public class !\iPart{l}{Math}!
+    ....
+    !\cPart{s}{\bgcode{static} \iPart{r}{double} \iPart{n}{sqrt}(\iPart{a}{double} a)}!
+    ....
+\end{lstlisting}
+};
+% Annotation
+\codeAnnotation{lText}    (3,2.5)   {library name}
+\codeAnnotation{sText}   (-1,1)     {signature}
+\codeAnnotation{nText}  (4.5,1.5)   {method name}
+\codeAnnotation{rText}  (2.0,-0.51) {return type}
+\codeAnnotation{aText}  (4.5,-0.51) {argument type}
+% Arrows
+\draw[->, annotation] (lText) -- (l);
+\draw[->, annotation] (nText) -- (n);
+\draw[->, annotation] (sText) -- (s);
+\draw[->, annotation] (rText) -- (r);
+\draw[->, annotation] (aText) -- (a);
+\end{tikzpicture}
+\end{filecontents}
+
+\begin{thinmargin}
+    \inputlisting{anatomy-of-a-method-signature.tex}
+\end{thinmargin}
+
+\input{anatomy-of-a-method-signature.tex}
 
 \subsection{Using a library method~\autocite[30]{sedgewick_wayne_2016}}
 % --------------------------------
 
+\begin{filecontents}{using-a-library-method.tex}
+\begin{tikzpicture}[remember picture]    
+\codeBlock{%
+\iPart{r}{double} d = \iPart{l}{Math}.\iPart{m}{sqrt}(\iPart{a}{b*b - 4.0*a*c)};
+}
+% Annotation
+\codeAnnotation{lText}   (2, 1.125) {library name}
+\codeAnnotation{mText} (4.5, 1.125) {method name}
+\codeAnnotation{rText}   (2,-0.7)   {return type}
+\codeAnnotation{aText}   (4,-0.7)   {argument}
+% Arrows
+\draw[->,annotation] (lText) -- (l);
+\draw[->,annotation] (mText) -- (m);
+\draw[->,annotation] (rText.north west) -- (r);
+\draw[->,annotation] (aText.north east) -- (a);
+\end{tikzpicture}
+\end{filecontents}
+
+\begin{thinmargin}
+    \inputlisting{using-a-library-method.tex}
+\end{thinmargin}
+
+\input{using-a-library-method.tex}
+
 \subsection{Anatomy of an \texttt{if} statement~\autocite[51]{sedgewick_wayne_2016}}
 % ---------------------------------------------
 
+\begin{filecontents}{anatomy-of-an-if-statement.tex}
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[remember picture]
+%    {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (2.5,2.5);}
+\node(code) [anatomy] at (0,0) {%
+\begin{lstlisting}
+if (!\cPart{e}{x > y}!) 
+{
+    int t = x;!\mtPoint{tr}!
+    x = y;
+   !\mbPoint{bl}! y = t;!\extremPoint{br}!
+}
+\end{lstlisting}
+};
+
+\fitExtrem{b}{(tr) (bl) (br)}
+% Annotation 
+\codeAnnotation{eText}  (1,3.5)  {boolean\\expression}
+\codeAnnotation{bText} (-1,1.125)  {sequence\\of\\statements}
+% Arrow
+\draw[->,annotation] (eText) -- (e);
+\draw[->,annotation] (bText) -- (b);
+\end{tikzpicture}
+\end{filecontents}
+
+\begin{thinmargin}
+    \inputlisting{anatomy-of-an-if-statement.tex}
+\end{thinmargin}
+
+\input{anatomy-of-an-if-statement.tex}
+
 \subsection{Anatomy of a \texttt{while} loop~\autocite[54]{sedgewick_wayne_2016}}
 % ------------------------------------------
+
+\begin{filecontents}{anatomy-of-a-while-loop.tex}
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[remember picture]
+%    {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (2.5,2.5);}
+\node(code) [anatomy] at (0,0) {
+\begin{lstlisting}
+!\cPart{i}{\bgcode{int power = 1;}}\phantom{\rule[-2ex]{0.1ex}{0.1ex}}!
+while ( !\cPart{c}{power <= n/2}! )
+!\cPart{po}{\{}!
+    !\cPart{b}{power = 2*power;}!
+!\cPart{pc}{\}}!
+\end{lstlisting}
+};
+
+% Annotation
+\codeAnnotation{iText}  (-1,3.25) {initialization is a\\separate statement}
+\codeAnnotation{cText} (3.5,3)    {loop-\\continuation\\condition}
+\codeAnnotation{pText} (-1.5,0.5) {braces are\\optional\\when body\\is a single\\statement}
+\codeAnnotation{bText} (2.125,-0.5) {body}
+% Arrows
+\draw[->,annotation] (iText) -- (i.north west);
+\draw[->,annotation] (cText) -- (c);
+\draw[->,annotation] (bText) -- (b);
+\draw[->,annotation] (pText) -- (po);
+\draw[->,annotation] (pText) -- (pc);
+\end{tikzpicture}
+\end{filecontents}
+
+\begin{thinmargin}
+    \inputlisting{anatomy-of-a-while-loop.tex}
+\end{thinmargin}
+
+\input{anatomy-of-a-while-loop.tex}
 
 \subsection{Anatomy of a \texttt{for} loop~\autocite[59]{sedgewick_wayne_2016}}
 % ----------------------------------------
 
 \subsection{Anatomy of a static method~\autocite[196]{sedgewick_wayne_2016}}
 % ----------------------------------------
+
+% \printbibliography
 \end{document}
 
