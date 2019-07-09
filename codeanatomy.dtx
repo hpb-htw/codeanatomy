@@ -266,6 +266,41 @@
 % \end{macro}
 %
 %
+%
+% \begin{macro}{\mtPoint}
+% Marks a point as a \emph{m}ost \emph{t}op in a Code Block.
+%    \begin{macrocode}  
+\NewDocumentCommand{\mtPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[1.8ex]{0.1ex}{0.1ex}}}}
+%    \end{macrocode}
+%  \end{macro}    
+%    
+%
+%
+% \begin{macro}{\hmtPoint}
+% Marks a point as a \emph{h}eigher \emph{m}ost \emph{t}op point in a Code Block.  
+%    \begin{macrocode}    
+\NewDocumentCommand{\hmtPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[2.5ex]{0.1ex}{0.1ex}}}}    
+%    \end{macrocode}
+%  \end{macro}    
+%    
+% \begin{macro}{\mbPoint}
+% Marks a point as a \emph{d}eeper \emph{m}ost \emph{b}ottom point in a Code Block.      
+%    \begin{macrocode}    
+\NewDocumentCommand{\mbPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[-0.55ex]{0.1ex}{0.1ex}}}}
+%    \end{macrocode}
+%  \end{macro}    
+%
+% \begin{macro}{\dmbPoint}
+% Marks a point as a \emph{d}eeper \emph{m}ost \emph{b}ottom point in a Code Block.    
+%    \begin{macrocode}      
+\NewDocumentCommand{\dmbPoint}{m}
+    {\tikzmarknode{#1}{\phantom{\rule[-2ex]{0.1ex}{0.1ex}}}}    
+%    \end{macrocode}
+%  \end{macro}
+%
 % \begin{macro}{\extremPoint}
 % Create a \TikZ{} Node as reference point for later use in |\fitExtrem|. 
 % Syntax |\extremPoint| \marg{node name} \oarg{style} whereas \marg{node name} is the 
@@ -274,20 +309,10 @@
 %    \begin{macrocode}
 \NewDocumentCommand{\extremPoint}{m O{}}
     {\tikzmarknode[#2]{#1}{}}
-\NewDocumentCommand{\mtPoint}{m}
-    {\tikzmarknode{#1}{\phantom{\rule[1.8ex]{0.1ex}{0.1ex}}}}
-\NewDocumentCommand{\hmtPoint}{m}
-    {\tikzmarknode{#1}{\phantom{\rule[2.5ex]{0.1ex}{0.1ex}}}}    
-\NewDocumentCommand{\mbPoint}{m}
-    {\tikzmarknode{#1}{\phantom{\rule[-0.55ex]{0.1ex}{0.1ex}}}}
-\NewDocumentCommand{\dmbPoint}{m}
-    {\tikzmarknode{#1}{\phantom{\rule[-2ex]{0.1ex}{0.1ex}}}}    
-%    
 %    \end{macrocode}
 %  \end{macro}
 %
-% Most top point
-
+%
 % \begin{macro}{\fitExtrem}
 % Create a rectangle box over given extrem points defined by |\extremPoint{}|.
 % Syntax: |\fitExtrem| \marg{node name} \marg{extrem points} whereas \marg{node name}

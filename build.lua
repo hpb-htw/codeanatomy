@@ -7,7 +7,7 @@ typesetexe = "lualatex"
 typesetopts = "-interaction=nonstopmode -recorder"
 typesetdemofiles = {
     --"codeanatomy.usage.tex",             -- Done
-    "codeanatomy.lstlisting.tex",
+    -- "codeanatomy.lstlisting.tex",
     --"codeanatomy.example.tex"
 }
 
