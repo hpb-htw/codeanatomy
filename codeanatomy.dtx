@@ -95,20 +95,7 @@
 \RequirePackage{tikz}
 %    \end{macrocode}
 %
-% \subsection{Setup styles}
-% 
-% 
-% \begin{macro}{annotation}
-% \begin{macro}{bgcmdcolor}
-%  Define colors which are used in Code Anatomy.
-%    \begin{macrocode}
-\definecolor{annotation}{rgb}{0,0.50002,1} % Blue
-\colorlet{bgcmdcolor}{gray}                % Grey
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
-%
-% Load necsessary \TikZ{}Libraries.
+% Load necsessary \TikZ{} libraries.
 %    \begin{macrocode}
 \usetikzlibrary{
    tikzmark  
@@ -124,12 +111,33 @@
 }
 %    \end{macrocode}
 %
+% \subsection{Setup styles}
+% ^^A+++++++++++++++++++++
+% \subsubsection{Colors}
+% ^^A-------------------
+% \begin{macro}{annotation}
+% \begin{macro}{bgcmdcolor}
+%  Define colors which are used in \pkg{codeanatomy}:
+% |annotation| \tikz{\draw[fill=annotation] circle(1ex); }
+% |bgcmdcolor| \tikz{\draw[fill=bgcmdcolor] circle(1ex); }
+%    \begin{macrocode}
+\definecolor{annotation}{rgb}{0,0.50002,1} % Blue
+\colorlet{bgcmdcolor}{gray}                % Grey
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
 %
-% \TikZ{} styles for code in a Code Anatomy
-% \begin{macro}{anatomy}
-% \begin{macro}{code part}
-  % \begin{macro}{fit extrem}
-% \TikZ{} styles used in Code listings and their single parts  
+%
+%
+%
+%
+% \subsubsection{\TikZ{} styles for code in a Code Anatomy}
+% ^^A------------------------------------------------------
+%
+% \DescribeMacro{anatomy}
+% \TikZ{} style for annotation labels: \\
+% |\tikz{\node(code) [anatomy] at (0,0) {code line 1\\code line 2}; }|\\
+% yields \tikz{\node(code) [anatomy] at (0,0) {code line 1\\code line 2}; }
 %    \begin{macrocode}
 \tikzset{anatomy/.style={%
       anchor=south west,%
@@ -138,6 +146,15 @@
       font=\ttfamily
     }
 }
+%    \end{macrocode}
+%
+%
+%
+% \DescribeMacro{code part}
+% \TikZ{} style to marce a piece of code in an anatomy: \\
+% |\tikz{\node(code) [code part] at (0,0) {let a = 12;};}|\\
+% yields  \tikz{\node(code) [code part] at (0,0) {let a = 12;};}
+%    \begin{macrocode}
 \tikzset{code part/.style={%
       rectangle,%
       draw=annotation,%
@@ -148,6 +165,15 @@
       font=\ttfamily
     }
 }
+%    \end{macrocode}
+%
+%
+%
+% \DescribeMacro{fit extrem}
+% \TikZ{} style to mark a piece of multiple line code in an anatomy:\\
+% |\tikz{ \node(c)[fit extrem, fit={(0,0) (0.5,0.975) (1,0)}] {}; }|\\
+% yields \tikz{ \node(c)[fit extrem, fit={(0,0) (0.5,0.975) (1,0)}] {}; }
+%    \begin{macrocode}  
 \tikzset{fit extrem/.style={%
       rectangle,%
       draw=annotation,%
@@ -159,15 +185,14 @@
     }
 }
 %    \end{macrocode}
-% \end{macro}
-% \end{macro}
-% \end{macro}
+% 
 %
 %
-% \begin{macro}{annotation}
-% \begin{macro}{code annotation}
-% \TikZ{} styles used to typeset labels of code parts and arrows from labels to 
-% code parts
+%
+% \DescribeMacro{annotation}
+% setup style of arrows from annotation labels to code parts:\\
+% |\tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}|\\
+% yields \tikz{\draw[draw=annotation] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
 %    \begin{macrocode}
 \tikzset{annotation/.style={%
       preaction={
@@ -182,6 +207,12 @@
       }
     }
 }
+%    \end{macrocode}
+%
+%
+% \DescribeMacro{code annotation}
+% setup style for a annotation label \tikz{\node(a)[code annotation] at (0,0) {function name};}
+%    \begin{macrocode}  
 \tikzset{code annotation/.style={%
       inner sep=2pt,%
       text=annotation,%
@@ -190,8 +221,8 @@
     }
 }
 %    \end{macrocode}
-% \end{macro}
-% \end{macro}
+%
+%
 %
 % \begin{macro}{code grid}
 % \begin{macro}{code grid debug}
@@ -215,22 +246,7 @@
 % \end{macro}
 % \end{macro}
 %
-% \begin{macro}{most top}
-% \begin{macro}{most bottom}
-% These styles can be used as optional argument of |\extremPoint|. The increase the vertical
-% space between the border and the code part.
-%    \begin{macrocode}
-\tikzset{most top/.style={%
-    minimum height=1.55em    
-  }
-}
-\tikzset{most bottom/.style={%
-    minimum height=1.115em
-  }
-}
-%    \end{macrocode}
-% \end{macro}
-% \end{macro}
+%
 % 
 % \subsection{Command used to set code and code anatomy}
 % \begin{macro}{\codeBlock}
