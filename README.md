@@ -24,7 +24,7 @@ LaTeX Project Public License (LPPL), either version 1.3c of this
 License or any later version.  The latest version
 of this license is in the file https://www.latex-project.org/lppl.txt
 
-## Build and Install (Distributor)
+## Build and Install (for Distributor)
 * To build the style file `codeanatomy.sty` just run **one** of 
 
 ```
@@ -44,7 +44,7 @@ lualatex codeanatomy.usage.tex
 lualatex codeanatomy.lstlisting.tex
 ```
 
-(`lualatex` because of my name, quite ego right! It needs unicode to be typeset correctly.)
+(`lualatex` because of my name, really ego right! It needs unicode to be typeset correctly.)
 
 ## Development
 I try to use latex3 as much as posible. You can use 
@@ -53,6 +53,6 @@ I try to use latex3 as much as posible. You can use
 l3build doc
 ```
 
-to create style file and documentation files. You can also (like I also do) use `make`
+to create the style file and documentation files at once. You can also (like I also do) use `make`
 to call repeatly tasks.
 
