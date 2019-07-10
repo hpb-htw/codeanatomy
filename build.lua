@@ -4,9 +4,9 @@ bundle = ""
 
 -- Typeset configuration
 typesetexe = "lualatex"
-typesetopts = "-interaction=nonstopmode -recorder"
+typesetopts = "-interaction=nonstopmode --recorder"
 typesetdemofiles = {
-    --"codeanatomy.usage.tex",             -- Done
+    "codeanatomy.usage.tex",             -- Done
     "codeanatomy.lstlisting.tex"         -- Done
 }
 

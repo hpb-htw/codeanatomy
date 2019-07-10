@@ -1,7 +1,7 @@
 \documentclass[full]{l3doc}
 
 \usepackage{fontspec}
-\usepackage{biblatex}
+\usepackage[backend=biber]{biblatex}
 \addbibresource{literatur.bib}
 
 \usepackage{codeanatomy}
@@ -60,6 +60,9 @@
 
 \date{Released \filedate}
 
+\AtEndDocument{
+    \printbibliography
+}
 
 \begin{document}
 
@@ -240,9 +243,9 @@ Readers can typeset annotations to the above listing like an exercise.
 % ====================
 % Reset to standard
 
-Most of examples in this section are redrawn from the textbook~\autocite{sedgewick_wayne_2016}.
+Most of examples in this section are redrawn from the textbook~\autocite{sedgewick-wayne-2016}.
 
-\subsection{Anatomy of a Java Program~\autocite[5]{sedgewick_wayne_2016}}
+\subsection{Anatomy of a Java Program~\autocite[5]{sedgewick-wayne-2016}}
 % -----------------------------------
 
 \begin{filecontents}{java-program.tex}
@@ -288,7 +291,7 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 
 \input{java-program.tex}
 
-\subsection{Anatomy of an expression~\autocite[17]{sedgewick_wayne_2016}}
+\subsection{Anatomy of an expression~\autocite[17]{sedgewick-wayne-2016}}
 % -----------------------------------
 
 \begin{filecontents}{java-expression.tex}
@@ -311,7 +314,7 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 
 \input{java-expression.tex}
 
-\subsection{Using a primitive Data Type~\autocite[17]{sedgewick_wayne_2016}}
+\subsection{Using a primitive Data Type~\autocite[17]{sedgewick-wayne-2016}}
 % -------------------------------------
 
 \begin{filecontents}{using-a-primitive-data-type.tex}    
@@ -352,7 +355,7 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 
 \input{using-a-primitive-data-type.tex}
 
-\subsection{Anatomy of a method signature~\autocite[30]{sedgewick_wayne_2016}}
+\subsection{Anatomy of a method signature~\autocite[30]{sedgewick-wayne-2016}}
 % ---------------------------------------
 
 \begin{filecontents}{anatomy-of-a-method-signature.tex}
@@ -387,7 +390,7 @@ public class !\iPart{l}{Math}!
 
 \input{anatomy-of-a-method-signature.tex}
 
-\subsection{Using a library method~\autocite[30]{sedgewick_wayne_2016}}
+\subsection{Using a library method~\autocite[30]{sedgewick-wayne-2016}}
 % --------------------------------
 
 \begin{filecontents}{using-a-library-method.tex}
@@ -414,7 +417,7 @@ public class !\iPart{l}{Math}!
 
 \input{using-a-library-method.tex}
 
-\subsection{Anatomy of an \texttt{if} statement~\autocite[51]{sedgewick_wayne_2016}}
+\subsection{Anatomy of an \texttt{if} statement~\autocite[51]{sedgewick-wayne-2016}}
 % ---------------------------------------------
 
 \begin{filecontents}{anatomy-of-an-if-statement.tex}
@@ -448,7 +451,7 @@ if (!\cPart{e}{x > y}!)
 
 \input{anatomy-of-an-if-statement.tex}
 
-\subsection{Anatomy of a \texttt{while} loop~\autocite[54]{sedgewick_wayne_2016}}
+\subsection{Anatomy of a \texttt{while} loop~\autocite[54]{sedgewick-wayne-2016}}
 % ------------------------------------------
 
 \begin{filecontents}{anatomy-of-a-while-loop.tex}
@@ -487,7 +490,7 @@ while ( !\cPart{c}{power <= n/2}! )
 
 \input{anatomy-of-a-while-loop.tex}
 
-\subsection{Anatomy of a \texttt{for} loop~\autocite[59]{sedgewick_wayne_2016}}
+\subsection{Anatomy of a \texttt{for} loop~\autocite[59]{sedgewick-wayne-2016}}
 % ----------------------------------------
 
 \begin{filecontents}{anatomy-of-a-for-loop.tex}
@@ -498,7 +501,7 @@ while ( !\cPart{c}{power <= n/2}! )
         font=\sffamily\itshape\scriptsize
     }
 ]
-    {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (5.5,3.5);}
+    % {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (5.5,3.5);}
 \node(code) [anatomy] at (0,0){%
 \begin{lstlisting}
 !\iPart{init}{\bgcode{int power = 1;}}!
@@ -511,11 +514,11 @@ for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
 };
 \fitExtrem{b}{(left) (right) (bottom)}
 % Annotations
-\codeAnnotation{initText} (-1.5,2.7)    {initialize another\\variable in a\\separate\\statement}
-\codeAnnotation{iText}       (1,3.5)  {declare and initialize\\a loop control variable}
+\codeAnnotation{initText} (-1.5,2.7)   {initialize another\\variable in a\\separate\\statement}
+\codeAnnotation{iText}       (1,3.5)   {declare and initialize\\a loop control variable}
 \codeAnnotation{cText}     (3.5,3)     {loop-\\continuation\\condition}
 \codeAnnotation{uText}       (6,3)     {increment}
-\codeAnnotation{bText}     (3.5,-0.25)  {body}
+\codeAnnotation{bText}     (3.5,-0.25) {body}
 % arrows on the background
 {[on background layer]
 \draw[->,annotation] (initText.350) -- (init.north west);
@@ -527,11 +530,62 @@ for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
 \end{tikzpicture}
 \end{filecontents}
 
+\begin{thinmargin}
+    \inputlisting{anatomy-of-a-for-loop.tex}
+\end{thinmargin}
+
 \input{anatomy-of-a-for-loop.tex}
 
-\subsection{Anatomy of a static method~\autocite[196]{sedgewick_wayne_2016}}
+\subsection{Anatomy of a static method~\autocite[196]{sedgewick-wayne-2016}}
 % ----------------------------------------
+\begin{filecontents}{anatomy-of-a-static-method.tex}
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[remember picture]
+    %{[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (8.5,3.5);}
+\node(code) [anatomy] at (0,0) {%
+\begin{lstlisting}
+!\cPart{s}{public static \cPart{rt}{double} \cPart{fn}{harmonic}(\cPart{al}{\iPart{at}{int} \iPart{pv}{n}})}!
+{
+    !\hmtPoint{left}\cPart{lv}{double sum}! = 0.0;
+    for (int i = 0; i <= n; ++i)!\extremPoint{right}!
+    {
+        sum += 1.0/i;
+    }
+    !\cPart{rs}{return sum;}\dmbPoint{bottom}!
+}
+\end{lstlisting}
+};
 
-% \printbibliography
+\fitExtrem{b}{(left) (right) (bottom)}
+
+% Annotation
+\codeAnnotation{sText}  (-0.7,5)    {signature}
+\codeAnnotation{rtText}    (2,5)    {return\\type}
+\codeAnnotation{fnText}  (  4,5)    {method\\name}
+\codeAnnotation{alText}  (  6,5)    {argument\\list}
+\codeAnnotation{atText}  (6.5,1.75) {argument\\type}
+\codeAnnotation{pvText}  (7.5,2.70) {parameter\\variable}
+\codeAnnotation{lvText} (-0.7,2.5)  {local\\variable}
+\codeAnnotation{bText}  (-0.7,1.5)  {method\\body}
+\codeAnnotation{rsText}  (3,-0.4) {return statement}
+% Arrows
+\draw[->,annotation] (sText) -- (s.north west);
+\draw[->,annotation] (rtText) -- (rt);
+\draw[->,annotation] (fnText) -- (fn);
+\draw[->,annotation] (alText) -- (al);
+\draw[->,annotation] (atText) -- (at);
+\draw[->,annotation] (pvText) -- (pv);
+\draw[->,annotation] (lvText) -- (lv.west);
+\draw[->,annotation] (bText) -- (b);
+\draw[->,annotation] (rsText) -- (rs);
+\end{tikzpicture}
+\end{filecontents}
+
+\begin{thinmargin}
+    \inputlisting{anatomy-of-a-static-method.tex}
+\end{thinmargin}
+
+\input{anatomy-of-a-static-method.tex}
+
 \end{document}
 
