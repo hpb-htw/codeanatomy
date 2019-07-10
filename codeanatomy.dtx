@@ -29,20 +29,12 @@
 % \iffalse
 %<*driver>
 \documentclass[full]{l3doc}
-\usepackage{ifpdf,ifxetex,ifluatex}     
-\ifpdf
-    \usepackage[utf8]{inputenc}
-\else
-    \ifluatex
-        \usepackage{fontspec}    
-    \if
-    \ifxetex
-        \usepackage{fontspec}    
-    \if
-\fi
-    
 
-\usepackage{biblatex}
+\usepackage{fontspec}
+\usepackage{luaotfload}
+
+
+\usepackage{biblatex}    
 \addbibresource{literatur.bib}
 \newcommand{\slsh}{\textbackslash{}}
 \newcommand{\TikZ}{Ti\textit{k}Z}
@@ -324,12 +316,43 @@
 %
 % \DescribeMacro{\extremPoint}
 % Create a \TikZ{} Node as reference point for later use in |\fitExtrem|. 
-% Syntax |\extremPoint| \marg{node name} \oarg{style} whereas \marg{node name} is the 
-% \TikZ{} node name which is used in |\fitExtrem| to reference to this point and \oarg{style}
-% is a \TikZ{} style (may be defined by user).
+% Syntax:\\
+% |\extremPoint| \marg{node name} \oarg{yshift} \oarg{xshift} \oarg{style} 
+% whereas 
+% \begin{itemize}
+%      \item \marg{node name} is the \TikZ{} node name which is used in |\fitExtrem| to reference to this point 
+%      \item \oarg{yshift} A length, default 0ex which places this markpoint on the base line, 
+%                          shift this mark point vertical, for positive value over base line, negative value under
+%                          base line.
+%      \item \oarg{xshift} Same as \oarg{yshift} but for horizontal direction.
+%      \item \oarg{style} is a \TikZ{} style (may be defined by user).
+%  \end{itemize}
+%
+%  For example:\\\noindent
+% |\begin{tikzpicture}[remember picture]|\\
+% |\node(code) [anatomy] at (0,0) {|\\
+% |   \extremPoint{tl}[2ex]Line with some text\extremPoint{br}[-1ex]\\|\\
+% |   \extremPoint{tl2}other Line with some text\\|\\
+% |   some more line\extremPoint{br2}\\|\\
+% |};|\\
+% |\fitExtrem{box1}{(tl) (br)}|\\
+% |\fitExtrem{box2}{(tl2) (br2)}|\\
+% |\end{tikzpicture}|\\
+%
+% yields
+%
+% \begin{tikzpicture}[remember picture]
+% \node(code) [anatomy] at (0,0) {
+%    \extremPoint{tl}[2ex]Line with some text\extremPoint{br}[-1ex]\\
+%    \extremPoint{tl2}other Line with some text\\
+%    some more line\extremPoint{br2}\\
+% };
+% \fitExtrem{box1}{(tl) (br)}
+% \fitExtrem{box2}{(tl2) (br2)}
+% \end{tikzpicture}
 %    \begin{macrocode}
-\NewDocumentCommand{\extremPoint}{m O{}}
-    {\tikzmarknode[#2]{#1}{\phantom{\rule[0ex]{0.1ex}{0.1ex}}}}
+\NewDocumentCommand{\extremPoint}{m O{0ex} O{0.1ex} O{} }
+    {\tikzmarknode[#4]{#1}{\phantom{\rule[#2]{#3}{0.1ex}}}}
 %    \end{macrocode}
 %  
 %
