@@ -124,10 +124,10 @@
 % ^^A-------------------
 %  Define colors which are used in \pkg{codeanatomy}
 
-% \DescribeMacro{annotation}
-% \tikz{\draw[fill=annotation] circle(1ex); }
+% \DescribeMacro{annotationcolor}
+% \tikz{\draw[fill=annotationcolor] circle(1ex); }
 %    \begin{macrocode}
-\definecolor{annotation}{rgb}{0,0.50002,1} % Blue
+\definecolor{annotationcolor}{rgb}{0,0.50002,1} % Blue
 %    \end{macrocode}
 %
 %
@@ -163,7 +163,7 @@
 %    \begin{macrocode}
 \tikzset{code part/.style={%
       rectangle,%
-      draw=annotation,%
+      draw=annotationcolor,%
       align=left,%
       minimum height=1.175em,%
       inner sep=1.75pt,%
@@ -182,7 +182,7 @@
 %    \begin{macrocode}  
 \tikzset{fit extrem/.style={%
       rectangle,%
-      draw=annotation,%
+      draw=annotationcolor,%
       align=left,%
       minimum height=1.175em,%
       inner sep=0pt,%
@@ -198,7 +198,7 @@
 % \DescribeMacro{annotation}
 % setup style of arrows from annotation labels to code parts:\\
 % |\tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}|\\
-% yields \tikz{\draw[draw=annotation] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
+% yields \tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
 %    \begin{macrocode}
 \tikzset{annotation/.style={%
       preaction={
@@ -206,10 +206,10 @@
           line width=3.5pt,%
           arrows={-Triangle Cap[]},%
       },%
-      draw=annotation,%
+      draw=annotationcolor,%
       arrows={-Latex[%
           round,%
-          color=annotation]
+          color=annotationcolor]
       }
     }
 }
@@ -221,7 +221,7 @@
 %    \begin{macrocode}  
 \tikzset{code annotation/.style={%
       inner sep=2pt,%
-      text=annotation,%
+      text=annotationcolor,%
       align=center,%
       font=\sffamily\small
     }

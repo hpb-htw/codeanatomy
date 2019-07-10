@@ -303,7 +303,7 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 \draw[->,annotation] (operand) -- (op2.north);
 \draw[->,annotation] (operator) -- (op.south);
 \end{tikzpicture}   
-\end{filecontents}{java-expression.tex}
+\end{filecontents}
 
 \begin{thinmargin}
     \inputlisting{java-expression.tex}
@@ -490,9 +490,48 @@ while ( !\cPart{c}{power <= n/2}! )
 \subsection{Anatomy of a \texttt{for} loop~\autocite[59]{sedgewick_wayne_2016}}
 % ----------------------------------------
 
+\begin{filecontents}{anatomy-of-a-for-loop.tex}
+\lstset{escapeinside={!}{!}}
+\begin{tikzpicture}[
+     remember picture
+    ,code annotation/.append style={%
+        font=\sffamily\itshape\scriptsize
+    }
+]
+    {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (5.5,3.5);}
+\node(code) [anatomy] at (0,0){%
+\begin{lstlisting}
+!\iPart{init}{\bgcode{int power = 1;}}!
+for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
+{
+    !\mtPoint{left}!System.out.println(i + " " + power);!\mtPoint{right}!
+    power *= 2;!\mbPoint{bottom}!
+}
+\end{lstlisting}
+};
+\fitExtrem{b}{(left) (right) (bottom)}
+% Annotations
+\codeAnnotation{initText} (-1.5,2.7)    {initialize another\\variable in a\\separate\\statement}
+\codeAnnotation{iText}       (1,3.5)  {declare and initialize\\a loop control variable}
+\codeAnnotation{cText}     (3.5,3)     {loop-\\continuation\\condition}
+\codeAnnotation{uText}       (6,3)     {increment}
+\codeAnnotation{bText}     (3.5,-0.25)  {body}
+% arrows on the background
+{[on background layer]
+\draw[->,annotation] (initText.350) -- (init.north west);
+\draw[->,annotation] (iText) -- (i);
+\draw[->,annotation] (cText) -- (c);
+\draw[->,annotation] (uText) -- (u);
+\draw[->,annotation] (bText) -- (b);
+}
+\end{tikzpicture}
+\end{filecontents}
+
+\input{anatomy-of-a-for-loop.tex}
+
 \subsection{Anatomy of a static method~\autocite[196]{sedgewick_wayne_2016}}
 % ----------------------------------------
 
-\printbibliography
+% \printbibliography
 \end{document}
 

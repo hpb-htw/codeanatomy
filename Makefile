@@ -9,6 +9,7 @@ clean:
 	rm -f *.zip
 	rm -fv *.idx *.aux *.glo *.hd *.out *.bcf *.dvi *.run.xml *.toc
 	rm -fv codeanatomy.sty codeanatomy-ctan.curlopt
+	rm -fv codeanatomy.*.pdf
 
 .PHONY: doc
 doc:
