@@ -14,7 +14,7 @@
 %
 % The development version of the bundle can be found at
 %
-%    https://github.com/(TODO)
+%    https://github.com/hpb-htw/codeanatomy
 %
 % for those people who are interested.
 %
@@ -23,13 +23,25 @@
 %
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[2018/12/01]
-%<package>\ProvidesPackage{codeanatomy}[2019/07/07 v0.1-Alpha draw Code Anatomy]
+%<package>\ProvidesPackage{codeanatomy}[2019/07/10 v0.1-Alpha draw Code Anatomy]
 % \fi
 %
 % \iffalse
 %<*driver>
-\documentclass[full]{l3doc}  
-\usepackage{fontspec}
+\documentclass[full]{l3doc}
+\usepackage{ifpdf,ifxetex,ifluatex}     
+\ifpdf
+    \usepackage[utf8]{inputenc}
+\else
+    \ifluatex
+        \usepackage{fontspec}    
+    \if
+    \ifxetex
+        \usepackage{fontspec}    
+    \if
+\fi
+    
+
 \usepackage{biblatex}
 \addbibresource{literatur.bib}
 \newcommand{\slsh}{\textbackslash{}}
@@ -317,7 +329,7 @@
 % is a \TikZ{} style (may be defined by user).
 %    \begin{macrocode}
 \NewDocumentCommand{\extremPoint}{m O{}}
-    {\tikzmarknode[#2]{#1}{}}
+    {\tikzmarknode[#2]{#1}{\phantom{\rule[0ex]{0.1ex}{0.1ex}}}}
 %    \end{macrocode}
 %  
 %
@@ -334,19 +346,23 @@
 % 
 % example:\\ \noindent^^A%%
 % |\begin{tikzpicture}[remember picture]|\\
-% |  \node(a) at (0,0)    {\mbPoint{left}a};|\\
-% |  \node(y) at (1,1.75) {\mtPoint{top}y};|\\
-% |  \node(z) at (2,0)    {z\extremPoint{right}};|\\
-% |  \fitExtrem{box} { (left) (top) (right) }|\\
+% |\node(code) [anatomy] at (0,0) {|\\
+% |\mtPoint{left}Line 1\\|\\
+% |Long Line 2\extremPoint{right}\\|\\
+% |Line 3\mbPoint{bottom}|\\
+% |};|\\
+% |\fitExtrem{box} { (left) (bottom) (right) }|\\
 % |\end{tikzpicture}|\\
 %
 % yields
 %
 % \begin{tikzpicture}[remember picture]
-%   \node(a) at (0,0)    {\mbPoint{left}a}; 
-%   \node(y) at (1,1.75) {\mtPoint{top}y}; 
-%   \node(z) at (2,0)    {z\extremPoint{right}};
-%   \fitExtrem{box} { (left) (top) (right) }
+% \node(code) [anatomy] at (0,0) {
+% \mtPoint{left}Line 1\\
+% Long Line 2\extremPoint{right}\\
+% Line 3\mbPoint{bottom}
+% };
+% \fitExtrem{box} { (left) (bottom) (right) }
 % \end{tikzpicture}
 %
 %    \begin{macrocode}

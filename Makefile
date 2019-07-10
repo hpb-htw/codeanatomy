@@ -7,7 +7,8 @@ clean:
 	l3build clean
 	rm -rf build
 	rm -f *.zip
-	rm -rfv *.idx *.aux *.glo *.hd *.out *.bcf
+	rm -fv *.idx *.aux *.glo *.hd *.out *.bcf *.dvi *.run.xml *.toc
+	rm -fv codeanatomy.sty codeanatomy-ctan.curlopt
 
 .PHONY: doc
 doc:

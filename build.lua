@@ -22,10 +22,10 @@ uploadconfig = {
     pkg          = "codeanatomy",
     version      = "0.1-Alpha",
     author       = "HPB",
-    uploader     = "HPB"
+    uploader     = "HPB",
     license      = "lppl1.3c",
     summary      = "draw code anatomy",
-    ctanPath     = "/macros/latex/contrib/vertbars",
-    repository   = "TODO",
-    note         = [[Uploaded automatically by l3build...]]
+    ctanPath     = "/macros/latex/contrib/codenatomy",
+    repository   = "https://github.com/hpb-htw/codeanatomy.git",
+    note         = [[Uploaded automatically by l3build]]
   }
