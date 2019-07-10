@@ -23,7 +23,7 @@
 %
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[2018/12/01]
-%<package>\ProvidesPackage{codeanatomy}[2019/07/10 v0.1-Alpha draw Code Anatomy]
+%<package>\ProvidesPackage{codeanatomy}[2019/07/10 v0.2-Alpha draw Code Anatomy]
 % \fi
 %
 % \iffalse
@@ -59,7 +59,13 @@
 % \fi
 %
 % \GetFileInfo{\jobname.sty}
-% \DoNotIndex{}
+% \DoNotIndex{\definecolor, \colorlet}
+% \DoNotIndex{\NewDocumentCommand, \node}
+% \DoNotIndex{\phantom}
+% \DoNotIndex{\RequirePackage, \rule}
+% \DoNotIndex{\small, \sffamily}
+% \DoNotIndex{\textcolor, \tikzmarknode, \tikzset, \ttfamily}
+% \DoNotIndex{\usetikzlibrary}
 %
 % \title{^^A
 %   \pkg{codeanatomy} -- Draw Code Anatomy^^A
@@ -79,7 +85,7 @@
 %
 % \date{Released \filedate}
 %
-%
+% \parindent0pt
 %
 % \maketitle
 % \tableofcontents
@@ -88,17 +94,21 @@
 % Usage of this Package can be found in \texttt{codeanatomy.usage.pdf} and \texttt{codeanatomy.lstlisting.pdf}.
 % This document show only generated reference of commands in this Package.
 %
-% \begin{implementation}
+
 % ^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Implementation}
 %
 %
 %
 % \subsection{Package Dependenies}
+% \changes{v0.2-Alpha}
+%         {2019/07/10}
+%         {This package does not load \pkg{xcolor} anymore. 
+%         It relies on \pkg{tikz}, that \pkg{tikz} loads \pkg{xcolor} 
+%         in a way that \pkg{codeanatomy} can define RGB color}
 %    \begin{macrocode}
 \RequirePackage{expl3}
 \RequirePackage{xparse}
-\RequirePackage[rgb]{xcolor}
 \RequirePackage{tikz}
 %    \end{macrocode}
 %
@@ -127,14 +137,14 @@
 % \DescribeMacro{annotationcolor}
 % \tikz{\draw[fill=annotationcolor] circle(1ex); }
 %    \begin{macrocode}
-\definecolor{annotationcolor}{rgb}{0,0.50002,1} % Blue
+\definecolor{annotationcolor}
+            {rgb}{0,0.50002,1} % Blue
 %    \end{macrocode}
-%
 %
 % \DescribeMacro{bgcmdcolor}
 % \tikz{\draw[fill=bgcmdcolor] circle(1ex); }
 %    \begin{macrocode}
-\colorlet{bgcmdcolor}{gray}                % Grey
+\colorlet{bgcmdcolor}{gray}    % Grey
 %    \end{macrocode}
 %
 % \subsubsection{\TikZ{} styles for code in a Code Anatomy}
@@ -196,9 +206,10 @@
 %
 %
 % \DescribeMacro{annotation}
-% setup style of arrows from annotation labels to code parts:\\
+% \TikZ{} style of arrows from annotation labels to code parts:\\
 % |\tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}|\\
-% yields \tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
+% yields 
+% \tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
 %    \begin{macrocode}
 \tikzset{annotation/.style={%
       preaction={
@@ -217,7 +228,7 @@
 %
 %
 % \DescribeMacro{code annotation}
-% setup style for a annotation label \tikz{\node(a)[code annotation] at (0,0) {function name};}
+% \TikZ{} style for a annotation label \tikz{\node(a)[code annotation] at (0,0) {function name};}
 %    \begin{macrocode}  
 \tikzset{code annotation/.style={%
       inner sep=2pt,%
@@ -231,7 +242,7 @@
 %
 %
 % \DescribeMacro{code grid debug}
-% \TikZ{} styles to draw debug grid on the background of anatomy
+% \TikZ{} style to draw debug grid on the background of anatomy
 %    \begin{macrocode}
 \tikzset{code grid debug/.style={%
       step=1.0,%
@@ -243,35 +254,48 @@
 %    \end{macrocode}
 %
 %
+% ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % 
 % \subsection{Command used to set code and code anatomy}
-% \DescribeMacro{\codeBlock}
+% ^^A---------------------------------------------------
+% 
+%
+% \DescribeMacro{\codeBlock} \marg{code}
+%
 % Complete code listing of a Code Anatomy figure is typeset by this command.
-% Syntax |\codeBlock| \marg{code}, whereas \marg{code} is the \emph{formatted} code listing.
+% Whereas \marg{code} is the \emph{formatted} code listing.
 % This command can be used if there are no other packages to typeset code listing in use.
 %    \begin{macrocode}
 \NewDocumentCommand{\codeBlock}{m}%
   {\node(code) [anatomy] at (0,0) {#1};}
 %    \end{macrocode}
+%
+%
 % 
-% 
-% \DescribeMacro{\cPart}
+% \DescribeMacro{\cPart} \marg{node name}\marg{piece of code}
+%
 % Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
-% be annotated. Syntax: |\cPart| \marg{node name} \marg{piece of code} whereas \marg{node name}
-% is a unique \TikZ{} node name in the |tikzpicture| and \marg{piece of code} is a single code part 
-% to be marked.
+% be annotated. 
+% \begin{itemize}
+%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
+%   \item \marg{piece of code} is a single code part to be marked.    
+% \end{itemize}
 %    \begin{macrocode}
 \NewDocumentCommand{\cPart}{mm} %
     {\tikzmarknode[code part]{#1}{#2}}
 %    \end{macrocode} 
 % 
 %
-% \DescribeMacro{\iPart}
+%
+% \DescribeMacro{\iPart} \marg{node name}\marg{piece of code}
+%
 % Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
-% be annotated. Syntax: |\cPart| \marg{node name} \marg{piece of code} whereas \marg{node name}
-% is a unique \TikZ{} node name in the |tikzpicture| and \marg{piece of code} is a single code part 
-% to be marked.
+% be annotated. It does not plot border around the pice of code as |\cPart| does.
+% \begin{itemize}
+%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
+%   \item \marg{piece of code} is a single code part to be marked.
+% \end{itemize}
 %    \begin{macrocode}
 \NewDocumentCommand{\iPart}{mm} %
     {\tikzmarknode[code part,draw=none,inner sep=0.75pt]{#1}{#2}}
@@ -280,25 +304,28 @@
 %
 %
 %
-% \DescribeMacro{\mtPoint}
+% \DescribeMacro{\mtPoint}\marg{node name}
+%
 % Marks a point as a \textbf{m}ost \textbf{t}op in a Code Block.
 %    \begin{macrocode}  
 \NewDocumentCommand{\mtPoint}{m}
     {\tikzmarknode{#1}{\phantom{\rule[1.8ex]{0.1ex}{0.1ex}}}}
 %    \end{macrocode}
 %      
-%    
 %
 %
-% \DescribeMacro{\hmtPoint}
+% \DescribeMacro{\hmtPoint}\marg{node name}
+%
 % Marks a point as a \textbf{h}eigher \textbf{m}ost \textbf{t}op point in a Code Block.  
 %    \begin{macrocode}    
 \NewDocumentCommand{\hmtPoint}{m}
     {\tikzmarknode{#1}{\phantom{\rule[2.5ex]{0.1ex}{0.1ex}}}}    
 %    \end{macrocode}
 %      
-%    
-% \DescribeMacro{\mbPoint}
+%
+%
+% \DescribeMacro{\mbPoint}\marg{node name}
+%
 % Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.      
 %    \begin{macrocode}    
 \NewDocumentCommand{\mbPoint}{m}
@@ -306,7 +333,9 @@
 %    \end{macrocode}
 %      
 %
-% \DescribeMacro{\dmbPoint}
+%
+% \DescribeMacro{\dmbPoint}\marg{node name}
+%
 % Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.    
 %    \begin{macrocode}      
 \NewDocumentCommand{\dmbPoint}{m}
@@ -314,21 +343,21 @@
 %    \end{macrocode}
 %  
 %
-% \DescribeMacro{\extremPoint}
+% \DescribeMacro{\extremPoint}\marg{node name}\oarg{yshift}\oarg{xshift}\oarg{style}
+%
 % Create a \TikZ{} Node as reference point for later use in |\fitExtrem|. 
-% Syntax:\\
-% |\extremPoint| \marg{node name} \oarg{yshift} \oarg{xshift} \oarg{style} 
-% whereas 
+%
 % \begin{itemize}
 %      \item \marg{node name} is the \TikZ{} node name which is used in |\fitExtrem| to reference to this point 
-%      \item \oarg{yshift} A length, default 0ex which places this markpoint on the base line, 
+%      \item \oarg{yshift} a length, default 0ex which places this markpoint on the base line, 
 %                          shift this mark point vertical, for positive value over base line, negative value under
 %                          base line.
-%      \item \oarg{xshift} Same as \oarg{yshift} but for horizontal direction.
+%      \item \oarg{xshift} same as \oarg{yshift} but for horizontal direction.
 %      \item \oarg{style} is a \TikZ{} style (may be defined by user).
 %  \end{itemize}
 %
-%  For example:\\\noindent
+%  For example:
+%
 % |\begin{tikzpicture}[remember picture]|\\
 % |\node(code) [anatomy] at (0,0) {|\\
 % |   \extremPoint{tl}[2ex]Line with some text\extremPoint{br}[-1ex]\\|\\
@@ -339,7 +368,7 @@
 % |\fitExtrem{box2}{(tl2) (br2)}|\\
 % |\end{tikzpicture}|\\
 %
-% yields
+% yields\\
 %
 % \begin{tikzpicture}[remember picture]
 % \node(code) [anatomy] at (0,0) {
@@ -357,17 +386,19 @@
 %  
 %
 %
-% \DescribeMacro{\fitExtrem}
-% Create a rectangle box over given extrem points defined by |\*Point{}|. Syntax:\\
-% |\fitExtrem| \marg{node name} \marg{extrem points}\\
-% whereas\\
+%
+% \DescribeMacro{\fitExtrem} \marg{node name}\marg{extrem points}
+%
+% Create a rectangle box over given extrem points defined by |\*Point{}|.
+%
 % \begin{itemize}
 %   \item \marg{node name} is a unique \TikZ{} node name in the current anatomy 
 %   \item \marg{extrem points} is a list of \TikZ{} node name created by |\*Point|, 
 %      each name is surrounded by |()|.
 % \end{itemize}
 % 
-% example:\\ \noindent^^A%%
+% Example:
+%
 % |\begin{tikzpicture}[remember picture]|\\
 % |\node(code) [anatomy] at (0,0) {|\\
 % |\mtPoint{left}Line 1\\|\\
@@ -377,7 +408,7 @@
 % |\fitExtrem{box} { (left) (bottom) (right) }|\\
 % |\end{tikzpicture}|\\
 %
-% yields
+% yields\\
 %
 % \begin{tikzpicture}[remember picture]
 % \node(code) [anatomy] at (0,0) {
@@ -387,17 +418,19 @@
 % };
 % \fitExtrem{box} { (left) (bottom) (right) }
 % \end{tikzpicture}
-%
 %    \begin{macrocode}
 \NewDocumentCommand{\fitExtrem}{mm}
     {\node(#1)[fit extrem,fit={#2}]{};}
 %    \end{macrocode}
 %
 %
-% \DescribeMacro{\bgcode}
-% Typeset a piece of code in color |bgcmdcolor|. Syntax:\\
-% |\bgcode| \marg{piece of code} \\
-% for example: |\tikz{\codeBlock{let a := 12\bgcode{;}}}|\\
+% \DescribeMacro{\bgcode} \marg{piece of code}
+%
+% Typeset a piece of code in color |bgcmdcolor|. 
+% For example 
+%
+% |\tikz{\codeBlock{let a := 12\bgcode{;}}}|
+%
 % yields \tikz{\codeBlock{let a := 12\bgcode{;}}} 
 %    \begin{macrocode}
 \NewDocumentCommand{\bgcode}{m}{\textcolor{bgcmdcolor}{#1}}
@@ -415,42 +448,71 @@
 %
 %
 %
-% \DescribeMacro{\codeAnnotation}
-% Typeset Annotation labels for a code Part. Syntax:\\
-% |\codeAnnotation| \marg{node name} \parg{coordinate} \marg{label text}\\
-% whereas 
+% \DescribeMacro{\codeAnnotation}\marg{node name}\parg{coordinate}\marg{label text}
+%
+% Typeset Annotation labels for a code part. 
 % \begin{itemize}
 %  \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture|,
 %  \item \parg{coordinate} is the coordinate of the annotation label, surrounded by a |()|,
 %  \item \marg{label text} text content to be typeset.
 % \end{itemize}
 %
-% \noindent^^A%
+% For example:
+%
 % |\begin{tikzpicture}[remember picture]|\\
 % |\codeBlock{a \cPart{a}{:=} 12 + 13}|\\
 % |\codeAnnotation{codeLabel} (1,-0.5) {assignment}|\\
 % |\draw[->,annotation] (codeLabel) -- (a);|\\
-% |\end{tikzpicture}| \\ \medskip
+% |\end{tikzpicture}|\\
 %
-% yields \\ \medskip
+% yields\\ \medskip
 %
 % \begin{tikzpicture}[remember picture]
 % \codeBlock{a \cPart{a}{:=} 12 + 13}
 % \codeAnnotation{codeLabel} (1,-0.5) {assignment}
 % \draw[->,annotation] (codeLabel) -- (a);
 % \end{tikzpicture}
-%
 %    \begin{macrocode}
 \NewDocumentCommand{\codeAnnotation}{m r() m } %
-{
-  \node(#1)[code annotation] at (#2) {#3} ;
-}
+    { \node(#1)[code annotation] at (#2) {#3} ; }
 %    \end{macrocode}
 %
-% \end{implementation}
 %
+%
+%
+% ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Known Bugs}
+%
+% \paragraph*{Arrows color}
+% Arrows appear in some cases with mysterious color. I don't know why! 
+% For example:
+%
+% |\begin{tikzpicture}[remember picture]|\\
+% |\node(code) [anatomy] at (0,0) {|\\
+% |\hmtPoint{a}Short line\\|\\
+% |code with some long text\extremPoint{b}[-0.5ex]|\\
+% |};|\\
+% |\fitExtrem{l}{(a) (b)}|\\
+% |\codeAnnotation{n} (-2,0){here is\\a\extremPoint{point}\\long line}|\\
+% |\draw[->, annotation] (point) -- (l);|\\
+% |\end{tikzpicture}|
+%
+% yields
+%
+% \begin{tikzpicture}[remember picture]
+% \node(code) [anatomy] at (0,0) {
+% \hmtPoint{a}Short line\\
+% code with some long text\extremPoint{b}[-0.5ex]
+% };
+% \fitExtrem{l}{(a) (b)}
+% \codeAnnotation{n} (-2,0){here is\\a\extremPoint{point}\\long line}
+% \draw[->, annotation] (point) -- (l);
+% \end{tikzpicture}
+%    
+%
+% ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \PrintIndex
-%
+% \PrintChanges
 %
 \endinput
 

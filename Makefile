@@ -2,6 +2,11 @@ LATEX = lualatex
 LATEX_OPT := -interaction=nonstopmode
 ENV_VAR := export max_print_line=1000;
 
+
+.PHONY: doc
+doc:
+	$(ENV_VAR) l3build doc
+
 .PHONY: clean
 clean:
 	l3build clean
@@ -10,10 +15,6 @@ clean:
 	rm -fv *.idx *.aux *.glo *.hd *.out *.bcf *.dvi *.run.xml *.toc
 	rm -fv codeanatomy.sty codeanatomy-ctan.curlopt
 	rm -fv codeanatomy.*.pdf
-
-.PHONY: doc
-doc:
-	$(ENV_VAR) l3build doc
 
 .PHONY: ctan
 ctan:
