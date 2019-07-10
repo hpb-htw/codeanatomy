@@ -23,5 +23,7 @@ ctan:
 dryinstall:
 	l3build install --dry-run
 
-
+.PHONY: install
+install:
+	l3build install
 	
