@@ -1,4 +1,5 @@
-# `codeanatomy` -- Draw Code Anatomy
+`codeanatomy` -- Draw Code Anatomy
+==================================
 
 (C) 2019 Hồng-Phúc Bùi
 
@@ -11,20 +12,23 @@ This package just provides tools to draw those figures.
 
 Some illustrations can be found here: 
 
-https://introcs.cs.princeton.edu/java/home/ 
+<a href="https://introcs.cs.princeton.edu/java/home/">https://introcs.cs.princeton.edu/java/home/</a>
 
 for example the origin illustation of static method in java: 
 <img src="https://introcs.cs.princeton.edu/java/11cheatsheet/images/function.png">
 
 
-## Licence
+Licence
+-------
 
 This package may be distributed and/or modified under the conditions of the
 LaTeX Project Public License (LPPL), either version 1.3c of this
 License or any later version.  The latest version
 of this license is in the file https://www.latex-project.org/lppl.txt
 
-## Build and Install (for Distributor)
+Build and Install (for Distributor)
+-----------------------------------
+
 * To build the style file `codeanatomy.sty` just run **one** of 
 
 ```
@@ -46,7 +50,9 @@ lualatex codeanatomy.lstlisting.tex
 
 (`lualatex` because of my name, really ego right! It needs unicode to be typeset correctly.)
 
-## Development
+Development
+-----------
+
 I try to use latex3 as much as posible. You can use 
 
 ```

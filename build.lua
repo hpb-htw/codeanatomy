@@ -25,7 +25,7 @@ uploadconfig = {
     uploader     = "HPB",
     license      = "lppl1.3c",
     summary      = "draw code anatomy",
-    ctanPath     = "/macros/latex/contrib/codenatomy",
+    ctanPath     = "/graphics/pgf/contrib/codeanatomy",
     repository   = "https://github.com/hpb-htw/codeanatomy.git",
     note         = [[Uploaded automatically by l3build]]
   }
