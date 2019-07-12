@@ -20,9 +20,10 @@ docfiles = {
 
 uploadconfig = {
     pkg          = "codeanatomy",
-    version      = "0.1-Alpha",
-    author       = "HPB",
-    uploader     = "HPB",
+    version      = "0.4-Alpha",
+    author       = "Hồng-Phúc Bùi",
+    uploader     = "Hồng-Phúc Bùi",
+    email        = "hong-phuc.bui@htwsaar.de",
     license      = "lppl1.3c",
     summary      = "draw code anatomy",
     ctanPath     = "/graphics/pgf/contrib/codeanatomy",
