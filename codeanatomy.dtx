@@ -23,7 +23,7 @@
 %
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[2018/12/01]
-%<package>\ProvidesPackage{codeanatomy}[2019/07/10 v0.2-Alpha draw Code Anatomy]
+%<package>\ProvidesPackage{codeanatomy}[2019/07/12 v0.4-Alpha draw Code Anatomy]
 % \fi
 %
 % \iffalse
@@ -38,6 +38,7 @@
 \addbibresource{literatur.bib}
 \newcommand{\slsh}{\textbackslash{}}
 \newcommand{\TikZ}{Ti\textit{k}Z}
+\newcommand{\fixedBug}[1]{\tikz[baseline=(X.base)]\node[cross out,draw] (X) {#1};}
 \def\thinmargin{\list{}{\rightmargin-50pt\leftmargin-90pt}\item[]}
 \let\endthinmargin=\endlist
 
@@ -69,7 +70,7 @@
 %
 % \title{^^A
 %   \pkg{codeanatomy} -- Draw Code Anatomy^^A
-%   \thanks{This file describes \fileversion,^^A
+%   \thanks{This file describes \fileversion, ^^A
 %     last revised \filedate.}\\[1ex]^^A
 %     \normalsize{Reference}^^A
 % }^^A
@@ -98,14 +99,15 @@
 % ^^A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Implementation}
 %
-%
-%
-% \subsection{Package Dependenies}
 % \changes{v0.2-Alpha}
 %         {2019/07/10}
 %         {This package does not load \pkg{xcolor} anymore. 
 %         It relies on \pkg{tikz}, that \pkg{tikz} loads \pkg{xcolor} 
 %         in a way that \pkg{codeanatomy} can define RGB color}
+%
+%
+% \subsection{Package Dependenies}
+%
 %    \begin{macrocode}
 \RequirePackage{expl3}
 \RequirePackage{xparse}
@@ -210,6 +212,11 @@
 % |\tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}|\\
 % yields 
 % \tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
+%
+% \changes{v0.4-Alpha}
+%         {2019/07/12}
+%         {Set \texttt{fill} to \texttt{annotationcolor} explicit for arrow style}
+%
 %    \begin{macrocode}
 \tikzset{annotation/.style={%
       preaction={
@@ -220,8 +227,11 @@
       draw=annotationcolor,%
       arrows={-Latex[%
           round,%
-          color=annotationcolor]
-      }
+          color=annotationcolor,
+          fill=annotationcolor
+        ]
+      },
+      shorten >=0.25pt
     }
 }
 %    \end{macrocode}
@@ -483,7 +493,7 @@
 % ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{Known Bugs}
 %
-% \paragraph*{Arrows color}
+% \paragraph*{\fixedBug{Arrows color}}
 % Arrows appear in some cases with mysterious color. I don't know why! 
 % For example:
 %
@@ -493,7 +503,9 @@
 % |code with some long text\extremPoint{b}[-0.5ex]|\\
 % |};|\\
 % |\fitExtrem{l}{(a) (b)}|\\
-% |\codeAnnotation{n} (-2,0){here is\\a\extremPoint{point}\\long line}|\\
+% |\codeAnnotation{n} (-2,0){here is|\\
+% |                            a\extremPoint{point}[0.75ex][0.5ex]|\\
+% |                          long line}|\\
 % |\draw[->, annotation] (point) -- (l);|\\
 % |\end{tikzpicture}|
 %
@@ -505,7 +517,9 @@
 % code with some long text\extremPoint{b}[-0.5ex]
 % };
 % \fitExtrem{l}{(a) (b)}
-% \codeAnnotation{n} (-2,0){here is\\a\extremPoint{point}\\long line}
+% \codeAnnotation{n} (-2,0){here is\\
+%                             a\extremPoint{point}[0.75ex][0.5ex]\\
+%                          long line}
 % \draw[->, annotation] (point) -- (l);
 % \end{tikzpicture}
 %    
