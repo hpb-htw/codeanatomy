@@ -6,9 +6,8 @@ bundle = ""
 typesetexe = "lualatex"
 typesetopts = "-interaction=nonstopmode --recorder"
 typesetdemofiles = {
-    --"codeanatomy.usage.tex",             -- Done
-    --"codeanatomy.lstlisting.tex"         -- Done
-    "codeanatomy.sandbox.tex"         -- Done
+    "codeanatomy.usage.tex",    
+    "codeanatomy.lstlisting.tex"         -- Done
 }
 
 -- Copy all files match pattern to build/doc

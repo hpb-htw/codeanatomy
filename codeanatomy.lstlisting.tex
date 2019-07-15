@@ -1,13 +1,12 @@
-\documentclass[full]{l3doc}
+\documentclass{scrartcl}
 
 \usepackage{fontspec}
-\defaultfontfeatures[\ttfamily]{}
 
 \usepackage[backend=biber]{biblatex}
 \addbibresource{literatur.bib}
 
-\usepackage{codeanatomy}
 
+\usepackage{codeanatomy}
 \usepackage{listings}
 \lstset {
      basicstyle=\small\ttfamily%
@@ -19,18 +18,17 @@
     ,keepspaces=true
 }
 
-\def\thinmargin{\list{}{\rightmargin-30pt\leftmargin-70pt}\item[]}
-\let\endthinmargin=\endlist
 
 \usepackage{filecontents}
-
+% command from ltxdoc
+\newcommand{\pkg}[1]{\textsf{#1}}
 % others shortcuts
 \newcommand{\slsh}{\textbackslash{}}
 \newcommand{\TikZ}{Ti\textit{k}Z}
 \newcommand{\inputlisting}[1]{%
 \lstinputlisting[%
     basicstyle=\footnotesize\ttfamily%
-    ,xleftmargin=-70pt%
+    ,xleftmargin=-40pt%
     ,resetmargins=true%
     ,firstline=5%
     ,language=%
@@ -38,11 +36,12 @@
     ,escapeinside={}{}%
   ]{#1}%
 }
+\def\thinmargin{\list{}{\rightmargin-30pt\leftmargin-40pt}\item[]}
+\let\endthinmargin=\endlist
 
+
+\usepackage{readprov}     % need for \GetFileInfo{}
 \usepackage{hyperref}
-
-\GetFileInfo{codeanatomy.sty}
-\DoNotIndex{}
 
 \title{
   \pkg{codeanatomy} -- Draw Code Anatomy%
@@ -62,20 +61,18 @@
 
 \date{Released \filedate}
 
-\AtEndDocument{
-    \printbibliography
-}
+
 
 \begin{document}
 
+\GetFileInfo{codeanatomy.sty}
 \maketitle
-\tableofcontents
 
 \section{General Usage in Conjuntion with Package \pkg{listings}}
 \subsection{Setup Package \pkg{listings}}
 The most important setup for the package \pkg{listings} is the delimiter to escape \LaTeX{}
-commands in Listing. With this escape delimiter we can mark a piece of code as with |\cPart|.
-In this example we use |!| and |!| as delimiter. Code between |!| and |!| is evaluated as 
+commands in Listing. With this escape delimiter we can mark a piece of code as with \verb|\cPart|.
+In this example we use \verb|!| and \verb|!| as delimiter. Code between \verb|!| and \verb|!| is evaluated as 
 \LaTeX{}-code.
 
 \lstset {    
@@ -101,13 +98,17 @@ In this example we use |!| and |!| as delimiter. Code between |!| and |!| is eva
 \end{thinmargin}
 
 
-Delimiter can also be reset in |document|-Environment, typical just before a new \verb:\begin{lstlisting}:
-environment so each anatomy can have different delimiter. The fact is, in this document I use |+| and |+| for 
-the above listing, so that I can typeset |!| in this listing.
+Delimiter can also be reset in \verb|document|-Environment, typical just before a new \verb:\begin{lstlisting}:
+environment so each anatomy can have different delimiter. The fact is, in this document I use \verb|+| and \verb|+| for 
+the above listing, so that I can typeset \verb|!| in this listing.
+
+You may also want to set option \verb|keepspaces| to \verb|true|, sothat your reader can easy copy past 
+your example code.
 
 \subsection{Typeset Code}
-The command |\codeBlock| does not work if the environment |lstlisting| is passed to its argument. So instead of 
-|\codeBlock| we must use the \TikZ{} command |\node|:
+% -----------------------
+The command \verb|\codeBlock| does not work if the environment \verb|lstlisting| is passed to its argument. So instead of 
+\verb|\codeBlock| we must use the \TikZ{} command \verb|\node|:
 
 \begin{thinmargin}
 \begin{tikzpicture}[remember picture]    
@@ -171,10 +172,10 @@ function gcd(p,q) {
 \subsection{Mark Code}
 % --------------------
 
-The command |\cPart| can be used to mark single-line code parts. For 
-multiple-line code parts once can use |\extremPoint| to mark the outer most 
-points of code parts and |\fitExtrem| to cover exterm points of a code part.
-These commmands must be put in delimiter, here |!| and |!|.
+The command \verb|\cPart| can be used to mark single-line code parts. For 
+multiple-line code parts once can use \verb|\xxxPoint| family to mark the outer most 
+points of code parts and \verb|\fitExtrem| to cover exterm points of a code part.
+These commmands must be put between escape delimiter, here \verb|!| and \verb|!|.
 
 \begin{thinmargin}
 \begin{tikzpicture}[remember picture]    
@@ -198,7 +199,7 @@ These commmands must be put in delimiter, here |!| and |!|.
 \end{lstlisting}
 };
 % Annotations
-\codeAnnotation{epText} (11,2.5) {\texttt{extremPoint}-s mark\\outer most\\of the function body}
+\codeAnnotation{epText} (12,2.75) {xxx\texttt{Point}-s mark\\outer most\\of the function body}
 \codeAnnotation{cpText} (-2,3) {\texttt{cPart} marks a\\single line\\code part}
 % Arrows
 \draw[->,annotation] (epText) -- (ep1.south east);
@@ -233,24 +234,19 @@ Figure~\ref{fig:listing-code-parts} shows the result of the above code.
 
 \subsection{Add Annotations to Listing}
 % -------------------------------------
-This step is the same as the description in the main document of package \pkg{codeanatomy}.
+This step is the same as the description in the usage document of package \pkg{codeanatomy}.
 Readers can typeset annotations to the above listing like an exercise.
-
-
 
 
 
 
 \section{Some examples}
 % ====================
-% Reset to standard
 
 Most of examples in this section are redrawn from the textbook~\autocite{sedgewick-wayne-2016}.
 
 \subsection{Anatomy of a Java Program~\autocite[5]{sedgewick-wayne-2016}}
 % -----------------------------------
-
-Test "bla bla" \texttt{"}
 
 \begin{filecontents}{java-program.tex}
 \lstset{escapeinside={!}{!}}
@@ -262,7 +258,7 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
     !\mtPoint{mainLeft}!public static void main(String[] argv)
     {
         !\hmtPoint{left}\iPart{assign}{
-            \bgcode{// Prints \"Hello World\" in the terminal window}}
+            \bgcode{// Prints "Hello World" in the terminal window}}
             \extremPoint{fnR} \extremPoint{mR}!
         !\iPart{fnCall}{System.out.print("Hello World");}\dmbPoint{mostBottom}!
     }!\mbPoint{mainBottom}!
@@ -291,9 +287,9 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 \end{tikzpicture}
 \end{filecontents}
 
-\begin{thinmargin}
+%\begin{thinmargin}
 \inputlisting{java-program.tex}
-\end{thinmargin}
+%\end{thinmargin}
 
 \input{java-program.tex}
 
@@ -492,7 +488,6 @@ while ( !\cPart{c}{power <= n/2}! )
     \inputlisting{anatomy-of-a-while-loop.tex}
 \end{thinmargin}
 
-{\sffamily test font if while do}
 
 \input{anatomy-of-a-while-loop.tex}
 
@@ -523,7 +518,7 @@ for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
 \codeAnnotation{initText} (-1.5,2.7)   {initialize another\\
                                         variable in a \extremPoint{initPoint}[0.75ex]\\
                                         separate\\statement}
-\codeAnnotation{iText}       (1,3.5)   {declare and initialize\\
+\codeAnnotation{iText}       (1.2,3.5)   {declare and initialize\\
                                         a loop control variable}
 \codeAnnotation{cText}     (3.5,3)     {loop-\\continuation\\condition}
 \codeAnnotation{uText}       (6,3)     {increment}
@@ -568,15 +563,15 @@ for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
 \fitExtrem{b}{(left) (right) (bottom)}
 
 % Annotation
-\codeAnnotation{sText}  (-0.7,5)    {signature}
-\codeAnnotation{rtText}    (2,5)    {return\\type}
-\codeAnnotation{fnText}  (  4,5)    {method\\name}
-\codeAnnotation{alText}  (  6,5)    {argument\\list}
-\codeAnnotation{atText}  (6.5,1.75) {argument\\type}
-\codeAnnotation{pvText}  (7.5,2.70) {parameter\\variable}
-\codeAnnotation{lvText} (-0.7,2.5)  {local\\variable}
-\codeAnnotation{bText}  (-0.7,1.5)  {method\\body}
-\codeAnnotation{rsText}  (3,-0.4) {return statement}
+\codeAnnotation{sText}  (-0.7,5.25)  {signature}
+\codeAnnotation{rtText}    (2,5.25)  {return\\type}
+\codeAnnotation{fnText}  (  4,5.25)  {method\\name}
+\codeAnnotation{alText}  (  6,5.25)  {argument\\list}
+\codeAnnotation{atText} (6.75,1.75)  {argument\\type}
+\codeAnnotation{pvText}  (7.5,2.70)  {parameter\\variable}
+\codeAnnotation{lvText} (-0.7,3)     {local\\variable}
+\codeAnnotation{bText}  (-0.7,1.5)   {method\\body}
+\codeAnnotation{rsText}  (3,-0.4)    {return statement}
 % Arrows
 \draw[->,annotation] (sText) -- (s.north west);
 \draw[->,annotation] (rtText) -- (rt);
@@ -596,5 +591,7 @@ for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
 
 \input{anatomy-of-a-static-method.tex}
 
-\end{document}
 
+\printbibliography
+
+\end{document}
