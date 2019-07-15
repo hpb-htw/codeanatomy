@@ -18,6 +18,7 @@ clean:
 
 .PHONY: ctan
 ctan:
+	make clean doc
 	l3build ctan
 
 .PHONY: dryinstall
@@ -26,5 +27,11 @@ dryinstall:
 
 .PHONY: install
 install:
+	make clean
 	l3build install
 	
+
+.PHONY: upload
+upload:
+	make clean doc ctan
+	l3build upload	

@@ -1,6 +1,8 @@
 \documentclass[full]{l3doc}
 
 \usepackage{fontspec}
+\defaultfontfeatures[\ttfamily]{}
+
 \usepackage[backend=biber]{biblatex}
 \addbibresource{literatur.bib}
 
@@ -248,6 +250,8 @@ Most of examples in this section are redrawn from the textbook~\autocite{sedgewi
 \subsection{Anatomy of a Java Program~\autocite[5]{sedgewick-wayne-2016}}
 % -----------------------------------
 
+Test "bla bla" \texttt{"}
+
 \begin{filecontents}{java-program.tex}
 \lstset{escapeinside={!}{!}}
 \begin{tikzpicture}[remember picture]
@@ -258,9 +262,9 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
     !\mtPoint{mainLeft}!public static void main(String[] argv)
     {
         !\hmtPoint{left}\iPart{assign}{
-            \bgcode{// Prints "Hello World" in the terminal window}}
+            \bgcode{// Prints \"Hello World\" in the terminal window}}
             \extremPoint{fnR} \extremPoint{mR}!
-        !\iPart{fnCall}{System.out.print( "Hello World");}\dmbPoint{mostBottom}!
+        !\iPart{fnCall}{System.out.print("Hello World");}\dmbPoint{mostBottom}!
     }!\mbPoint{mainBottom}!
 }
 \end{lstlisting}
@@ -276,12 +280,14 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 \codeAnnotation{functionBodyText} (2.5,-0.5) {body}
 \codeAnnotation{statement} (8,0) {statements}
 
+{[on background layer]
 \draw[->,annotation] (fileNameText) -- (class);
 \draw[->,annotation] (classNameText) -- (className);
 \draw[->,annotation] (classBodyText.south west) -- (classBody);
 \draw[->,annotation] (functionBodyText) -- (functionBody);
 \draw[->,annotation] (statement) -- (assign.353);
 \draw[->,annotation] (statement) -- (fnCall.350);
+}
 \end{tikzpicture}
 \end{filecontents}
 
