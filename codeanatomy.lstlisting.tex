@@ -1,4 +1,4 @@
-\documentclass{scrartcl}
+\documentclass{article}
 
 \usepackage{fontspec}
 
@@ -51,7 +51,7 @@
 }
 
 \author{
- Hồng-Phúc Bùi
+ Hồng-Phúc Bùi%
  \thanks{
    E-mail:
    \href{mailto:Hồng-Phúc Bùi}
@@ -66,9 +66,12 @@
 \begin{document}
 
 \GetFileInfo{codeanatomy.sty}
-\maketitle
 
-\section{General Usage in Conjuntion with Package \pkg{listings}}
+\maketitle
+\tableofcontents
+
+
+\section{General Usage with Package \pkg{listings}}
 \subsection{Setup Package \pkg{listings}}
 The most important setup for the package \pkg{listings} is the delimiter to escape \LaTeX{}
 commands in Listing. With this escape delimiter we can mark a piece of code as with \verb|\cPart|.
