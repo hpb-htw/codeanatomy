@@ -1,0 +1,1 @@
+Fix bug about fill color in arrow if its start point is placed in an anotation text
