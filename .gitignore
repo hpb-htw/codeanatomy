@@ -10,3 +10,6 @@
 build/*
 *.zip
 *.other
+*.bbl
+*.blg
+
