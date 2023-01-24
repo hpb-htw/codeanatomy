@@ -237,6 +237,7 @@ we can use |\\[<length>]| to add a little amount of vertical space, sothat the b
 each others. 
 
 \begin{thinmargin}
+{\footnotesize
 \begin{tikzpicture}[remember picture]
 {[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (10.5,4.5);}\\  
 \codeBlock{
@@ -258,16 +259,17 @@ each others.
 \slsh{}end\{tikzpicture\}
 }
  
-\codeAnnotation{nestedCodePartText}(11,6){\texttt{cPart} can be nested}
-\codeAnnotation{exText}            (15,3){\texttt{extremPoint}s\\are used to mark\\outer most points of\\a multiline code part}
+\codeAnnotation{nestedCodePartText}(11,5){\texttt{cPart} can be nested}
+\codeAnnotation{exText}            (15,2){\texttt{extremPoint}s\\are used to mark\\outer most points of\\a multiline code part}
 \codeAnnotation{fitExtemCmdText}   (6,-1){\texttt{fitExtrem} draws a rectangle\\which covers all passed extrem points}
 
-\draw[->, annotation] (nestedCodePartText) to[out=270,in=90] (nestedCodePart);
-\draw[->, annotation] (exText) to[out=145,in=320] (ep1.south east);
-\draw[->, annotation] (exText) to[out=190,in=300] (ep2.320);
-\draw[->, annotation] (exText) to[out=220,in=350] (ep3.340);
+\draw[->, annotation] (nestedCodePartText) to[out=200,in=40] (nestedCodePart);
+\draw[->, annotation] (exText) to[out=160,in=350] (ep1.south east);
+\draw[->, annotation] (exText) to[out=190,in=340] (ep2.320);
+\draw[->, annotation] (exText) to[out=195,in=350] (ep3.south east);
 \draw[->, annotation] (fitExtemCmdText) -- (fitExtemCmd);
 \end{tikzpicture} 
+}
 \end{thinmargin}
 
 
@@ -305,12 +307,12 @@ Whereas \parg{annotation label}s are the first argument of |\codeAnnotation|s an
 \{[on background layer]\textbackslash{}draw[code grid debug]\\
                        \ptab\ptab (-0.5,-0.5) grid (6.5,4.5);\}\\
 \textbackslash{}codeBlock\{\%\\
-\slsh{}cPart\{functionHead\}                                \{function \slsh{}cPart\{functionName\}\{gcd\} \slsh{}cPart\{paramList\}\{(p, q)\}\} \slsh\{\\
+\slsh{}cPart\{functionHead\}                \{function \slsh{}cPart\{functionName\}\{gcd\} \slsh{}cPart\{paramList\}\{(p, q)\}\} \slsh\{\\
   \slsh\slsh[2.5pt]\\
-\slsh{}ptab\{\}\slsh{}mtPoint\{mostLeft\}          if (q === 0) \slsh\{                                                                                \slsh\slsh\\
-\slsh{}ptab\slsh{}ptab\{\}                                           return p;                                                                                       \slsh\slsh\\
-\slsh{}ptab\slsh                                                 \} else \slsh\{                                                                                     \slsh\slsh\\
-\slsh{}ptab\slsh{}ptab\{\}                                           return gcd(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}                                 \slsh\slsh\\
+\slsh{}ptab\{\}\slsh{}mtPoint\{mostLeft\}        if (q === 0) \slsh\{                                                                                \slsh\slsh\\
+\slsh{}ptab\slsh{}ptab\{\}                           return p;                                                                                       \slsh\slsh\\
+\slsh{}ptab\slsh                                 \} else \slsh\{                                                                                     \slsh\slsh\\
+\slsh{}ptab\slsh{}ptab\{\}                           return gcd(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}                                 \slsh\slsh\\
 \slsh{}ptab\slsh{}mbPoint\{mostBottom\}\slsh\}                                                                                                      \slsh\slsh\\
 \slsh\}                                             \\
 \} \\ 
@@ -376,7 +378,82 @@ expect. A way to typeset code listing is using the package \pkg{listings}. See \
 
 
 \section{Customize style}
-TODO
+Now we want to highlight the function name \texttt{gcd} with some background color like 
+figure~\ref{fig:function-with-highlight}. The best way to do this task is to assign this  highlight to a 
+\TikZ{} style and apply the style to the node for function name.
+
+
+% output the anatomy
+\begin{figure}[htpb]
+\centering
+\begin{tikzpicture}[remember picture]
+\tikzstyle{jsid} = [code part, fill=red!10]
+\codeBlock{
+\cPart{functionHead}{function \cPart[jsid]{functionName}{gcd} \cPart{parameterList}{(p, q)}}\{ \\[2.5pt] %
+\ptab{}\mtPoint{mostLeft} if (q === 0) \{\\
+\ptab\ptab{} return p; \\
+\ptab{}\} else \{\\
+\ptab\ptab{} return \cPart[jsid]{recursive}{gcd}(q, p \% q);\extremPoint{mostRight}\\
+\ptab{}\}\mbPoint{mostBottom}\\
+\}
+}
+
+\fitExtrem{functionBody}{ (mostLeft) (mostRight) (mostBottom) };
+
+% Anotation labels
+\codeAnnotation{functionHeadText}(-1,3)  {Function\\Head}
+\codeAnnotation{functionBodyText}(-1,1.5){Function\\Body}
+\codeAnnotation{functionNameText} (1,4)  {Function Name}
+\codeAnnotation{parameterListText}(4,4) {Paramter List}
+
+% Annotation labels to Code
+\draw[->, annotation] (functionBodyText) -- (functionBody);
+\draw[->, annotation] (functionHeadText) -- (functionHead);
+\draw[->, annotation] (functionNameText) -- (functionName);
+\draw[->, annotation] (parameterListText) -- (parameterList);
+\end{tikzpicture}
+\caption{Highlighted name of the function\label{fig:function-with-highlight}}
+\end{figure}
+
+
+%out the Source code
+
+\begin{thinmargin}
+{\footnotesize
+\begin{tikzpicture}[remember picture]
+\tikzstyle{smark} = [code part, fill=yellow]
+\codeBlock{
+\textbackslash{}begin\{tikzpicture\}[remember picture]\\
+\slsh{}tikzstyle\{\cPart[smark]{defstyle}{jsid}\} = [code part, fill=red!10]\\
+\slsh{}cPart\{functionHead\}                \{function \slsh{}cPart[\cPart[smark]{u1}{jsid}]\{functionName\}\{gcd\} \slsh{}cPart\{parameterList\}\{(p, q)\}\} \slsh\{  \slsh\slsh[2.5pt]\\
+\slsh{}ptab\{\}\slsh{}mtPoint\{mostLeft\}        if (q === 0) \slsh\{                                                                           \slsh\slsh\\
+\slsh{}ptab\slsh{}ptab\{\}                           return p;                                                                                  \slsh\slsh\\
+\slsh{}ptab\{\}\slsh                            \} else \slsh\{                                                                                \slsh\slsh\\
+\slsh{}ptab\slsh{}ptab\{\}                           return \slsh{}cpart[\cPart[smark]{u2}{jsid}]\{recursive\}\{gcd\}(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}\slsh\slsh\\
+\slsh{}ptab\{\}\slsh{}mbPoint\{mostBottom\}\slsh\}                                                                                                  \slsh\slsh\\
+\slsh\}                                             \\
+\} \\ 
+   \\
+\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}\\ 
+\\
+\% Annotations \\
+\slsh{}codeAnnotation\{functionHeadText\} (-1,3)   \{Function\slsh\slsh{}Head\} \\
+\slsh{}codeAnnotation\{functionBodyText\} (-1,1.5) \{Function\slsh\slsh{}Body\} \\
+\slsh{}codeAnnotation\{functionNameText\} ( 1,4)   \{Function Name\} \\
+\slsh{}codeAnnotation\{parameterListText\}( 4,4)   \{Parameter List\} \\
+\\
+\% Annotation labels to code parts\\
+\slsh{}draw[->,annotation] (functionBodyText) -- (functionBody);\\
+\slsh{}draw[->,annotation] (functionHeadText) -- (functionHead);\\
+\slsh{}draw[->,annotation] (functionNameText) -- (functionName);\\
+\slsh{}draw[->,annotation] (parameterListText) -- (paramList);\\
+\slsh{}end\{tikzpicture\}
+}
+\end{tikzpicture} 
+}
+\end{thinmargin}
+
+
 
 \end{documentation}
 \end{document}
