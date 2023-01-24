@@ -23,7 +23,7 @@
 %
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[2018/12/01]
-%<package>\ProvidesPackage{codeanatomy}[2019/07/12 v0.4-Alpha draw Code Anatomy]
+%<package>\ProvidesPackage{codeanatomy}[2023/01/24 v0.4-Beta draw Code Anatomy]
 % \fi
 %
 % \iffalse
@@ -169,7 +169,7 @@
 %
 %
 % \DescribeMacro{code part}
-% \TikZ{} style to marce a piece of code in an anatomy: \\
+% \TikZ{} style to mark a piece of code in an anatomy: \\
 % |\tikz{\node(code) [code part] at (0,0) {let a = 12;};}|\\
 % yields  \tikz{\node(code) [code part] at (0,0) {let a = 12;};}
 %    \begin{macrocode}
@@ -184,6 +184,26 @@
     }
 }
 %    \end{macrocode}
+%
+%
+% \DescribeMacro{ignored code part}
+% \TikZ{} style to make a pice of code in an anatomy as not important in currently talking context
+% |\tikz{\node(ignore code) [ignored code part] at (0,0) {/*some comment*/} }|
+% yields \tikz{\node(ignore code) [ignored code part] at (0,0) {/*some comment*/} }
+%
+% \changes{v0.4-Beta}
+%         {2023/01/24}
+%         {Add new \TikZ{} Style \texttt{ignored code part}}%
+%
+%    \begin{macrocode}
+\tikzset{ignored code part/.style={%
+    code part,%
+    draw=none,color=bgcmdcolor,%
+    inner sep=0.75pt
+  }
+}
+%    \end{macrocode}
+%
 %
 %
 %
@@ -278,22 +298,29 @@
 % This command can be used if there are no other packages to typeset code listing in use.
 %    \begin{macrocode}
 \NewDocumentCommand{\codeBlock}{m}%
-  {\node(code) [anatomy] at (0,0) {#1};}
+    {\node(code) [anatomy] at (0,0) {#1};}%
 %    \end{macrocode}
 %
 %
 % 
-% \DescribeMacro{\cPart} \marg{node name}\marg{piece of code}
+% \DescribeMacro{\cPart} \oarg{style} \marg{node name}\marg{piece of code}
 %
 % Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
 % be annotated. 
 % \begin{itemize}
+%   \item \oarg{style} a defined \TikZ{} style to be applied to this node, the style |code part|
+%         is applied to the node per default.
 %   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
 %   \item \marg{piece of code} is a single code part to be marked.    
 % \end{itemize}
+%
+% \changes{v0.4-Beta}
+%         {2023/01/24}
+%         {Add option \oarg{style} to \texttt{cPart}}%
+%
 %    \begin{macrocode}
-\NewDocumentCommand{\cPart}{mm} %
-    {\tikzmarknode[code part]{#1}{#2}}
+\NewDocumentCommand\cPart{O{code part}mm}
+   {\tikzmarknode[#1]{#2}{#3}}
 %    \end{macrocode} 
 % 
 %
@@ -303,12 +330,19 @@
 % Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
 % be annotated. It does not plot border around the pice of code as |\cPart| does.
 % \begin{itemize}
+%   \item \oarg{style} a defined \TikZ{} style to be applied to this node, the style |ignored code part|
+%         is applied to the node per default.
 %   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
 %   \item \marg{piece of code} is a single code part to be marked.
 % \end{itemize}
+%
+% \changes{v0.4-Beta}
+%         {2023/01/24}
+%         {Add option \oarg{style} to \texttt{iPart}}
+%
 %    \begin{macrocode}
-\NewDocumentCommand{\iPart}{mm} %
-    {\tikzmarknode[code part,draw=none,inner sep=0.75pt]{#1}{#2}}
+\NewDocumentCommand{\iPart}{O{ignored code part}mm} %
+    {\tikzmarknode[#1]{#2}{#3}}
 %    \end{macrocode} 
 % 
 %

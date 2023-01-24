@@ -16,6 +16,13 @@ clean:
 	rm -fv codeanatomy.sty codeanatomy-ctan.curlopt
 	rm -fv codeanatomy.*.pdf
 
+.PHONY: debug
+debug:
+	make clean;
+	make doc;
+	ln -s build/local/codeanatomy.sty
+	
+	
 .PHONY: ctan
 ctan:
 	make clean doc
