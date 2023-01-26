@@ -19,7 +19,7 @@
 }
 
 
-\usepackage{filecontents}
+%\usepackage{filecontents}
 % command from ltxdoc
 \newcommand{\pkg}[1]{\textsf{#1}}
 % others shortcuts
@@ -187,7 +187,7 @@ These commmands must be put between escape delimiter, here \verb|!| and \verb|!|
 \begin{tikzpicture}[remember picture]
 \node(code) [anatomy] at (0,0) {
 +\texttt{\slsh{}begin\{lstlisting\}}+    
-!\cPart{fnHead}{function \cPart{fnName}{gcd}\cPart{paramList}{(p,q)}}! {
+!\cPart{fnHead}{function \cPart{fnName}{gcd} \cPart{paramList}{(p,q)}}! {
     +\cPart{ep1}{!\slsh{}mtPoint\{mostLeft\}!}+if (q === 0) {
         return q;                
     }else{
@@ -234,6 +234,45 @@ Figure~\ref{fig:listing-code-parts} shows the result of the above code.
 \end{tikzpicture}
 \caption{Code Listing with mark of code parts\label{fig:listing-code-parts}}
 \end{figure}
+
+
+\subsection{Highlight some tokens}
+
+\begin{filecontents}{recursive-with-bug.tex}
+\lstset{escapeinside={!}{!},basicstyle=\linespread{1.8}}
+\begin{tikzpicture}[remember picture]
+\tikzstyle{token} = [code part, fill=yellow]
+\tikzstyle{bug} = [code part, fill=red!50]
+\node(code) [anatomy] at (0,0) {
+\begin{lstlisting}
+function !\cPart[token]{fnName}{gcd}! (p,q) {
+    if (q === 0) {
+        return !\cPart[bug]{bug}{q}!;
+    } else {
+        let r = p % q;
+        return !\cPart[token]{recursive}{gcd}!(q, r);
+    }
+}
+\end{lstlisting}
+};
+\codeAnnotation{recursiveText}    (-1,2) {Function can\\call itself.}
+\codeAnnotation{bugText}         ( 5,2.25) {This is\\the bug.}
+
+\draw[->, annotation] (recursiveText) to[out=50, in=190] (fnName);
+\draw[->, annotation] (recursiveText) to[out=-20, in=175] (recursive.north west);
+\draw[->, annotation] (bugText)       to[out=190,in=-20] (bug.south east);
+\end{tikzpicture}
+\end{filecontents}
+
+%\begin{thinmargin}
+\inputlisting{recursive-with-bug.tex}
+%\end{thinmargin}
+
+\input{recursive-with-bug.tex}
+
+
+
+
 
 \subsection{Add Annotations to Listing}
 % -------------------------------------

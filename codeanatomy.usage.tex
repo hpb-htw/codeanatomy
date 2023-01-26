@@ -375,12 +375,18 @@ as figure~\ref{fig:tut1-function}.
 
 As we see in the previous section, the command |\codeBlock| cannot typeset whitespaces correctly as we 
 expect. A way to typeset code listing is using the package \pkg{listings}. See \texttt{codeanatomy.lstlisting.pdf}
-
+for more information.
 
 \section{Customize style}
-Now we want to highlight the function name \texttt{gcd} with some background color like 
-figure~\ref{fig:function-with-highlight}. The best way to do this task is to assign this  highlight to a 
-\TikZ{} style and apply the style to the node for function name.
+
+\changes{v0.4-Beta}
+        {2023/01/24}
+        {Add Option \oarg{style} to \texttt{cPart} and \texttt{iPart}}
+
+Maybe we want to highlight the function name \texttt{gcd} with some background color like 
+figure~\ref{fig:function-with-highlight}. The best way to do this task is to assign this  
+highlight format to a \TikZ{} style --e.g. \texttt{jsid}-- and apply the style to the highlighted nodes. So they
+have the same format.
 
 
 % output the anatomy
@@ -388,6 +394,7 @@ figure~\ref{fig:function-with-highlight}. The best way to do this task is to ass
 \centering
 \begin{tikzpicture}[remember picture]
 \tikzstyle{jsid} = [code part, fill=red!10]
+%{[on background layer]\draw[code grid debug](-0.5,-0.5) grid (9.5,4.5);}
 \codeBlock{
 \cPart{functionHead}{function \cPart[jsid]{functionName}{gcd} \cPart{parameterList}{(p, q)}}\{ \\[2.5pt] %
 \ptab{}\mtPoint{mostLeft} if (q === 0) \{\\
@@ -406,11 +413,17 @@ figure~\ref{fig:function-with-highlight}. The best way to do this task is to ass
 \codeAnnotation{functionNameText} (1,4)  {Function Name}
 \codeAnnotation{parameterListText}(4,4) {Paramter List}
 
+\codeAnnotation{recursiveText} (7.5,2) {Function can\\call itselft.}
+
 % Annotation labels to Code
 \draw[->, annotation] (functionBodyText) -- (functionBody);
 \draw[->, annotation] (functionHeadText) -- (functionHead);
 \draw[->, annotation] (functionNameText) -- (functionName);
 \draw[->, annotation] (parameterListText) -- (parameterList);
+
+\draw[->, annotation] (recursiveText) to[out=175,in=-15] (functionName);
+\draw[->, annotation] (recursiveText) to[out=180,in=45] (recursive.north east);
+
 \end{tikzpicture}
 \caption{Highlighted name of the function\label{fig:function-with-highlight}}
 \end{figure}
@@ -425,11 +438,12 @@ figure~\ref{fig:function-with-highlight}. The best way to do this task is to ass
 \codeBlock{
 \textbackslash{}begin\{tikzpicture\}[remember picture]\\
 \slsh{}tikzstyle\{\cPart[smark]{defstyle}{jsid}\} = [code part, fill=red!10]\\
+\slsh{}codeBlock\{\\
 \slsh{}cPart\{functionHead\}                \{function \slsh{}cPart[\cPart[smark]{u1}{jsid}]\{functionName\}\{gcd\} \slsh{}cPart\{parameterList\}\{(p, q)\}\} \slsh\{  \slsh\slsh[2.5pt]\\
 \slsh{}ptab\{\}\slsh{}mtPoint\{mostLeft\}        if (q === 0) \slsh\{                                                                           \slsh\slsh\\
 \slsh{}ptab\slsh{}ptab\{\}                           return p;                                                                                  \slsh\slsh\\
 \slsh{}ptab\{\}\slsh                            \} else \slsh\{                                                                                \slsh\slsh\\
-\slsh{}ptab\slsh{}ptab\{\}                           return \slsh{}cpart[\cPart[smark]{u2}{jsid}]\{recursive\}\{gcd\}(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}\slsh\slsh\\
+\slsh{}ptab\slsh{}ptab\{\}                           return \slsh{}cPart[\cPart[smark]{u2}{jsid}]\{recursive\}\{gcd\}(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}\slsh\slsh\\
 \slsh{}ptab\{\}\slsh{}mbPoint\{mostBottom\}\slsh\}                                                                                                  \slsh\slsh\\
 \slsh\}                                             \\
 \} \\ 
@@ -447,14 +461,16 @@ figure~\ref{fig:function-with-highlight}. The best way to do this task is to ass
 \slsh{}draw[->,annotation] (functionHeadText) -- (functionHead);\\
 \slsh{}draw[->,annotation] (functionNameText) -- (functionName);\\
 \slsh{}draw[->,annotation] (parameterListText) -- (paramList);\\
+\\
+\slsh{}draw[->, annotation] (recursiveText) to[out=175,in=-15] (functionName);\\
+\slsh{}draw[->, annotation] (recursiveText) to[out=180,in=45] (recursive.north east);\\
 \slsh{}end\{tikzpicture\}
 }
 \end{tikzpicture} 
 }
 \end{thinmargin}
 
-
-
+\PrintChanges
 \end{documentation}
 \end{document}
 

@@ -1,7 +1,7 @@
 LATEX = lualatex
 LATEX_OPT := -interaction=nonstopmode
 ENV_VAR := export max_print_line=1000;
-
+FILECONTENTS = anatomy-of* using-a-* java-* recursive-with-bug*
 
 .PHONY: doc
 doc:
@@ -13,14 +13,16 @@ clean:
 	rm -rf build
 	rm -f *.zip
 	rm -fv *.idx *.aux *.glo *.hd *.out *.bcf *.dvi *.run.xml *.toc
+	rm -fv *.bbl *.blg *.synctex.gz
 	rm -fv codeanatomy.sty codeanatomy-ctan.curlopt
 	rm -fv codeanatomy.*.pdf
+	rm $(FILECONTENTS)
 
 .PHONY: debug
 debug:
 	make clean;
 	make doc;
-	ln -s build/local/codeanatomy.sty
+	$(LATEX) codeanatomy.ins
 	
 	
 .PHONY: ctan

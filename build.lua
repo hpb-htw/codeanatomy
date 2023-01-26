@@ -20,7 +20,7 @@ docfiles = {
 
 uploadconfig = {
     pkg          = "codeanatomy",
-    version      = "0.4-Alpha",
+    version      = "0.4-Beta",
     author       = "Hồng-Phúc Bùi",
     uploader     = "Hồng-Phúc Bùi",
     email        = "hong-phuc.bui@htwsaar.de",
