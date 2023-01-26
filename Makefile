@@ -16,7 +16,7 @@ clean:
 	rm -fv *.bbl *.blg *.synctex.gz
 	rm -fv codeanatomy.sty codeanatomy-ctan.curlopt
 	rm -fv codeanatomy.*.pdf
-	rm $(FILECONTENTS)
+	rm -fv $(FILECONTENTS)
 
 .PHONY: debug
 debug:
