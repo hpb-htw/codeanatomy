@@ -23,7 +23,7 @@
 %
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[2018/12/01]
-%<package>\ProvidesPackage{codeanatomy}[2023/01/24 v0.4-Beta draw Code Anatomy]
+%<package>\ProvidesPackage{codeanatomy}[2025/10/16 v0.5-Beta draw Code Anatomy]
 % \fi
 %
 % \iffalse
@@ -34,7 +34,7 @@
 \usepackage{luaotfload}
 
 
-\usepackage{biblatex}    
+\usepackage{biblatex}
 \addbibresource{literatur.bib}
 \newcommand{\slsh}{\textbackslash{}}
 \newcommand{\TikZ}{Ti\textit{k}Z}
@@ -101,8 +101,8 @@
 %
 % \changes{v0.2-Alpha}
 %         {2019/07/10}
-%         {This package does not load \pkg{xcolor} anymore. 
-%         It relies on \pkg{tikz}, that \pkg{tikz} loads \pkg{xcolor} 
+%         {This package does not load \pkg{xcolor} anymore.
+%         It relies on \pkg{tikz}, that \pkg{tikz} loads \pkg{xcolor}
 %         in a way that \pkg{codeanatomy} can define RGB color}
 %
 %
@@ -117,7 +117,7 @@
 % Load necsessary \TikZ{} libraries.
 %    \begin{macrocode}
 \usetikzlibrary{
-   tikzmark  
+   tikzmark
   ,fit
   ,arrows.meta
   ,bending
@@ -211,7 +211,7 @@
 % \TikZ{} style to mark a piece of multiple line code in an anatomy:\\
 % |\tikz{ \node(c)[fit extrem, fit={(0,0) (0.5,0.975) (1,0)}] {}; }|\\
 % yields \tikz{ \node(c)[fit extrem, fit={(0,0) (0.5,0.975) (1,0)}] {}; }
-%    \begin{macrocode}  
+%    \begin{macrocode}
 \tikzset{fit extrem/.style={%
       rectangle,%
       draw=annotationcolor,%
@@ -223,14 +223,14 @@
     }
 }
 %    \end{macrocode}
-% 
+%
 %
 %
 %
 % \DescribeMacro{annotation}
 % \TikZ{} style of arrows from annotation labels to code parts:\\
 % |\tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}|\\
-% yields 
+% yields
 % \tikz{\draw[] (1,0) circle(3ex); \draw[->,annotation] (0,0) -- (1,0);}
 %
 % \changes{v0.4-Alpha}
@@ -259,7 +259,7 @@
 %
 % \DescribeMacro{code annotation}
 % \TikZ{} style for a annotation label \tikz{\node(a)[code annotation] at (0,0) {function name};}
-%    \begin{macrocode}  
+%    \begin{macrocode}
 \tikzset{code annotation/.style={%
       inner sep=2pt,%
       text=annotationcolor,%
@@ -286,10 +286,10 @@
 %
 % ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% 
+%
 % \subsection{Command used to set code and code anatomy}
 % ^^A---------------------------------------------------
-% 
+%
 %
 % \DescribeMacro{\codeBlock} \marg{code}
 %
@@ -302,16 +302,16 @@
 %    \end{macrocode}
 %
 %
-% 
+%
 % \DescribeMacro{\cPart} \oarg{style} \marg{node name}\marg{piece of code}
 %
 % Assign a piece of typeset code --typical in one line-- to a \TikZ{} Node, so that it can
-% be annotated. 
+% be annotated.
 % \begin{itemize}
 %   \item \oarg{style} a defined \TikZ{} style to be applied to this node, the style |code part|
 %         is applied to the node per default.
-%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
-%   \item \marg{piece of code} is a single code part to be marked.    
+%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture|
+%   \item \marg{piece of code} is a single code part to be marked.
 % \end{itemize}
 %
 % \changes{v0.4-Beta}
@@ -321,8 +321,8 @@
 %    \begin{macrocode}
 \NewDocumentCommand\cPart{O{code part}mm}
    {\tikzmarknode[#1]{#2}{#3}}
-%    \end{macrocode} 
-% 
+%    \end{macrocode}
+%
 %
 %
 % \DescribeMacro{\iPart} \marg{node name}\marg{piece of code}
@@ -332,7 +332,7 @@
 % \begin{itemize}
 %   \item \oarg{style} a defined \TikZ{} style to be applied to this node, the style |ignored code part|
 %         is applied to the node per default.
-%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture| 
+%   \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture|
 %   \item \marg{piece of code} is a single code part to be marked.
 % \end{itemize}
 %
@@ -343,57 +343,57 @@
 %    \begin{macrocode}
 \NewDocumentCommand{\iPart}{O{ignored code part}mm} %
     {\tikzmarknode[#1]{#2}{#3}}
-%    \end{macrocode} 
-% 
+%    \end{macrocode}
+%
 %
 %
 %
 % \DescribeMacro{\mtPoint}\marg{node name}
 %
 % Marks a point as a \textbf{m}ost \textbf{t}op in a Code Block.
-%    \begin{macrocode}  
+%    \begin{macrocode}
 \NewDocumentCommand{\mtPoint}{m}
     {\tikzmarknode{#1}{\phantom{\rule[1.8ex]{0.1ex}{0.1ex}}}}
 %    \end{macrocode}
-%      
+%
 %
 %
 % \DescribeMacro{\hmtPoint}\marg{node name}
 %
-% Marks a point as a \textbf{h}eigher \textbf{m}ost \textbf{t}op point in a Code Block.  
-%    \begin{macrocode}    
+% Marks a point as a \textbf{h}eigher \textbf{m}ost \textbf{t}op point in a Code Block.
+%    \begin{macrocode}
 \NewDocumentCommand{\hmtPoint}{m}
-    {\tikzmarknode{#1}{\phantom{\rule[2.5ex]{0.1ex}{0.1ex}}}}    
+    {\tikzmarknode{#1}{\phantom{\rule[2.5ex]{0.1ex}{0.1ex}}}}
 %    \end{macrocode}
-%      
+%
 %
 %
 % \DescribeMacro{\mbPoint}\marg{node name}
 %
-% Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.      
-%    \begin{macrocode}    
+% Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.
+%    \begin{macrocode}
 \NewDocumentCommand{\mbPoint}{m}
     {\tikzmarknode{#1}{\phantom{\rule[-0.55ex]{0.1ex}{0.1ex}}}}
 %    \end{macrocode}
-%      
+%
 %
 %
 % \DescribeMacro{\dmbPoint}\marg{node name}
 %
-% Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.    
-%    \begin{macrocode}      
+% Marks a point as a \textbf{d}eeper \textbf{m}ost \textbf{b}ottom point in a Code Block.
+%    \begin{macrocode}
 \NewDocumentCommand{\dmbPoint}{m}
-    {\tikzmarknode{#1}{\phantom{\rule[-2ex]{0.1ex}{0.1ex}}}}    
+    {\tikzmarknode{#1}{\phantom{\rule[-2ex]{0.1ex}{0.1ex}}}}
 %    \end{macrocode}
-%  
+%
 %
 % \DescribeMacro{\extremPoint}\marg{node name}\oarg{yshift}\oarg{xshift}\oarg{style}
 %
-% Create a \TikZ{} Node as reference point for later use in |\fitExtrem|. 
+% Create a \TikZ{} Node as reference point for later use in |\fitExtrem|.
 %
 % \begin{itemize}
-%      \item \marg{node name} is the \TikZ{} node name which is used in |\fitExtrem| to reference to this point 
-%      \item \oarg{yshift} a length, default 0ex which places this markpoint on the base line, 
+%      \item \marg{node name} is the \TikZ{} node name which is used in |\fitExtrem| to reference to this point
+%      \item \oarg{yshift} a length, default 0ex which places this markpoint on the base line,
 %                          shift this mark point vertical, for positive value over base line, negative value under
 %                          base line.
 %      \item \oarg{xshift} same as \oarg{yshift} but for horizontal direction.
@@ -427,7 +427,7 @@
 \NewDocumentCommand{\extremPoint}{m O{0ex} O{0.1ex} O{} }
     {\tikzmarknode[#4]{#1}{\phantom{\rule[#2]{#3}{0.1ex}}}}
 %    \end{macrocode}
-%  
+%
 %
 %
 %
@@ -436,11 +436,11 @@
 % Create a rectangle box over given extrem points defined by |\*Point{}|.
 %
 % \begin{itemize}
-%   \item \marg{node name} is a unique \TikZ{} node name in the current anatomy 
-%   \item \marg{extrem points} is a list of \TikZ{} node name created by |\*Point|, 
+%   \item \marg{node name} is a unique \TikZ{} node name in the current anatomy
+%   \item \marg{extrem points} is a list of \TikZ{} node name created by |\*Point|,
 %      each name is surrounded by |()|.
 % \end{itemize}
-% 
+%
 % Example:
 %
 % |\begin{tikzpicture}[remember picture]|\\
@@ -470,19 +470,19 @@
 %
 % \DescribeMacro{\bgcode} \marg{piece of code}
 %
-% Typeset a piece of code in color |bgcmdcolor|. 
-% For example 
+% Typeset a piece of code in color |bgcmdcolor|.
+% For example
 %
 % |\tikz{\codeBlock{let a := 12\bgcode{;}}}|
 %
-% yields \tikz{\codeBlock{let a := 12\bgcode{;}}} 
+% yields \tikz{\codeBlock{let a := 12\bgcode{;}}}
 %    \begin{macrocode}
 \NewDocumentCommand{\bgcode}{m}{\textcolor{bgcmdcolor}{#1}}
 %    \end{macrocode}
 %
-% 
+%
 % \DescribeMacro{\ptab}
-% \DescribeMacro{\phspace} 
+% \DescribeMacro{\phspace}
 % Produce a horizontal space of 4 small characters |h| respective 1 small character |h|\\
 % for example: |\tikz{\codeBlock{a\ptab{}b}}| yields \tikz{\codeBlock{a\ptab{}b}}
 %    \begin{macrocode}
@@ -494,7 +494,7 @@
 %
 % \DescribeMacro{\codeAnnotation}\marg{node name}\parg{coordinate}\marg{label text}
 %
-% Typeset Annotation labels for a code part. 
+% Typeset Annotation labels for a code part.
 % \begin{itemize}
 %  \item \marg{node name} is a unique \TikZ{} node name in the |tikzpicture|,
 %  \item \parg{coordinate} is the coordinate of the annotation label, surrounded by a |()|,
@@ -528,7 +528,7 @@
 % \section{Known Bugs}
 %
 % \paragraph*{\fixedBug{Arrows color}}
-% Arrows appear in some cases with mysterious color. I don't know why! 
+% Arrows appear in some cases with mysterious color. I don't know why!
 % For example:
 %
 % |\begin{tikzpicture}[remember picture]|\\
@@ -556,7 +556,7 @@
 %                          long line}
 % \draw[->, annotation] (point) -- (l);
 % \end{tikzpicture}
-%    
+%
 %
 % ^^A%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \PrintIndex

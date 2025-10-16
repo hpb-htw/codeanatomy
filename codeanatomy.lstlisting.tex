@@ -32,13 +32,13 @@
     ,resetmargins=true%
     ,firstline=5%
     ,language=%
-    ,columns=flexible%    
+    ,columns=flexible%
     ,escapeinside={}{}%
   ]{#1}%
 }
-\def\thinmargin{\list{}{\rightmargin-30pt\leftmargin-40pt}\item[]}
-\let\endthinmargin=\endlist
-
+%\def\thinmargin{\list{}{\rightmargin-30pt\leftmargin-40pt}\item[]}
+%\let\endthinmargin=\endlist
+\newenvironment{thinmargin}{}{}
 
 \usepackage{readprov}     % need for \GetFileInfo{}
 \usepackage{hyperref}
@@ -75,14 +75,14 @@
 \subsection{Setup Package \pkg{listings}}
 The most important setup for the package \pkg{listings} is the delimiter to escape \LaTeX{}
 commands in Listing. With this escape delimiter we can mark a piece of code as with \verb|\cPart|.
-In this example we use \verb|!| and \verb|!| as delimiter. Code between \verb|!| and \verb|!| is evaluated as 
+In this example we use \verb|!| and \verb|!| as delimiter. Code between \verb|!| and \verb|!| is evaluated as
 \LaTeX{}-code.
 
-\lstset {    
+\lstset {
     escapeinside={+}{+}
 }
 \begin{thinmargin}
-\begin{tikzpicture}[remember picture]
+\begin{tikzpicture}[remember picture,overlay]
 % {[on background layer]\draw[code grid debug] (-3.5,-0.5) grid (5.5,4.5);}
 \node(code) [anatomy] at (0,0){%
 \begin{lstlisting}
@@ -93,28 +93,29 @@ In this example we use \verb|!| and \verb|!| as delimiter. Code between \verb|!|
   ,escapeinside=+\cPart{delimiter}{\{!\}\{!\}}+
 }
 \end{lstlisting}
-};
+};%
+
 \codeAnnotation{delimiterText} (4,-0.5) {Setup \texttt{!} and \texttt{!}\\as delimiter}
 
-\draw[->, annotation] (delimiterText) -- (delimiter);
+\draw[->, annotation] (delimiterText) -- (pic cs:delimiter);
 \end{tikzpicture}
 \end{thinmargin}
 
 
 Delimiter can also be reset in \verb|document|-Environment, typical just before a new \verb:\begin{lstlisting}:
-environment so each anatomy can have different delimiter. The fact is, in this document I use \verb|+| and \verb|+| for 
+environment so each anatomy can have different delimiter. The fact is, in this document I use \verb|+| and \verb|+| for
 the above listing, so that I can typeset \verb|!| in this listing.
 
-You may also want to set option \verb|keepspaces| to \verb|true|, sothat your reader can easy copy past 
+You may also want to set option \verb|keepspaces| to \verb|true|, sothat your reader can easy copy past
 your example code.
 
 \subsection{Typeset Code}
 % -----------------------
-The command \verb|\codeBlock| does not work if the environment \verb|lstlisting| is passed to its argument. So instead of 
+The command \verb|\codeBlock| does not work if the environment \verb|lstlisting| is passed to its argument. So instead of
 \verb|\codeBlock| we must use the \TikZ{} command \verb|\node|:
 
 \begin{thinmargin}
-\begin{tikzpicture}[remember picture]    
+\begin{tikzpicture}[remember picture]
 \node(code) [anatomy] at (0,0) {
 \begin{lstlisting}
 \begin{tikzpicture}[remember picture]
@@ -122,7 +123,7 @@ The command \verb|\codeBlock| does not work if the environment \verb|lstlisting|
 +\cPart{listingBegin}{\texttt{\slsh{}begin\{lstlisting\}}}\vspace{1.5pt}+
 +\mtPoint{mostLeft}+function gcd(p,q) {
     if (q === 0) {
-        return q;                
+        return q;
     }else{
         let r = p % q;
         return gcd(q, r);+\extremPoint{mostRight}+
@@ -140,21 +141,21 @@ The command \verb|\codeBlock| does not work if the environment \verb|lstlisting|
 \codeAnnotation{tikzNodeText} (-2, 5.5)      {use \texttt{\slsh{}node}\\instead of\\\texttt{\slsh{}codeBlock}}
 \codeAnnotation{listingText}  (-2, 3)        {typeset code\\in\\\texttt{lstlisting}\\environment}
 \codeAnnotation{listingContentText} (6.5, 3) {whitespaces\\in code\\are kept}
-\codeAnnotation{semiColonText} (6.5, 0.6)  {don't forget\\semicolon}
+\codeAnnotation{semiColonText} (6.5, 0.6)    {don't forget\\semicolon}
 
 % Arrows from labels to code parts
-\draw[->,annotation] (tikzNodeText) -- (tikzNode.west);
-\draw[->,annotation] (listingText) -- (listingBegin.west);
-\draw[->,annotation] (listingText) -- (listingEnd.west);
-\draw[->,annotation] (listingContentText) -- (listingContent);
-\draw[->,annotation] (semiColonText) -- (semiColon);
+\draw[->,annotation] (tikzNodeText)       -- (pic cs:tikzNode.west);
+\draw[->,annotation] (listingText)        -- (pic cs:listingBegin.west);
+\draw[->,annotation] (listingText)        -- (pic cs:listingEnd.west);
+\draw[->,annotation] (listingContentText) -- (pic cs:listingContent);
+\draw[->,annotation] (semiColonText)      -- (pic cs:semiColon);
 \end{tikzpicture}
 \end{thinmargin}
 
 Figure~\ref{fig:full-formatted-code} shows result of the above code.
 
 \begin{figure}[ht]
-\centering    
+\centering
 \begin{tikzpicture}[remember picture]
 \node(code) [anatomy] at (0,0) {
 \begin{lstlisting}
@@ -175,21 +176,21 @@ function gcd(p,q) {
 \subsection{Mark Code}
 % --------------------
 
-The command \verb|\cPart| can be used to mark single-line code parts. For 
-multiple-line code parts once can use \verb|\xxxPoint| family to mark the outer most 
+The command \verb|\cPart| can be used to mark single-line code parts. For
+multiple-line code parts once can use \verb|\xxxPoint| family to mark the outer most
 points of code parts and \verb|\fitExtrem| to cover exterm points of a code part.
 These commmands must be put between escape delimiter, here \verb|!| and \verb|!|.
 
 \begin{thinmargin}
-\begin{tikzpicture}[remember picture]    
+\begin{tikzpicture}[remember picture]
 \node(code) [anatomy] at (0,0) {
 \begin{lstlisting}
 \begin{tikzpicture}[remember picture]
 \node(code) [anatomy] at (0,0) {
-+\texttt{\slsh{}begin\{lstlisting\}}+    
++\texttt{\slsh{}begin\{lstlisting\}}+
 !\cPart{fnHead}{function \cPart{fnName}{gcd} \cPart{paramList}{(p,q)}}! {
     +\cPart{ep1}{!\slsh{}mtPoint\{mostLeft\}!}+if (q === 0) {
-        return q;                
+        return q;
     }else{
         +\cPart{cp}{!\slsh{}cPart\{localVar\}\{let r\}!}+ = p % q;
         return gcd(q, r);+\cPart{ep2}{!\slsh{}extremPoint\{mostRight\}!}+
@@ -258,9 +259,9 @@ function !\cPart[token]{fnName}{gcd}! (p,q) {
 \codeAnnotation{recursiveText}    (-1,2) {Function can\\call itself.}
 \codeAnnotation{bugText}         ( 5,2.25) {This is\\the bug.}
 
-\draw[->, annotation] (recursiveText) to[out=50, in=190] (fnName);
-\draw[->, annotation] (recursiveText) to[out=-20, in=175] (recursive.north west);
-\draw[->, annotation] (bugText)       to[out=190,in=-20] (bug.south east);
+\draw[->, annotation] (recursiveText) to[out=50, in=190]  (pic cs:fnName);
+\draw[->, annotation] (recursiveText) to[out=-20, in=175] (pic cs:recursive.north west);
+\draw[->, annotation] (bugText)       to[out=190,in=-20]  (pic cs:bug.south east);
 \end{tikzpicture}
 \end{filecontents}
 
@@ -319,12 +320,12 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 \codeAnnotation{statement} (8,0) {statements}
 
 {[on background layer]
-\draw[->,annotation] (fileNameText) -- (class);
-\draw[->,annotation] (classNameText) -- (className);
-\draw[->,annotation] (classBodyText.south west) -- (classBody);
-\draw[->,annotation] (functionBodyText) -- (functionBody);
-\draw[->,annotation] (statement) -- (assign.353);
-\draw[->,annotation] (statement) -- (fnCall.350);
+\draw[->,annotation] (fileNameText) -- (pic cs:class);
+\draw[->,annotation] (classNameText) -- (pic cs:className);
+\draw[->,annotation] (classBodyText.south west) -- (pic cs:classBody);
+\draw[->,annotation] (functionBodyText) -- (pic cs:functionBody);
+\draw[->,annotation] (statement) -- (pic cs:assign.353);
+\draw[->,annotation] (statement) -- (pic cs:fnCall.350);
 }
 \end{tikzpicture}
 \end{filecontents}
@@ -340,16 +341,16 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 
 \begin{filecontents}{java-expression.tex}
 \lstset{escapeinside={!}{!}}
-\begin{tikzpicture}[remember picture]    
+\begin{tikzpicture}[remember picture]
 \codeBlock{\cPart{op1}{4} \cPart{op}{*} \cPart{op2}{( x - 3 )} }
 
 \codeAnnotation{operand}  (1,1.5) {operands\\(and expression)}
 \codeAnnotation{operator} (0.7,-1) {operator}
 
-\draw[->,annotation] (operand) -- (op1.north);
-\draw[->,annotation] (operand) -- (op2.north);
-\draw[->,annotation] (operator) -- (op.south);
-\end{tikzpicture}   
+\draw[->,annotation] (operand) --  (pic cs:op1.north);
+\draw[->,annotation] (operand) --  (pic cs:op2.north);
+\draw[->,annotation] (operator) -- (pic cs:op.south);
+\end{tikzpicture}
 \end{filecontents}
 
 \begin{thinmargin}
@@ -361,7 +362,7 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 \subsection{Using a primitive Data Type~\autocite[17]{sedgewick-wayne-2016}}
 % -------------------------------------
 
-\begin{filecontents}{using-a-primitive-data-type.tex}    
+\begin{filecontents}{using-a-primitive-data-type.tex}
 \lstset{escapeinside={!}{!}}
 \begin{tikzpicture}[
      remember picture %
@@ -385,11 +386,11 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 \codeAnnotation{assignText}    (-1.5,0.75 )   {assignment\\statement}
 \codeAnnotation{initText}      (-1.5,-0.75)   {inline initialization\\statement}
 % Arrows
-\draw[->,annotation] (declareText) -- (d);
-\draw[->,annotation] (literalText) -- (l);
-\draw[->,annotation] (varText.south east) -- (v);
-\draw[->,annotation] (assignText) -- (a);
-\draw[->,annotation] (initText) -- (i.south west);
+\draw[->,annotation] (declareText) -- (pic cs:d);
+\draw[->,annotation] (literalText) -- (pic cs:l);
+\draw[->,annotation] (varText.south east) -- (pic cs:v);
+\draw[->,annotation] (assignText) -- (pic cs:a);
+\draw[->,annotation] (initText) -- (pic cs:i.south west);
 \end{tikzpicture}
 \end{filecontents}
 
@@ -404,7 +405,7 @@ public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
 
 \begin{filecontents}{anatomy-of-a-method-signature.tex}
 \lstset{escapeinside={!}{!}}
-\begin{tikzpicture}[remember picture]
+\begin{tikzpicture}[remember picture,overlay]
 \node(code) [anatomy] at (0,0) {
 \begin{lstlisting}
 public class !\iPart{l}{Math}!
@@ -420,11 +421,11 @@ public class !\iPart{l}{Math}!
 \codeAnnotation{rText}  (2.0,-0.51) {return type}
 \codeAnnotation{aText}  (4.5,-0.51) {argument type}
 % Arrows
-\draw[->, annotation] (lText) -- (l);
-\draw[->, annotation] (nText) -- (n);
-\draw[->, annotation] (sText) -- (s);
-\draw[->, annotation] (rText) -- (r);
-\draw[->, annotation] (aText) -- (a);
+\draw[->, annotation] (lText) -- (pic cs:l);
+\draw[->, annotation] (nText) -- (pic cs:n);
+\draw[->, annotation] (sText) -- (pic cs:s);
+\draw[->, annotation] (rText) -- (pic cs:r);
+\draw[->, annotation] (aText) -- (pic cs:a);
 \end{tikzpicture}
 \end{filecontents}
 
@@ -438,7 +439,7 @@ public class !\iPart{l}{Math}!
 % --------------------------------
 
 \begin{filecontents}{using-a-library-method.tex}
-\begin{tikzpicture}[remember picture]    
+\begin{tikzpicture}[remember picture]
 \codeBlock{%
 \iPart{r}{double} d = \iPart{l}{Math}.\iPart{m}{sqrt}(\iPart{a}{b*b - 4.0*a*c)};
 }
@@ -448,10 +449,10 @@ public class !\iPart{l}{Math}!
 \codeAnnotation{rText}   (2,-0.7)   {return type}
 \codeAnnotation{aText}   (4,-0.7)   {argument}
 % Arrows
-\draw[->,annotation] (lText) -- (l);
-\draw[->,annotation] (mText) -- (m);
-\draw[->,annotation] (rText.north west) -- (r);
-\draw[->,annotation] (aText.north east) -- (a);
+\draw[->,annotation] (lText) -- (pic cs:l);
+\draw[->,annotation] (mText) -- (pic cs:m);
+\draw[->,annotation] (rText.north west) -- (pic cs:r);
+\draw[->,annotation] (aText.north east) -- (pic cs:a);
 \end{tikzpicture}
 \end{filecontents}
 
@@ -470,7 +471,7 @@ public class !\iPart{l}{Math}!
 %    {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (2.5,2.5);}
 \node(code) [anatomy] at (0,0) {%
 \begin{lstlisting}
-if (!\cPart{e}{x > y}!) 
+if (!\cPart{e}{x > y}!)
 {
     int t = x;!\mtPoint{tr}!
     x = y;
@@ -480,12 +481,12 @@ if (!\cPart{e}{x > y}!)
 };
 
 \fitExtrem{b}{(tr) (bl) (br)}
-% Annotation 
+% Annotation
 \codeAnnotation{eText}  (1,3.5)  {boolean\\expression}
 \codeAnnotation{bText} (-1,1.125)  {sequence\\of \extremPoint{bPoint}[0.75ex]\\statements}
 % Arrow
-\draw[->,annotation] (eText) -- (e);
-\draw[->,annotation] (bPoint) -- (b);
+\draw[->,annotation] (eText)  -- (pic cs:e);
+\draw[->,annotation] (bPoint) -- (pic cs:b);
 \end{tikzpicture}
 \end{filecontents}
 
@@ -518,11 +519,11 @@ while ( !\cPart{c}{power <= n/2}! )
 \codeAnnotation{pText} (-1.5,0.5) {braces are\\optional\\when body\\is a single\\statement}
 \codeAnnotation{bText} (2.125,-0.5) {body}
 % Arrows
-\draw[->,annotation] (iText) -- (i.north west);
-\draw[->,annotation] (cText) -- (c);
-\draw[->,annotation] (bText) -- (b);
-\draw[->,annotation] (pText) -- (po);
-\draw[->,annotation] (pText) -- (pc);
+\draw[->,annotation] (iText) -- (pic cs:i.north west);
+\draw[->,annotation] (cText) -- (pic cs:c);
+\draw[->,annotation] (bText) -- (pic cs:b);
+\draw[->,annotation] (pText) -- (pic cs:po);
+\draw[->,annotation] (pText) -- (pic cs:pc);
 \end{tikzpicture}
 \end{filecontents}
 
@@ -567,11 +568,11 @@ for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
 \codeAnnotation{bText}     (3.5,-0.25) {body}
 % arrows on the background
 {[on background layer]
-\draw[->,annotation] (initPoint) -- (init.north west);
-\draw[->,annotation] (iText) -- (i);
-\draw[->,annotation] (cText) -- (c);
-\draw[->,annotation] (uText) -- (u);
-\draw[->,annotation] (bText) -- (b);
+\draw[->,annotation] (initPoint) -- (pic cs:init.north west);
+\draw[->,annotation] (iText) -- (pic cs:i);
+\draw[->,annotation] (cText) -- (pic cs:c);
+\draw[->,annotation] (uText) -- (pic cs:u);
+\draw[->,annotation] (bText) -- (pic cs:b);
 }
 \end{tikzpicture}
 \end{filecontents}
@@ -615,15 +616,15 @@ for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
 \codeAnnotation{bText}  (-0.7,1.5)   {method\\body}
 \codeAnnotation{rsText}  (3,-0.4)    {return statement}
 % Arrows
-\draw[->,annotation] (sText) -- (s.north west);
-\draw[->,annotation] (rtText) -- (rt);
-\draw[->,annotation] (fnText) -- (fn);
-\draw[->,annotation] (alText) -- (al);
-\draw[->,annotation] (atText) -- (at);
-\draw[->,annotation] (pvText) -- (pv);
-\draw[->,annotation] (lvText) -- (lv.west);
-\draw[->,annotation] (bText) -- (b);
-\draw[->,annotation] (rsText) -- (rs);
+\draw[->,annotation] (sText) -- (pic cs:s.north west);
+\draw[->,annotation] (rtText) -- (pic cs:rt);
+\draw[->,annotation] (fnText) -- (pic cs:fn);
+\draw[->,annotation] (alText) -- (pic cs:al);
+\draw[->,annotation] (atText) -- (pic cs:at);
+\draw[->,annotation] (pvText) -- (pic cs:pv);
+\draw[->,annotation] (lvText) -- (pic cs:lv.west);
+\draw[->,annotation] (bText) -- (pic cs:b);
+\draw[->,annotation] (rsText) -- (pic cs:rs);
 \end{tikzpicture}
 \end{filecontents}
 

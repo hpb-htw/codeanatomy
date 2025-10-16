@@ -1,4 +1,4 @@
-\documentclass[full]{l3doc}  
+\documentclass[full]{l3doc}
 \usepackage{fontspec}
 \usepackage{biblatex}
 \addbibresource{literatur.bib}
@@ -24,7 +24,7 @@
   \pkg{codeanatomy} -- Draw Code Anatomy%
   \thanks{This file describes \fileversion,
     last revised \filedate.}\\[1ex]
-  \normalsize{Usage}  
+  \normalsize{Usage}
 }
 
 \author{
@@ -47,17 +47,17 @@
 
 \begin{documentation}
 \section{Introduction}
-The idea of this Package is to typeset illustrations of pieces of code with 
+The idea of this Package is to typeset illustrations of pieces of code with
 annotations on each single parts of code (Code Anatomy). The origin of this idear is
-code illustrations in the texbook~\autocite{sedgewick-wayne-2016}. This package 
+code illustrations in the texbook~\autocite{sedgewick-wayne-2016}. This package
 just provides tool to draw those figures.
 
-\section{Tutorial} 
+\section{Tutorial}
 In this tutorial we will draw an anatomy of a function like the
 figure~\ref{fig:tut1-function} step by step.
 
-\begin{figure} 
-\begin{centering}  
+\begin{figure}
+\begin{centering}
 \begin{tikzpicture}[remember picture]
 \codeBlock{
 \cPart{functionHead}{function \cPart{functionName}{gcd} \cPart{parameterList}{(p, q)}}\{ \\[2.5pt] %
@@ -78,10 +78,10 @@ figure~\ref{fig:tut1-function} step by step.
 \codeAnnotation{parameterListText} (4,4) {Paramter List}
 
 % Annotation labels to Code
-\draw[->, annotation] (functionBodyText) -- (functionBody);
-\draw[->, annotation] (functionHeadText) -- (functionHead);
-\draw[->, annotation] (functionNameText) -- (functionName);
-\draw[->, annotation] (parameterListText) -- (parameterList);
+\draw[->, annotation] (functionBodyText) -- (pic cs:functionBody);
+\draw[->, annotation] (functionHeadText) -- (pic cs:functionHead);
+\draw[->, annotation] (functionNameText) -- (pic cs:functionName);
+\draw[->, annotation] (parameterListText) -- (pic cs:parameterList);
 \end{tikzpicture}
 
 \caption{Anatomy of a function\label{fig:tut1-function}}
@@ -92,7 +92,7 @@ figure~\ref{fig:tut1-function} step by step.
 To use this package, just insert |\usepackage{codeanatomy}| in your \LaTeX{} file.
 
 \subsection{Create an anatomy environment}
-Next step is to create a |tikzpicture| environment. All commands in this package must be placed in 
+Next step is to create a |tikzpicture| environment. All commands in this package must be placed in
 a |tikzpicture| environment with option |remember picture|.
 
 \begin{thinmargin}
@@ -116,7 +116,7 @@ a |tikzpicture| environment with option |remember picture|.
 
 
 \subsection{Typeset Code Listing in a TikZ-Node}
-As next step we need to put the piece of code in the |tikzpicture| environment using 
+As next step we need to put the piece of code in the |tikzpicture| environment using
 the command |\codeBlock|. \medskip
 
 
@@ -146,12 +146,12 @@ the command |\codeBlock|. \medskip
 \end{thinmargin}
 
 The result of the above code is shown in the figure~\ref{fig:function-compressed},
-which is not what we really want. All extra whitespaces and newlines in the 
-listing are removed, further more |{| and |}| are interpreted as \LaTeX{} tokens and are not 
+which is not what we really want. All extra whitespaces and newlines in the
+listing are removed, further more |{| and |}| are interpreted as \LaTeX{} tokens and are not
 displayed.
 
 \begin{figure}[h]
-\begin{centering}  
+\begin{centering}
 \begin{tikzpicture}[remember picture]
 {[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (6.5,4.5);}
 \codeBlock{
@@ -164,7 +164,7 @@ function gcd(p, q) {
 }
 }
 \end{tikzpicture}
-\caption{Unformated Code\label{fig:function-compressed}}  
+\caption{Unformated Code\label{fig:function-compressed}}
 \end{centering}
 \end{figure}
 
@@ -210,7 +210,7 @@ function gcd(p, q) \slsh\{                          \cPart{sh1}{\slsh\slsh}\\
 \end{tikzpicture}
 \end{thinmargin}
 
-The result (figure~\ref{fig:function-formated}) is much more like what we expect 
+The result (figure~\ref{fig:function-formated}) is much more like what we expect
 than the version before (figure~\ref{fig:function-compressed}).
 
 \begin{figure}[h]
@@ -226,20 +226,20 @@ function gcd(p, q) \{ \\
 \ptab\} \\
 \} \\
 }
-\end{tikzpicture}    
+\end{tikzpicture}
 \caption{Formated Function\label{fig:function-formated}}
 \end{centering}
 \end{figure}
 
 \subsection{Mark Parts of Code}
-Now we can mark interesting parts of code with a blue boxes created by |\cPart|. At some positions 
-we can use |\\[<length>]| to add a little amount of vertical space, sothat the boxes do not touch 
-each others. 
+Now we can mark interesting parts of code with a blue boxes created by |\cPart|. At some positions
+we can use |\\[<length>]| to add a little amount of vertical space, sothat the boxes do not touch
+each others.
 
 \begin{thinmargin}
 {\footnotesize
 \begin{tikzpicture}[remember picture]
-{[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (10.5,4.5);}\\  
+{[on background layer]\draw[code grid debug] (-0.5,-0.5) grid (10.5,4.5);}\\
 \codeBlock{
 \textbackslash{}begin\{tikzpicture\}[remember picture]\\
 \{[on background layer]\textbackslash{}draw[code grid debug]\\
@@ -253,12 +253,12 @@ each others.
 \slsh{}ptab                                               \slsh{}ptab\{\}return gcd(q, p\slsh\%q); \cPart{ep2}{\slsh{}extremPoint\{mostRight\}}  \slsh\slsh\\
 \slsh{}ptab\cPart{ep3}{\slsh{}mbPoint\{mostBottom\}}\slsh\}                                                                     \slsh\slsh\\
 \slsh\}                                                                                                                                          \slsh\slsh\\
-\} \\ 
+\} \\
    \\
 \cPart{fitExtemCmd}{\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}}\\
 \slsh{}end\{tikzpicture\}
 }
- 
+
 \codeAnnotation{nestedCodePartText}(11,5){\texttt{cPart} can be nested}
 \codeAnnotation{exText}            (15,2){\texttt{extremPoint}s\\are used to mark\\outer most points of\\a multiline code part}
 \codeAnnotation{fitExtemCmdText}   (6,-1){\texttt{fitExtrem} draws a rectangle\\which covers all passed extrem points}
@@ -268,7 +268,7 @@ each others.
 \draw[->, annotation] (exText) to[out=190,in=340] (ep2.320);
 \draw[->, annotation] (exText) to[out=195,in=350] (ep3.south east);
 \draw[->, annotation] (fitExtemCmdText) -- (fitExtemCmd);
-\end{tikzpicture} 
+\end{tikzpicture}
 }
 \end{thinmargin}
 
@@ -283,21 +283,21 @@ each others.
 \\[2.5pt]
 \ptab{}\mtPoint{mostLeft} if (q === 0) \{ \\
 \ptab\ptab{}return p; \\
-\ptab\} else \{ \\  
-\ptab\ptab{}return gcd(q, p\%q); \extremPoint{mostRight} \\  
+\ptab\} else \{ \\
+\ptab\ptab{}return gcd(q, p\%q); \extremPoint{mostRight} \\
 \ptab\mbPoint{mostBottom}\} \\
 \} \\
 }
 \fitExtrem{functionBody}{(mostLeft) (mostRight) (mostBottom)}
-\end{tikzpicture}  
+\end{tikzpicture}
 \caption{Function with marked parts\label{fig:function-parts}}
 \end{figure}
 
 \subsection{Create Annotation Labels}
-We can use |\codeAnnotation| to create annotation labels for each parts of code. To draw an 
+We can use |\codeAnnotation| to create annotation labels for each parts of code. To draw an
 arrow from label to a code part we can use the \TikZ{}command\\
 |\draw[->,annotation]| \parg{annotation label} |--| \parg{code part} |;|.\\
-Whereas \parg{annotation label}s are the first argument of |\codeAnnotation|s and 
+Whereas \parg{annotation label}s are the first argument of |\codeAnnotation|s and
 \parg{code part}s are the first argument of |\cPart|s.
 
 \begin{thinmargin}
@@ -315,9 +315,9 @@ Whereas \parg{annotation label}s are the first argument of |\codeAnnotation|s an
 \slsh{}ptab\slsh{}ptab\{\}                           return gcd(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}                                 \slsh\slsh\\
 \slsh{}ptab\slsh{}mbPoint\{mostBottom\}\slsh\}                                                                                                      \slsh\slsh\\
 \slsh\}                                             \\
-\} \\ 
+\} \\
    \\
-\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}\\ 
+\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}\\
 \\
 \% Annotations \\
 \slsh{}codeAnnotation\{functionHeadText\}(-1,3)\{Function\slsh\slsh{}head\} \\
@@ -333,17 +333,17 @@ Whereas \parg{annotation label}s are the first argument of |\codeAnnotation|s an
 \slsh{}end\{tikzpicture\}
 }
 
-\end{tikzpicture} 
+\end{tikzpicture}
 \end{thinmargin}
 
-Instead of operator |--| we can use operator |to| \oarg{\TikZ{} options} to draw a path from 
-\parg{annotation label} to \parg{code part}. Finally we can remove the command 
+Instead of operator |--| we can use operator |to| \oarg{\TikZ{} options} to draw a path from
+\parg{annotation label} to \parg{code part}. Finally we can remove the command
 |\draw[code grid debug]...| at the begin of the |tikzpicture|.
 The final result is shown in the figure~\ref{fig:function-final}, which is almost the same
 as figure~\ref{fig:tut1-function}.
 
 \begin{figure}[ht]
-\centering 
+\centering
 \begin{tikzpicture}[remember picture]
 \codeBlock{%
 \cPart{functionHead} {function \cPart{functionName}{gcd} \cPart{paramList}{(p, q)}} \{
@@ -362,18 +362,18 @@ as figure~\ref{fig:tut1-function}.
 \codeAnnotation{functionNameText}( 1,4){Function\\name}
 \codeAnnotation{paramListText} ( 3,4){Parameter\\list}
 % Annotation labels to code parts
-\draw[->,annotation] (functionHeadText)  -- (functionHead);
-\draw[->,annotation] (functionBodyText)  -- (functionBody);
-\draw[->,annotation] (functionNameText)  -- (functionName);
-\draw[->,annotation] (paramListText) --  (paramList);
+\draw[->,annotation] (functionHeadText)  -- (pic cs:functionHead);
+\draw[->,annotation] (functionBodyText)  -- (pic cs:functionBody);
+\draw[->,annotation] (functionNameText)  -- (pic cs:functionName);
+\draw[->,annotation] (paramListText) --  (pic cs:paramList);
 \end{tikzpicture}
-     
+
 \caption{Function with Annotation Labels\label{fig:function-final}}
 \end{figure}
 
 \section{Usage in conjuntion with \pkg{listings}}
 
-As we see in the previous section, the command |\codeBlock| cannot typeset whitespaces correctly as we 
+As we see in the previous section, the command |\codeBlock| cannot typeset whitespaces correctly as we
 expect. A way to typeset code listing is using the package \pkg{listings}. See \texttt{codeanatomy.lstlisting.pdf}
 for more information.
 
@@ -383,8 +383,8 @@ for more information.
         {2023/01/24}
         {Add Option \oarg{style} to \texttt{cPart} and \texttt{iPart}}
 
-Maybe we want to highlight the function name \texttt{gcd} with some background color like 
-figure~\ref{fig:function-with-highlight}. The best way to do this task is to assign this  
+Maybe we want to highlight the function name \texttt{gcd} with some background color like
+figure~\ref{fig:function-with-highlight}. The best way to do this task is to assign this
 highlight format to a \TikZ{} style --e.g. \texttt{jsid}-- and apply the style to the highlighted nodes. So they
 have the same format.
 
@@ -416,13 +416,13 @@ have the same format.
 \codeAnnotation{recursiveText} (7.5,2) {Function can\\call itselft.}
 
 % Annotation labels to Code
-\draw[->, annotation] (functionBodyText) -- (functionBody);
-\draw[->, annotation] (functionHeadText) -- (functionHead);
-\draw[->, annotation] (functionNameText) -- (functionName);
-\draw[->, annotation] (parameterListText) -- (parameterList);
+\draw[->, annotation] (functionBodyText) -- (pic cs:functionBody);
+\draw[->, annotation] (functionHeadText) -- (pic cs:functionHead);
+\draw[->, annotation] (functionNameText) -- (pic cs:functionName);
+\draw[->, annotation] (parameterListText) -- (pic cs:parameterList);
 
-\draw[->, annotation] (recursiveText) to[out=175,in=-15] (functionName);
-\draw[->, annotation] (recursiveText) to[out=180,in=45] (recursive.north east);
+\draw[->, annotation] (recursiveText) to[out=175,in=-15] (pic cs:functionName);
+\draw[->, annotation] (recursiveText) to[out=180,in=45]  (pic cs:recursive.north east);
 
 \end{tikzpicture}
 \caption{Highlighted name of the function\label{fig:function-with-highlight}}
@@ -446,9 +446,9 @@ have the same format.
 \slsh{}ptab\slsh{}ptab\{\}                           return \slsh{}cPart[\cPart[smark]{u2}{jsid}]\{recursive\}\{gcd\}(q, p\slsh\%q);       \slsh{}extremPoint\{mostRight\}\slsh\slsh\\
 \slsh{}ptab\{\}\slsh{}mbPoint\{mostBottom\}\slsh\}                                                                                                  \slsh\slsh\\
 \slsh\}                                             \\
-\} \\ 
+\} \\
    \\
-\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}\\ 
+\slsh{}fitExtrem\{functionBody\}\{(mostLeft) (mostRight) (mostBottom)\}\\
 \\
 \% Annotations \\
 \slsh{}codeAnnotation\{functionHeadText\} (-1,3)   \{Function\slsh\slsh{}Head\} \\
@@ -466,7 +466,7 @@ have the same format.
 \slsh{}draw[->, annotation] (recursiveText) to[out=180,in=45] (recursive.north east);\\
 \slsh{}end\{tikzpicture\}
 }
-\end{tikzpicture} 
+\end{tikzpicture}
 }
 \end{thinmargin}
 
