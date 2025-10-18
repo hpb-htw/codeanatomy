@@ -7,20 +7,18 @@ typesetexe = "lualatex"
 typesetopts = "-interaction=nonstopmode --recorder"
 typesetdemofiles = {
     "codeanatomy.usage.tex",
+    "codeanatomy.lstlisting.tex"         -- Done
+}
+
+docfiles = {
     --"codeanatomy.lstlisting.tex"         -- Done
 }
 
--- Copy all files match pattern to build/doc
--- therefore use \input{java-program} instead of \input{demo-code/java-program.tex}
---[[
-docfiles = {
-    "demo-code/*"
-}
-]]--
+
 
 uploadconfig = {
     pkg          = "codeanatomy",
-    version      = "0.4-Beta",
+    version      = "0.5-Beta",
     author       = "Hồng-Phúc Bùi",
     uploader     = "Hồng-Phúc Bùi",
     email        = "hong-phuc.bui@htwsaar.de",
@@ -32,3 +30,4 @@ uploadconfig = {
     bugtracker   = "https://github.com/hpb-htw/codeanatomy/issues",
     note         = [[Uploaded automatically by l3build]]
   }
+

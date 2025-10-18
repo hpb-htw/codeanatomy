@@ -1,11 +1,19 @@
 LATEX = lualatex
 LATEX_OPT := -interaction=nonstopmode
 ENV_VAR := export max_print_line=1000;
-FILECONTENTS = anatomy-of* using-a-* java-* recursive-with-bug*
+#FILECONTENTS = recursive-with-bug* using-a-library* java-* anatomy-of-*
+FILECONTENTS = tmp-gen*
 
 .PHONY: doc
-doc:
-	$(ENV_VAR) l3build doc
+doc:	
+	$(ENV_VAR) l3build doc || true;
+	cd build/doc ;\
+	  $(LATEX) $(LATEX_OPT) codeanatomy.lstlisting.tex ;\
+	  biber codeanatomy.lstlisting;\
+	  $(LATEX) $(LATEX_OPT) codeanatomy.lstlisting.tex;\
+	  $(LATEX) $(LATEX_OPT) codeanatomy.lstlisting.tex
+	cd ../../
+
 
 .PHONY: clean
 clean:
