@@ -1,0 +1,26 @@
+\begin{lrbox}{\mycodebox}
+\lstset{escapeinside={!}{!}}
+\begin{lstlisting}
+public class !\iPart{l}{Math}!
+....
+!\cPart{s}{\bgcode{static} \iPart{r}{double} \iPart{n}{sqrt}(\iPart{a}{double} a)}!
+....
+\end{lstlisting}
+\end{lrbox}
+
+\begin{tikzpicture}[remember picture]
+\node(code) [anatomy] at (0,0) {\usebox\mycodebox};
+
+% Annotation
+\codeAnnotation{lText}    (3,2.5)   {library name}
+\codeAnnotation{sText}   (-1,1)     {signature}
+\codeAnnotation{nText}  (4.5,1.5)   {method name}
+\codeAnnotation{rText}  (2.0,-0.51) {return type}
+\codeAnnotation{aText}  (4.5,-0.51) {argument type}
+% Arrows
+\draw[->, annotation] (lText) -- (l);
+\draw[->, annotation] (nText) -- (n);
+\draw[->, annotation] (sText) -- (s);
+\draw[->, annotation] (rText) -- (r);
+\draw[->, annotation] (aText) -- (a);
+\end{tikzpicture}

@@ -5,13 +5,16 @@ bundle = ""
 -- Typeset configuration
 typesetexe = "lualatex"
 typesetopts = "-interaction=nonstopmode --recorder"
+typesetfiles = {"*.dtx"}
 typesetdemofiles = {
     "codeanatomy.usage.tex",
-    "codeanatomy.lstlisting.tex"         -- Done
+    "codeanatomy.lstlisting.tex"
 }
 
+installfiles = {"*.tex", "*.sty"}
+
 docfiles = {
-    --"codeanatomy.lstlisting.tex"         -- Done
+    "demo/*.tex"
 }
 
 
@@ -30,4 +33,28 @@ uploadconfig = {
     bugtracker   = "https://github.com/hpb-htw/codeanatomy/issues",
     note         = [[Uploaded automatically by l3build]]
   }
+
+function typeset_lstlisting_demo(file)
+  local name = jobname(file)
+  local dir = "build/doc"
+  local errorlevel = 0;
+  tex(file, dir)
+  tex(file, dir)
+  errorlevel = tex(file, dir)
+  if errorlevel == 0 then
+    errorlevel = (
+      biber ( name, dir ) +
+      tex ( file, dir )    +
+      bibtex(name, dir)    +
+      tex(name, dir)       +
+      tex(name, dir)
+    )
+  end
+  return errorlevel
+end
+
+specialtypesetting = specialtypesetting or {}
+specialtypesetting["codeanatomy.lstlisting.tex"] = {
+  func = typeset_lstlisting_demo
+}
 

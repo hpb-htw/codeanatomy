@@ -21,7 +21,7 @@
 }
 
 
-%\usepackage{filecontents}
+
 % command from ltxdoc
 \newcommand{\pkg}[1]{\textsf{#1}}
 % others shortcuts
@@ -267,60 +267,23 @@ Figure~\ref{fig:listing-code-parts} shows the result of the above code.
 \caption{Code Listing with mark of code parts\label{fig:listing-code-parts}}
 \end{figure}
 
-
-
-\subsection{Highlight some tokens}
-
-\begin{filecontents}{tmp-gen-recursive-with-bug.tex}
-\tikzstyle{token} = [code part, fill=yellow]
-\tikzstyle{bug} = [code part, fill=red!50]
-\begin{lrbox}{\mycodebox}
-\lstset{
-  escapeinside={!}{!}
-  ,basicstyle=\linespread{1.8}
-}
-\begin{lstlisting}[basicstyle=\small\ttfamily]
-function !\cPart[token]{fnName}{gcd}! (p,q) {
-    if (q === 0) {
-        return !\cPart[bug]{bug}{q}!;
-    } else {
-        let r = p % q;
-        return !\cPart[token]{recursive}{gcd}!(q, r);
-    }
-}
-\end{lstlisting}
-\end{lrbox}
-
-\begin{tikzpicture}[remember picture]
-\node(code) [anatomy] at (0,0) {\usebox\mycodebox};
-
-\codeAnnotation{recursiveText}    (-1,2) {Function can\\call itself.}
-\codeAnnotation{bugText}         ( 5,2.25) {This is\\the bug.}
-
-\draw[->, annotation] (recursiveText) to[out=50, in=190]  (fnName);
-\draw[->, annotation] (recursiveText) to[out=-20, in=175] (recursive.north west);
-\draw[->, annotation] (bugText)       to[out=190,in=-20]  (bug.south east);
-\end{tikzpicture}
-\end{filecontents}
-
-
-\LaTeX-Code:
-
-\begin{thinmargin}
-\inputlisting{tmp-gen-recursive-with-bug.tex}
-\end{thinmargin}
-
-Result:
-
-\input{tmp-gen-recursive-with-bug.tex}
-
-
-
-
 \subsection{Add Annotations to Listing}
 % -------------------------------------
 This step is the same as the description in the usage document of package \pkg{codeanatomy}.
 Readers can typeset annotations to the above listing like an exercise.
+
+
+\subsection{Highlight some tokens}
+
+\LaTeX-Code:
+
+\begin{thinmargin}
+  \inputlisting{demo-recursive-with-bug.tex}
+\end{thinmargin}
+
+Result:
+
+\input{demo-recursive-with-bug.tex}
 
 
 
@@ -333,369 +296,87 @@ Most of examples in this section are redrawn from the textbook~\autocite{sedgewi
 \subsection{Anatomy of a Java Program~\autocite[5]{sedgewick-wayne-2016}}
 % -----------------------------------
 
-\begin{filecontents}{tmp-gen-java-program.tex}
-\lstset{escapeinside={!}{!}}
-\begin{lrbox}{\mycodebox}
-\begin{lstlisting}
-public !\iPart{class}{class}! !\cPart{className}{HelloWorld}!
-{
-    !\mtPoint{mainLeft}!public static void main(String[] argv)
-    {
-        !\hmtPoint{left}\iPart{assign}{
-            \bgcode{// Prints "Hello World" in the terminal window}}
-        \extremPoint{fnR} \extremPoint{mR}!
-        !\iPart{fnCall}{System.out.print("Hello World");}\dmbPoint{mostBottom}!
-    }!\mbPoint{mainBottom}!
-}
-\end{lstlisting}
-\end{lrbox}
-
-\begin{tikzpicture}[remember picture]
-\node(code) [anatomy] at (0,0){\usebox\mycodebox};
-
-\fitExtrem{classBody}{(mainLeft) (mR) (mainBottom)}
-\fitExtrem{functionBody}{(left) (fnR) (mostBottom)}
-
-\codeAnnotation{fileNameText} (1.5,5) {text file named \texttt{HelloWorld.java}}
-\codeAnnotation{classNameText} (3.5,4.25) {name}
-\codeAnnotation{classBodyText} (6.5,3.6) {\texttt{main()} method}
-\codeAnnotation{functionBodyText} (2.5,-0.5) {body}
-\codeAnnotation{statement} (8,0) {statements}
-
-{[on background layer]
-  \draw[->,annotation] (fileNameText) -- (class);
-  \draw[->,annotation] (classNameText) -- (className);
-  \draw[->,annotation] (classBodyText.south west) -- (classBody);
-  \draw[->,annotation] (functionBodyText) -- (functionBody);
-  \draw[->,annotation] (statement) -- (assign.353);
-  \draw[->,annotation] (statement) -- (fnCall.350);
-}
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-\inputlisting{tmp-gen-java-program.tex}
+  \inputlisting{demo-java-program.tex}
 \end{thinmargin}
 
-\input{tmp-gen-java-program.tex}
+\input{demo-java-program.tex}
 
 
 \subsection{Anatomy of an expression~\autocite[17]{sedgewick-wayne-2016}}
 % -----------------------------------
-
-\begin{filecontents}{tmp-gen-java-expression.tex}
-\lstset{escapeinside={!}{!}}
-\begin{tikzpicture}[remember picture]
-\codeBlock{\cPart{op1}{4} \cPart{op}{*} \cPart{op2}{( x - 3 )} }
-
-\codeAnnotation{operand}  (1,1.5) {operands\\(and expression)}
-\codeAnnotation{operator} (0.7,-1) {operator}
-
-\draw[->,annotation] (operand) --  (op1.north);
-\draw[->,annotation] (operand) --  (op2.north);
-\draw[->,annotation] (operator) -- (op.south);
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-  \inputlisting{tmp-gen-java-expression.tex}
+  \inputlisting{demo-java-expression.tex}
 \end{thinmargin}
 
-\input{tmp-gen-java-expression.tex}
+\input{demo-java-expression.tex}
 
 
 \subsection{Using a primitive Data Type~\autocite[17]{sedgewick-wayne-2016}}
 % -------------------------------------
 
-\begin{filecontents}{tmp-gen-using-a-primitive-data-type.tex}
-\lstset{escapeinside={!}{!}}
-\begin{lrbox}{\mycodebox}
-\begin{lstlisting}
-!\cPart{d}{int a, b;}!
-!\iPart{v}{a}! = !\cPart{l}{1234}!;
-!\iPart{a}{b = 99}!;
-!\cPart{i}{int c = a + b}!;
-\end{lstlisting}
-\end{lrbox}
-\begin{tikzpicture}[
-remember picture %
-,code annotation/.append style = { % customize style of annotation text
-  font=\sffamily\footnotesize
-}
-]
-{[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (2.5,2.5);}
-\node(code) [anatomy] at (0,0){\usebox\mycodebox};
-% Annotations
-\codeAnnotation{declareText}   (   1,2.75 )   {declaration statement}
-\codeAnnotation{literalText}   (  2.5,1.45)   {literal}
-\codeAnnotation{varText}       (-1.5,1.75 )   {variable name}
-\codeAnnotation{assignText}    (-1.5,0.75 )   {assignment\\statement}
-\codeAnnotation{initText}      (-1.5,-0.75)   {inline initialization\\statement}
-% Arrows
-\draw[->,annotation] (declareText) -- (d);
-\draw[->,annotation] (literalText) -- (l);
-\draw[->,annotation] (varText.south east) -- (v);
-\draw[->,annotation] (assignText) -- (a);
-\draw[->,annotation] (initText) -- (i.south west);
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-  \inputlisting{tmp-gen-using-a-primitive-data-type.tex}
+  \inputlisting{demo-using-a-primitive-data-type.tex}
 \end{thinmargin}
 
-\input{tmp-gen-using-a-primitive-data-type.tex}
-
-
+\input{demo-using-a-primitive-data-type.tex}
 
 
 \subsection{Anatomy of a method signature~\autocite[30]{sedgewick-wayne-2016}}
 % ---------------------------------------
 
-\begin{filecontents}{tmp-gen-anatomy-of-a-method-signature.tex}
-\lstset{escapeinside={!}{!}}
-\begin{lrbox}{\mycodebox}
-\begin{lstlisting}
-public class !\iPart{l}{Math}!
-....
-!\cPart{s}{\bgcode{static} \iPart{r}{double} \iPart{n}{sqrt}(\iPart{a}{double} a)}!
-....
-\end{lstlisting}
-\end{lrbox}
-
-\begin{tikzpicture}[remember picture]
-\node(code) [anatomy] at (0,0) {\usebox\mycodebox};
-
-% Annotation
-\codeAnnotation{lText}    (3,2.5)   {library name}
-\codeAnnotation{sText}   (-1,1)     {signature}
-\codeAnnotation{nText}  (4.5,1.5)   {method name}
-\codeAnnotation{rText}  (2.0,-0.51) {return type}
-\codeAnnotation{aText}  (4.5,-0.51) {argument type}
-% Arrows
-\draw[->, annotation] (lText) -- (l);
-\draw[->, annotation] (nText) -- (n);
-\draw[->, annotation] (sText) -- (s);
-\draw[->, annotation] (rText) -- (r);
-\draw[->, annotation] (aText) -- (a);
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-  \inputlisting{tmp-gen-anatomy-of-a-method-signature.tex}
+  \inputlisting{demo-anatomy-of-a-method-signature.tex}
 \end{thinmargin}
 
-\input{tmp-gen-anatomy-of-a-method-signature.tex}
+\input{demo-anatomy-of-a-method-signature.tex}
 
 \subsection{Using a library method~\autocite[30]{sedgewick-wayne-2016}}
 % --------------------------------
 
-\begin{filecontents}{tmp-gen-using-a-library-method.tex}
-\begin{tikzpicture}[remember picture]
-\codeBlock{%
-  \iPart{r}{double} d = \iPart{l}{Math}.\iPart{m}{sqrt}(\iPart{a}{b*b - 4.0*a*c)};
-}
-% Annotation
-\codeAnnotation{lText}   (2, 1.125) {library name}
-\codeAnnotation{mText} (4.5, 1.125) {method name}
-\codeAnnotation{rText}   (2,-0.7)   {return type}
-\codeAnnotation{aText}   (4,-0.7)   {argument}
-% Arrows
-\draw[->,annotation] (lText) -- (l);
-\draw[->,annotation] (mText) -- (m);
-\draw[->,annotation] (rText.north west) -- (r);
-\draw[->,annotation] (aText.north east) -- (a);
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-  \inputlisting{tmp-gen-using-a-library-method.tex}
+  \inputlisting{demo-using-a-library-method.tex}
 \end{thinmargin}
 
-\input{tmp-gen-using-a-library-method.tex}
+\input{demo-using-a-library-method.tex}
+
 
 \subsection{Anatomy of an \texttt{if} statement~\autocite[51]{sedgewick-wayne-2016}}
 % ---------------------------------------------
-
-\begin{filecontents}{tmp-gen-anatomy-of-an-if-statement.tex}
-\lstset{escapeinside={!}{!}}
-\begin{lrbox}{\mycodebox}
-\begin{lstlisting}
-if (!\cPart{e}{x > y}!)
-{
-    int t = x;!\mtPoint{tr}!
-    x = y;
-    !\mbPoint{bl}! y = t;!\extremPoint{br}!
-}
-\end{lstlisting}
-\end{lrbox}
-
-\begin{tikzpicture}[remember picture]
-%    {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (2.5,2.5);}
-\node(code) [anatomy] at (0,0) {\usebox\mycodebox};
-
-\fitExtrem{b}{(tr) (bl) (br)}
-% Annotation
-\codeAnnotation{eText}  (1,3.5)  {boolean\\expression}
-\codeAnnotation{bText} (-1,1.125)  {sequence\\of \extremPoint{bPoint}[0.75ex]\\statements}
-% Arrow
-\draw[->,annotation] (eText)  -- (e);
-\draw[->,annotation] (bPoint) -- (b);
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-  \inputlisting{tmp-gen-anatomy-of-an-if-statement.tex}
+  \inputlisting{demo-anatomy-of-an-if-statement.tex}
 \end{thinmargin}
 
-\input{tmp-gen-anatomy-of-an-if-statement.tex}
+\input{demo-anatomy-of-an-if-statement.tex}
+
 
 
 \subsection{Anatomy of a \texttt{while} loop~\autocite[54]{sedgewick-wayne-2016}}
 % ------------------------------------------
-
-\begin{filecontents}{tmp-gen-anatomy-of-a-while-loop.tex}
-\lstset{escapeinside={!}{!}}
-\begin{lrbox}{\mycodebox}
-\begin{lstlisting}
-!\cPart{i}{\bgcode{int power = 1;}}\phantom{\rule[-2ex]{0.1ex}{0.1ex}}!
-while ( !\cPart{c}{power <= n/2}! )
-!\cPart{po}{\{}!
-    !\cPart{b}{power = 2*power;}!
-!\cPart{pc}{\}}!
-\end{lstlisting}
-\end{lrbox}
-
-
-\begin{tikzpicture}[remember picture]
-%    {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (2.5,2.5);}
-\node(code) [anatomy] at (0,0) {\usebox\mycodebox};
-
-% Annotation
-\codeAnnotation{iText}  (-1,3.25) {initialization is a\\separate statement}
-\codeAnnotation{cText} (3.5,3)    {loop-\\continuation\\condition}
-\codeAnnotation{pText} (-1.5,0.5) {braces are\\optional\\when body\\is a single\\statement}
-\codeAnnotation{bText} (2.125,-0.5) {body}
-% Arrows
-\draw[->,annotation] (iText) -- (i.north west);
-\draw[->,annotation] (cText) -- (c);
-\draw[->,annotation] (bText) -- (b);
-\draw[->,annotation] (pText) -- (po);
-\draw[->,annotation] (pText) -- (pc);
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-  \inputlisting{tmp-gen-anatomy-of-a-while-loop.tex}
+  \inputlisting{demo-anatomy-of-a-while-loop.tex}
 \end{thinmargin}
 
-
-\input{tmp-gen-anatomy-of-a-while-loop.tex}
-
+\input{demo-anatomy-of-a-while-loop.tex}
 
 \subsection{Anatomy of a \texttt{for} loop~\autocite[59]{sedgewick-wayne-2016}}
 % ----------------------------------------
-
-\begin{filecontents}{tmp-gen-anatomy-of-a-for-loop.tex}
-\lstset{escapeinside={!}{!}}
-\begin{lrbox}{\mycodebox}
-\begin{lstlisting}
-!\iPart{init}{\bgcode{int power = 1;}}!
-for ( !\cPart{i}{int i = 0}!; !\cPart{c}{i <= n}!; !\cPart{u}{i++}! )
-{
-    !\mtPoint{left}!System.out.println(i + " " + power);!\mtPoint{right}!
-    power *= 2;!\mbPoint{bottom}!
-}
-\end{lstlisting}
-\end{lrbox}
-
-\begin{tikzpicture}[
-  remember picture
-  ,code annotation/.append style={%
-    font=\sffamily\itshape\scriptsize
-  }
-]
-% {[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (5.5,3.5);}
-\node(code) [anatomy] at (0,0){\usebox\mycodebox};
-\fitExtrem{b}{(left) (right) (bottom)}
-% Annotations
-\codeAnnotation{initText} (-1.5,2.7)   {initialize another\\
-                                        variable in a \extremPoint{initPoint}[0.75ex]\\
-                                        separate\\ statement}
-\codeAnnotation{iText}     (1.2,3.5)   {declare and initialize\\ a loop control variable}
-\codeAnnotation{cText}     (3.5,3)     {loop-\\continuation\\condition}
-\codeAnnotation{uText}       (6,3)     {increment}
-\codeAnnotation{bText}     (3.5,-0.25) {body}
-% arrows on the background
-{[on background layer]
-  \draw[->,annotation] (initPoint) -- (init.north west);
-  \draw[->,annotation] (iText) -- (i);
-  \draw[->,annotation] (cText) -- (c);
-  \draw[->,annotation] (uText) -- (u);
-  \draw[->,annotation] (bText) -- (b);
-}
-\end{tikzpicture}
-\end{filecontents}
-
 \begin{thinmargin}
-  \inputlisting{tmp-gen-anatomy-of-a-for-loop.tex}
+  \inputlisting{demo-anatomy-of-a-for-loop.tex}
 \end{thinmargin}
 
-\input{tmp-gen-anatomy-of-a-for-loop.tex}
+\input{demo-anatomy-of-a-for-loop.tex}
+
+
 
 \subsection{Anatomy of a static method~\autocite[196]{sedgewick-wayne-2016}}
 % ----------------------------------------
-\begin{filecontents}{tmp-gen-anatomy-of-a-static-method.tex}
-\lstset{escapeinside={!}{!}}
-\begin{lrbox}{\mycodebox}
-\begin{lstlisting}
-!\cPart{s}{public static \cPart{rt}{double} \cPart{fn}{harmonic}(\cPart{al}{\iPart{at}{int} \iPart{pv}{n}})}!
-{
-    !\hmtPoint{left}\cPart{lv}{double sum}! = 0.0;
-    for (int i = 0; i <= n; ++i)!\extremPoint{right}!
-    {
-      sum += 1.0/i;
-    }
-    !\cPart{rs}{return sum;}\dmbPoint{bottom}!
-}
-\end{lstlisting}
-\end{lrbox}
-
-\begin{tikzpicture}[remember picture]
-%{[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (8.5,3.5);}
-\node(code) [anatomy] at (0,0) {\usebox\mycodebox};
-
-\fitExtrem{b}{(left) (right) (bottom)}
-
-% Annotation
-\codeAnnotation{sText}  (-0.7,5.25)  {signature}
-\codeAnnotation{rtText}    (2,5.25)  {return\\type}
-\codeAnnotation{fnText}  (  4,5.25)  {method\\name}
-\codeAnnotation{alText}  (  6,5.25)  {argument\\list}
-\codeAnnotation{atText} (6.75,1.75)  {argument\\type}
-\codeAnnotation{pvText}  (7.5,2.70)  {parameter\\variable}
-\codeAnnotation{lvText} (-0.7,3)     {local\\variable}
-\codeAnnotation{bText}  (-0.7,1.5)   {method\\body}
-\codeAnnotation{rsText}    (3,-0.4)  {return statement}
-% Arrows
-\draw[->,annotation] (sText) -- (s.north west);
-\draw[->,annotation] (rtText) -- (rt);
-\draw[->,annotation] (fnText) -- (fn);
-\draw[->,annotation] (alText) -- (al);
-\draw[->,annotation] (atText) -- (at);
-\draw[->,annotation] (pvText) -- (pv);
-\draw[->,annotation] (lvText) -- (lv.west);
-\draw[->,annotation] (bText) -- (b);
-\draw[->,annotation] (rsText) -- (rs);
-\end{tikzpicture}
-\end{filecontents}
 
 \begin{thinmargin}
   \inputlisting{tmp-gen-anatomy-of-a-static-method.tex}
 \end{thinmargin}
 
 \input{tmp-gen-anatomy-of-a-static-method.tex}
-
 
 
 \printbibliography

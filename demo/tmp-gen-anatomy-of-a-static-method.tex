@@ -1,0 +1,42 @@
+\begin{lrbox}{\mycodebox}
+\lstset{escapeinside={!}{!}}
+\begin{lstlisting}
+!\cPart{s}{public static \cPart{rt}{double} \cPart{fn}{harmonic}(\cPart{al}{\iPart{at}{int} \iPart{pv}{n}})}!
+{
+    !\hmtPoint{left}\cPart{lv}{double sum}! = 0.0;
+    for (int i = 0; i <= n; ++i)!\extremPoint{right}!
+    {
+      sum += 1.0/i;
+    }
+    !\cPart{rs}{return sum;}\dmbPoint{bottom}!
+}
+\end{lstlisting}
+\end{lrbox}
+
+\begin{tikzpicture}[remember picture]
+%{[on background layer]\draw[code grid debug] (-2.5,-0.5) grid (8.5,3.5);}
+\node(code) [anatomy] at (0,0) {\usebox\mycodebox};
+
+\fitExtrem{b}{(left) (right) (bottom)}
+
+% Annotation
+\codeAnnotation{sText}  (-0.7,5.25)  {signature}
+\codeAnnotation{rtText}    (2,5.25)  {return\\type}
+\codeAnnotation{fnText}  (  4,5.25)  {method\\name}
+\codeAnnotation{alText}  (  6,5.25)  {argument\\list}
+\codeAnnotation{atText} (6.75,1.75)  {argument\\type}
+\codeAnnotation{pvText}  (7.5,2.70)  {parameter\\variable}
+\codeAnnotation{lvText} (-0.7,3)     {local\\variable}
+\codeAnnotation{bText}  (-0.7,1.5)   {method\\body}
+\codeAnnotation{rsText}    (3,-0.4)  {return statement}
+% Arrows
+\draw[->,annotation] (sText) -- (s.north west);
+\draw[->,annotation] (rtText) -- (rt);
+\draw[->,annotation] (fnText) -- (fn);
+\draw[->,annotation] (alText) -- (al);
+\draw[->,annotation] (atText) -- (at);
+\draw[->,annotation] (pvText) -- (pv);
+\draw[->,annotation] (lvText) -- (lv.west);
+\draw[->,annotation] (bText) -- (b);
+\draw[->,annotation] (rsText) -- (rs);
+\end{tikzpicture}
